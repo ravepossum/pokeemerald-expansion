@@ -1913,6 +1913,9 @@ void CustomTrainerPartyAssignMoves(struct Pokemon *mon, const struct TrainerMon 
     }
 }
 
+#define LEVEL_SCALING_RANGE         2
+#define LEVEL_SCALING_THRESHOLD     2
+
 u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer *trainer, bool32 firstTrainer, u32 battleTypeFlags)
 {
     u32 personalityValue;
@@ -1922,6 +1925,20 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
                                                                         | BATTLE_TYPE_EREADER_TRAINER
                                                                         | BATTLE_TYPE_TRAINER_HILL)))
     {
+        // find player's max mon level for scaling
+        u32 playerScaleLvl = 0;
+        u32 currentLvl = 0;
+
+        for (u32 j = 0; j < PARTY_SIZE; j++)
+        {
+            if (GetMonData(&gPlayerParty[j], MON_DATA_SPECIES) != SPECIES_NONE)
+            {
+                currentLvl = GetMonData(&gPlayerParty[j], MON_DATA_LEVEL);
+                if (currentLvl > playerScaleLvl)
+                    playerScaleLvl = currentLvl;
+            }
+        }
+
         if (firstTrainer == TRUE)
             ZeroEnemyPartyMons();
 
@@ -1966,7 +1983,20 @@ u8 CreateNPCTrainerPartyFromTrainer(struct Pokemon *party, const struct Trainer 
                 otIdType = OT_ID_PRESET;
                 fixedOtId = HIHALF(personalityValue) ^ LOHALF(personalityValue);
             }
-            CreateMon(&party[i], partyData[i].species, partyData[i].lvl, 0, TRUE, personalityValue, otIdType, fixedOtId);
+
+            // set the trainer mon level
+            // if they're under the threshold to scale, scale them up to random level in the range of
+            // player level + or - LEVEL_SCALING_RANGE, minus the threshold
+            u32 monLvl = partyData[i].lvl;
+            if (playerScaleLvl > LEVEL_SCALING_THRESHOLD && monLvl < playerScaleLvl - LEVEL_SCALING_THRESHOLD)
+            {
+                monLvl = Random() % ((playerScaleLvl + LEVEL_SCALING_RANGE) - (playerScaleLvl - LEVEL_SCALING_RANGE) + 1) + (playerScaleLvl - LEVEL_SCALING_RANGE);
+                monLvl -= LEVEL_SCALING_THRESHOLD;
+                if (monLvl > MAX_LEVEL)
+                    monLvl = MAX_LEVEL;
+            }
+
+            CreateMon(&party[i], partyData[i].species, monLvl, 0, TRUE, personalityValue, otIdType, fixedOtId);
             SetMonData(&party[i], MON_DATA_HELD_ITEM, &partyData[i].heldItem);
 
             CustomTrainerPartyAssignMoves(&party[i], &partyData[i]);
