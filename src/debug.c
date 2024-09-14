@@ -67,6 +67,7 @@
 #include "constants/species.h"
 #include "constants/weather.h"
 #include "save.h"
+#include "quest_debug.h"
 
 #if DEBUG_OVERWORLD_MENU == TRUE
 // *******************************
@@ -80,6 +81,7 @@ enum DebugMenu
     DEBUG_MENU_ITEM_FLAGVAR,
     //DEBUG_MENU_ITEM_BATTLE,
     DEBUG_MENU_ITEM_SOUND,
+    DEBUG_MENU_ITEM_QUEST,
     DEBUG_MENU_ITEM_CANCEL,
 };
 
@@ -229,6 +231,14 @@ enum SoundDebugMenu
     DEBUG_SOUND_MENU_ITEM_MUS,
 };
 
+enum QuestDebugMenu
+{
+    DEBUG_QUEST_MENU_ITEM_SET_STATE,
+    DEBUG_QUEST_MENU_ITEM_JUMP,
+};
+
+#include "data/quest_debug.h"
+
 enum BerryFunctionsMenu
 {
     DEBUG_BERRY_FUNCTIONS_MENU_CLEAR_ALL,
@@ -246,6 +256,7 @@ enum BerryFunctionsMenu
 #define DEBUG_MENU_HEIGHT_MAIN 9
 
 #define DEBUG_MENU_WIDTH_EXTRA 10
+#define DEBUG_MENU_WIDTH_EXTRA_WIDE 20
 #define DEBUG_MENU_HEIGHT_EXTRA 4
 
 #define DEBUG_MENU_WIDTH_WEATHER 15
@@ -262,6 +273,8 @@ enum BerryFunctionsMenu
 #define DEBUG_NUMBER_DIGITS_VARIABLE_VALUE 5
 #define DEBUG_NUMBER_DIGITS_ITEMS 4
 #define DEBUG_NUMBER_DIGITS_ITEM_QUANTITY 3
+#define DEBUG_NUMBER_DIGITS_QUESTS 3
+#define DEBUG_NUMBER_DIGITS_QUEST_STATES 2
 
 #define DEBUG_NUMBER_ICON_X 210
 #define DEBUG_NUMBER_ICON_Y 50
@@ -344,6 +357,7 @@ static void DebugAction_OpenScriptsMenu(u8 taskId);
 static void DebugAction_OpenFlagsVarsMenu(u8 taskId);
 static void DebugAction_OpenGiveMenu(u8 taskId);
 static void DebugAction_OpenSoundMenu(u8 taskId);
+static void DebugAction_OpenQuestMenu(u8 taskId);
 
 static void DebugTask_HandleMenuInput_Main(u8 taskId);
 static void DebugTask_HandleMenuInput_Utilities(u8 taskId);
@@ -445,6 +459,12 @@ static void DebugAction_Sound_SE_SelectId(u8 taskId);
 static void DebugAction_Sound_MUS(u8 taskId);
 static void DebugAction_Sound_MUS_SelectId(u8 taskId);
 
+static void DebugAction_Quest_Set(u8 taskId);
+static void DebugAction_Quest_Jump(u8 taskId);
+static void DebugAction_Quest(u8 taskId, bool32 questJump);
+static void DebugAction_Quest_SelectQuest(u8 taskId);
+static void DebugAction_Quest_SelectState(u8 taskId);
+
 static void DebugAction_BerryFunctions_ClearAll(u8 taskId);
 static void DebugAction_BerryFunctions_Ready(u8 taskId);
 static void DebugAction_BerryFunctions_NextStage(u8 taskId);
@@ -505,6 +525,7 @@ static const u8 sDebugText_FlagsVars[] =     _("Flags & Vars…{CLEAR_TO 110}{RI
 static const u8 sDebugText_Battle[] =        _("Battle Test{CLEAR_TO 110}{RIGHT_ARROW}");
 static const u8 sDebugText_Give[] =          _("Give X…{CLEAR_TO 110}{RIGHT_ARROW}");
 static const u8 sDebugText_Sound[] =         _("Sound…{CLEAR_TO 110}{RIGHT_ARROW}");
+static const u8 sDebugText_Quest[] =         _("Quest…{CLEAR_TO 110}{RIGHT_ARROW}");
 static const u8 sDebugText_Cancel[] =        _("Cancel");
 // Script menu
 static const u8 sDebugText_Util_Script_1[] = _("Script 1");
@@ -652,6 +673,11 @@ static const u8 sDebugText_Sound_SFX[] =                _("SFX…{CLEAR_TO 110}{
 static const u8 sDebugText_Sound_SFX_ID[] =             _("SFX ID: {STR_VAR_3}   {START_BUTTON} Stop\n{STR_VAR_1}    \n{STR_VAR_2}");
 static const u8 sDebugText_Sound_Music[] =              _("Music…{CLEAR_TO 110}{RIGHT_ARROW}");
 static const u8 sDebugText_Sound_Music_ID[] =           _("Music ID: {STR_VAR_3}   {START_BUTTON} Stop\n{STR_VAR_1}    \n{STR_VAR_2}");
+// Quest Menu
+static const u8 sDebugText_Quest_Set_State[] =          _("Set quest state…{CLEAR_TO 110}{RIGHT_ARROW}");
+static const u8 sDebugText_Quest_Jump[] =               _("Jump to quest…{CLEAR_TO 110}{RIGHT_ARROW}");
+static const u8 sDebugText_QuestID[] =                  _("Quest ID: {STR_VAR_3}\n{STR_VAR_1}{CLEAR_TO 90}\n\n{STR_VAR_2}");
+static const u8 sDebugText_QuestState[] =               _("Quest state: {STR_VAR_3}\n{STR_VAR_1}{CLEAR_TO 90}\n\n{STR_VAR_2}");
 // Berry Function Menu
 static const u8 sDebugText_BerryFunctions_ClearAll[] =  _("Clear map trees");
 static const u8 sDebugText_BerryFunctions_Ready[] =     _("Ready map trees");
@@ -705,6 +731,7 @@ static const struct ListMenuItem sDebugMenu_Items_Main[] =
     [DEBUG_MENU_ITEM_FLAGVAR]       = {sDebugText_FlagsVars,    DEBUG_MENU_ITEM_FLAGVAR},
     //[DEBUG_MENU_ITEM_BATTLE]        = {sDebugText_Battle,       DEBUG_MENU_ITEM_BATTLE},
     [DEBUG_MENU_ITEM_SOUND]         = {sDebugText_Sound,        DEBUG_MENU_ITEM_SOUND},
+    [DEBUG_MENU_ITEM_QUEST]         = {sDebugText_Quest,        DEBUG_MENU_ITEM_QUEST},
     [DEBUG_MENU_ITEM_CANCEL]        = {sDebugText_Cancel,       DEBUG_MENU_ITEM_CANCEL},
 };
 
@@ -854,6 +881,12 @@ static const struct ListMenuItem sDebugMenu_Items_Sound[] =
     [DEBUG_SOUND_MENU_ITEM_MUS] = {sDebugText_Sound_Music, DEBUG_SOUND_MENU_ITEM_MUS},
 };
 
+static const struct ListMenuItem sDebugMenu_Items_Quest[] =
+{
+    [DEBUG_QUEST_MENU_ITEM_SET_STATE]  = {sDebugText_Quest_Set_State, DEBUG_QUEST_MENU_ITEM_SET_STATE},
+    [DEBUG_QUEST_MENU_ITEM_JUMP]       = {sDebugText_Quest_Jump, DEBUG_QUEST_MENU_ITEM_JUMP},
+};
+
 static const struct ListMenuItem sDebugMenu_Items_BerryFunctions[] =
 {
     [DEBUG_BERRY_FUNCTIONS_MENU_CLEAR_ALL]  = {sDebugText_BerryFunctions_ClearAll, DEBUG_BERRY_FUNCTIONS_MENU_CLEAR_ALL},
@@ -875,6 +908,7 @@ static void (*const sDebugMenu_Actions_Main[])(u8) =
     [DEBUG_MENU_ITEM_FLAGVAR]       = DebugAction_OpenFlagsVarsMenu,
     //[DEBUG_MENU_ITEM_BATTLE]        = DebugAction_OpenBattleMenu,
     [DEBUG_MENU_ITEM_SOUND]         = DebugAction_OpenSoundMenu,
+    [DEBUG_MENU_ITEM_QUEST]         = DebugAction_OpenQuestMenu,
     [DEBUG_MENU_ITEM_CANCEL]        = DebugAction_Cancel
 };
 
@@ -977,6 +1011,12 @@ static void (*const sDebugMenu_Actions_Sound[])(u8) =
     [DEBUG_SOUND_MENU_ITEM_MUS] = DebugAction_Sound_MUS,
 };
 
+static void (*const sDebugMenu_Actions_Quest[])(u8) =
+{
+    [DEBUG_QUEST_MENU_ITEM_SET_STATE]  = DebugAction_Quest_Set,
+    [DEBUG_QUEST_MENU_ITEM_JUMP]       = DebugAction_Quest_Jump,
+};
+
 static void (*const sDebugMenu_Actions_BerryFunctions[])(u8) =
 {
     [DEBUG_BERRY_FUNCTIONS_MENU_CLEAR_ALL]  = DebugAction_BerryFunctions_ClearAll,
@@ -1005,6 +1045,17 @@ static const struct WindowTemplate sDebugMenuWindowTemplateExtra =
     .tilemapLeft = 30 - DEBUG_MENU_WIDTH_EXTRA - 1,
     .tilemapTop = 1,
     .width = DEBUG_MENU_WIDTH_EXTRA,
+    .height = 2 * DEBUG_MENU_HEIGHT_EXTRA,
+    .paletteNum = 15,
+    .baseBlock = 1,
+};
+
+static const struct WindowTemplate sDebugMenuWindowTemplateExtra_Wide =
+{
+    .bg = 0,
+    .tilemapLeft = 30 - DEBUG_MENU_WIDTH_EXTRA_WIDE - 1,
+    .tilemapTop = 1,
+    .width = DEBUG_MENU_WIDTH_EXTRA_WIDE,
     .height = 2 * DEBUG_MENU_HEIGHT_EXTRA,
     .paletteNum = 15,
     .baseBlock = 1,
@@ -1127,6 +1178,13 @@ static const struct ListMenuTemplate sDebugMenu_ListTemplate_Sound =
     .items = sDebugMenu_Items_Sound,
     .moveCursorFunc = ListMenuDefaultCursorMoveFunc,
     .totalItems = ARRAY_COUNT(sDebugMenu_Items_Sound),
+};
+
+static const struct ListMenuTemplate sDebugMenu_ListTemplate_Quest =
+{
+    .items = sDebugMenu_Items_Quest,
+    .moveCursorFunc = ListMenuDefaultCursorMoveFunc,
+    .totalItems = ARRAY_COUNT(sDebugMenu_Items_Quest),
 };
 
 static const struct ListMenuTemplate sDebugMenu_ListTemplate_BerryFunctions =
@@ -1818,6 +1876,25 @@ static void DebugTask_HandleMenuInput_Sound(u8 taskId)
     }
 }
 
+static void DebugTask_HandleMenuInput_Quest(u8 taskId)
+{
+    void (*func)(u8);
+    u32 input = ListMenu_ProcessInput(gTasks[taskId].tMenuTaskId);
+
+    if (JOY_NEW(A_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        if ((func = sDebugMenu_Actions_Quest[input]) != NULL)
+            func(taskId);
+    }
+    else if (JOY_NEW(B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        Debug_DestroyMenu(taskId);
+        Debug_ReShowMainMenu();
+    }
+}
+
 static void DebugTask_HandleMenuInput_BerryFunctions(u8 taskId)
 {
     void (*func)(u8);
@@ -1880,6 +1957,12 @@ static void DebugAction_OpenSoundMenu(u8 taskId)
 {
     Debug_DestroyMenu(taskId);
     Debug_ShowMenu(DebugTask_HandleMenuInput_Sound, sDebugMenu_ListTemplate_Sound);
+}
+
+static void DebugAction_OpenQuestMenu(u8 taskId)
+{
+    Debug_DestroyMenu(taskId);
+    Debug_ShowMenu(DebugTask_HandleMenuInput_Quest, sDebugMenu_ListTemplate_Quest);
 }
 
 static void DebugAction_Util_BerryFunctions(u8 taskId)
@@ -4407,6 +4490,171 @@ static void DebugAction_Sound_MUS_SelectId(u8 taskId)
 }
 
 #undef tCurrentSong
+
+// *******************************
+// Quest Menu
+
+#define tQuestID data[5]
+#define tQuestJump data[6]
+
+static void DebugAction_Quest_Set(u8 taskId)
+{
+    DebugAction_Quest(taskId, FALSE);
+}
+
+static void DebugAction_Quest_Jump(u8 taskId)
+{
+    DebugAction_Quest(taskId, TRUE);
+}
+
+static void DebugAction_Quest(u8 taskId, bool32 questJump)
+{
+    u8 windowId;
+    gTasks[taskId].tQuestJump = questJump;
+
+    ClearStdWindowAndFrame(gTasks[taskId].tWindowId, TRUE);
+    RemoveWindow(gTasks[taskId].tWindowId);
+
+    HideMapNamePopUpWindow();
+    LoadMessageBoxAndBorderGfx();
+    windowId = AddWindow(&sDebugMenuWindowTemplateExtra_Wide);
+    DrawStdWindowFrame(windowId, FALSE);
+
+    CopyWindowToVram(windowId, COPYWIN_FULL);
+
+    // Display initial quest
+    StringCopy(gStringVar2, gText_DigitIndicator[0]);
+    ConvertIntToDecimalStringN(gStringVar3, 0, STR_CONV_MODE_LEADING_ZEROS, DEBUG_NUMBER_DIGITS_QUESTS);
+    CopyQuestName(0, gStringVar1);
+    StringCopyPadded(gStringVar1, gStringVar1, CHAR_SPACE, 15);
+    StringExpandPlaceholders(gStringVar4, sDebugText_QuestID);
+    AddTextPrinterParameterized(windowId, DEBUG_MENU_FONT, gStringVar4, 1, 1, 0, NULL);
+
+    gTasks[taskId].func = DebugAction_Quest_SelectQuest;
+    gTasks[taskId].tSubWindowId = windowId;
+    gTasks[taskId].tInput = 0;
+    gTasks[taskId].tDigit = 0;
+}
+
+static void DebugAction_Quest_SelectQuest(u8 taskId)
+{
+    if (JOY_NEW(DPAD_ANY))
+    {
+        PlaySE(SE_SELECT);
+
+        if (JOY_NEW(DPAD_UP))
+        {
+            gTasks[taskId].tInput += sPowersOfTen[gTasks[taskId].tDigit];
+            if (gTasks[taskId].tInput >= NUM_QUESTS)
+                gTasks[taskId].tInput = NUM_QUESTS - 1;
+        }
+        if (JOY_NEW(DPAD_DOWN))
+        {
+            gTasks[taskId].tInput -= sPowersOfTen[gTasks[taskId].tDigit];
+            if (gTasks[taskId].tInput < 0)
+                gTasks[taskId].tInput = 0;
+        }
+        if (JOY_NEW(DPAD_LEFT))
+        {
+            if (gTasks[taskId].tDigit > 0)
+                gTasks[taskId].tDigit -= 1;
+        }
+        if (JOY_NEW(DPAD_RIGHT))
+        {
+            if (gTasks[taskId].tDigit < DEBUG_NUMBER_DIGITS_QUESTS - 1)
+                gTasks[taskId].tDigit += 1;
+        }
+
+        StringCopy(gStringVar2, gText_DigitIndicator[gTasks[taskId].tDigit]);
+        CopyQuestName(gTasks[taskId].tInput, gStringVar1);
+        StringCopyPadded(gStringVar1, gStringVar1, CHAR_SPACE, 15);
+        ConvertIntToDecimalStringN(gStringVar3, gTasks[taskId].tInput, STR_CONV_MODE_LEADING_ZEROS, DEBUG_NUMBER_DIGITS_QUESTS);
+        StringExpandPlaceholders(gStringVar4, sDebugText_QuestID);
+        AddTextPrinterParameterized(gTasks[taskId].tSubWindowId, DEBUG_MENU_FONT, gStringVar4, 1, 1, 0, NULL);
+    }
+
+    if (JOY_NEW(A_BUTTON))
+    {
+        gTasks[taskId].tQuestID = gTasks[taskId].tInput;
+        gTasks[taskId].tInput = 0;
+        gTasks[taskId].tDigit = 0;
+
+        StringCopy(gStringVar2, gText_DigitIndicator[gTasks[taskId].tDigit]);
+        CopyQuestStateName(gTasks[taskId].tQuestID, gTasks[taskId].tInput, gStringVar1);
+        StringCopyPadded(gStringVar1, gStringVar1, CHAR_SPACE, 15);
+        ConvertIntToDecimalStringN(gStringVar3, gTasks[taskId].tInput, STR_CONV_MODE_LEADING_ZEROS, DEBUG_NUMBER_DIGITS_QUEST_STATES);
+        StringExpandPlaceholders(gStringVar4, sDebugText_QuestState);
+        AddTextPrinterParameterized(gTasks[taskId].tSubWindowId, DEBUG_MENU_FONT, gStringVar4, 1, 1, 0, NULL);
+
+        gTasks[taskId].func = DebugAction_Quest_SelectState;
+    }
+    else if (JOY_NEW(B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        DebugAction_DestroyExtraWindow(taskId);
+    }
+}
+
+static void DebugAction_Quest_SelectState(u8 taskId)
+{
+    u32 questID = gTasks[taskId].tQuestID;
+
+    if (JOY_NEW(DPAD_ANY))
+    {
+        PlaySE(SE_SELECT);
+
+        if (JOY_NEW(DPAD_UP))
+        {
+            gTasks[taskId].tInput += sPowersOfTen[gTasks[taskId].tDigit];
+            u32 stateCount = GetQuestStateCount(questID);
+            if (gTasks[taskId].tInput >= stateCount)
+                gTasks[taskId].tInput = stateCount - 1;
+        }
+        if (JOY_NEW(DPAD_DOWN))
+        {
+            gTasks[taskId].tInput -= sPowersOfTen[gTasks[taskId].tDigit];
+            if (gTasks[taskId].tInput < 0)
+                gTasks[taskId].tInput = 0;
+        }
+        if (JOY_NEW(DPAD_LEFT))
+        {
+            if (gTasks[taskId].tDigit > 0)
+                gTasks[taskId].tDigit -= 1;
+        }
+        if (JOY_NEW(DPAD_RIGHT))
+        {
+            if (gTasks[taskId].tDigit < DEBUG_NUMBER_DIGITS_QUEST_STATES)
+                gTasks[taskId].tDigit += 1;
+        }
+
+        StringCopy(gStringVar2, gText_DigitIndicator[gTasks[taskId].tDigit]);
+        CopyQuestStateName(gTasks[taskId].tQuestID, gTasks[taskId].tInput, gStringVar1);
+        StringCopyPadded(gStringVar1, gStringVar1, CHAR_SPACE, 15);
+        ConvertIntToDecimalStringN(gStringVar3, gTasks[taskId].tInput, STR_CONV_MODE_LEADING_ZEROS, DEBUG_NUMBER_DIGITS_QUEST_STATES);
+        StringExpandPlaceholders(gStringVar4, sDebugText_QuestState);
+        AddTextPrinterParameterized(gTasks[taskId].tSubWindowId, DEBUG_MENU_FONT, gStringVar4, 1, 1, 0, NULL);
+    }
+
+    if (JOY_NEW(A_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+
+        if (gTasks[taskId].tQuestJump)
+            JumpToQuestState(questID, gTasks[taskId].tInput);
+        else
+            SetQuestState(questID, gTasks[taskId].tInput);
+
+        DebugAction_DestroyExtraWindow(taskId);
+    }
+    else if (JOY_NEW(B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        DebugAction_DestroyExtraWindow(taskId);
+    }
+}
+
+#undef tQuestID
+#undef tQuestJump
 
 #undef tMenuTaskId
 #undef tWindowId
