@@ -461,7 +461,7 @@ static void DebugAction_Sound_MUS_SelectId(u8 taskId);
 
 static void DebugAction_Quest_Set(u8 taskId);
 static void DebugAction_Quest_Jump(u8 taskId);
-static void DebugAction_Quest(u8 taskId, bool32 questJump);
+static void DebugAction_Quest(u8 taskId);
 static void DebugAction_Quest_SelectQuest(u8 taskId);
 static void DebugAction_Quest_SelectState(u8 taskId);
 
@@ -4499,18 +4499,19 @@ static void DebugAction_Sound_MUS_SelectId(u8 taskId)
 
 static void DebugAction_Quest_Set(u8 taskId)
 {
-    DebugAction_Quest(taskId, FALSE);
+    gTasks[taskId].tQuestJump = FALSE;
+    DebugAction_Quest(taskId);
 }
 
 static void DebugAction_Quest_Jump(u8 taskId)
 {
-    DebugAction_Quest(taskId, TRUE);
+    gTasks[taskId].tQuestJump = TRUE;
+    DebugAction_Quest(taskId);
 }
 
-static void DebugAction_Quest(u8 taskId, bool32 questJump)
+static void DebugAction_Quest(u8 taskId)
 {
     u8 windowId;
-    gTasks[taskId].tQuestJump = questJump;
 
     ClearStdWindowAndFrame(gTasks[taskId].tWindowId, TRUE);
     RemoveWindow(gTasks[taskId].tWindowId);

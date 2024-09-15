@@ -24,7 +24,6 @@ struct QuestState
 
 struct Quest
 {
-    u16 questID;
     const u8 *title;
     const struct QuestState states[MAX_QUEST_STATES];
 };

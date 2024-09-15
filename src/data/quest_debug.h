@@ -4,7 +4,6 @@ const struct Quest gQuests[NUM_QUESTS] =
 {
     [QUEST_INTRO_MALE] = // example quest
     {
-        .questID = QUEST_INTRO_MALE,
         .title = COMPOUND_STRING("Intro Male"),
         .states =
         {    
