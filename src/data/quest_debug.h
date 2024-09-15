@@ -1,3 +1,5 @@
+#define STATE_MAP(map) .mapGroup = MAP_GROUP(map), .mapNum = MAP_NUM(map)
+
 const struct Quest gQuests[NUM_QUESTS] =
 {
     [QUEST_INTRO_MALE] = // example quest
@@ -9,8 +11,7 @@ const struct Quest gQuests[NUM_QUESTS] =
             {
                 .title = COMPOUND_STRING("In Truck"),
                 .setupFunc = QuestIntroMale_InTruck,
-                .mapGroup = MAP_GROUP(INSIDE_OF_TRUCK),
-                .mapNum = MAP_NUM(INSIDE_OF_TRUCK),
+                STATE_MAP(INSIDE_OF_TRUCK),
                 .warpId = WARP_ID_NONE,
                 .x = -1,
                 .y = -1,
@@ -18,8 +19,7 @@ const struct Quest gQuests[NUM_QUESTS] =
             {
                 .title = COMPOUND_STRING("Entered House"),
                 .setupFunc = QuestIntroMale_EnteredHouse,
-                .mapGroup = MAP_GROUP(LITTLEROOT_TOWN_BRENDANS_HOUSE_1F),
-                .mapNum = MAP_NUM(LITTLEROOT_TOWN_BRENDANS_HOUSE_1F),
+                STATE_MAP(LITTLEROOT_TOWN_BRENDANS_HOUSE_1F),
                 .warpId = 1,
                 .x = 0,
                 .y = 0,
@@ -27,8 +27,7 @@ const struct Quest gQuests[NUM_QUESTS] =
             {
                 .title = COMPOUND_STRING("Clock Set"),
                 .setupFunc = QuestIntroMale_ClockSet,
-                .mapGroup = MAP_GROUP(LITTLEROOT_TOWN_BRENDANS_HOUSE_2F),
-                .mapNum = MAP_NUM(LITTLEROOT_TOWN_BRENDANS_HOUSE_2F),
+                STATE_MAP(LITTLEROOT_TOWN_BRENDANS_HOUSE_2F),
                 .warpId = -1,
                 .x = 5,
                 .y = 2,
@@ -36,8 +35,7 @@ const struct Quest gQuests[NUM_QUESTS] =
             {
                 .title = COMPOUND_STRING("Go Meet Rival"),
                 .setupFunc = QuestIntroMale_GoMeetRival,
-                .mapGroup = MAP_GROUP(LITTLEROOT_TOWN_BRENDANS_HOUSE_1F),
-                .mapNum = MAP_NUM(LITTLEROOT_TOWN_BRENDANS_HOUSE_1F),
+                STATE_MAP(LITTLEROOT_TOWN_BRENDANS_HOUSE_1F),
                 .warpId = -1,
                 .x = 4,
                 .y = 5,
