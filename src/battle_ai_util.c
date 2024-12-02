@@ -2911,7 +2911,7 @@ bool32 IsBattlerIncapacitated(u32 battler, u32 ability)
 
 bool32 AI_CanPutToSleep(u32 battlerAtk, u32 battlerDef, u32 defAbility, u32 move, u32 partnerMove)
 {
-    if (!CanBeSlept(battlerDef, defAbility)
+    if (!CanBeSlept(battlerDef, defAbility, TRUE)
       || DoesSubstituteBlockMove(battlerAtk, battlerDef, move)
       || PartnerMoveEffectIsStatusSameTarget(BATTLE_PARTNER(battlerAtk), battlerDef, partnerMove))   // shouldn't try to sleep mon that partner is trying to make sleep
         return FALSE;
@@ -3401,6 +3401,17 @@ bool32 PartnerMoveIsSameNoTarget(u32 battlerAtkPartner, u32 move, u32 partnerMov
     return FALSE;
 }
 
+bool32 PartnerMoveActivatesSleepClause(u32 partnerMove)
+{
+    u32 effect = gMovesInfo[partnerMove].effect;
+    if (!IsDoubleBattle() || !FlagGet(B_FLAG_SLEEP_CLAUSE))
+        return FALSE;
+    if (effect == EFFECT_SLEEP
+        || effect == EFFECT_YAWN)
+        return TRUE;
+    return FALSE;
+}
+
 bool32 ShouldUseWishAromatherapy(u32 battlerAtk, u32 battlerDef, u32 move)
 {
     u32 i;
@@ -3516,6 +3527,7 @@ u32 AI_WhoStrikesFirstPartyMon(u32 battlerAtk, u32 battlerDef, struct BattlePoke
     SetBattlerAiData(battlerAtk, AI_DATA);
     u32 aiMonFaster = AI_IsFaster(battlerAtk, battlerDef, moveConsidered);
     FreeRestoreBattleMons(savedBattleMons);
+    SetBattlerAiData(battlerAtk, AI_DATA);
 
     return aiMonFaster;
 }
