@@ -45,9 +45,9 @@ struct TrainerBacksprite
     const union AnimCmd *const *const animation;
 };
 
-#define MON_COORDS_SIZE(width, height) (DIV_ROUND_UP(width, 8) << 4 | DIV_ROUND_UP(height, 8))
-#define GET_MON_COORDS_WIDTH(size) ((size >> 4) * 8)
-#define GET_MON_COORDS_HEIGHT(size) ((size & 0xF) * 8)
+#define MON_COORDS_SIZE(width, height)(DIV_ROUND_UP(width, 8) << 4 | DIV_ROUND_UP(height, 8))
+#define GET_MON_COORDS_WIDTH(size)((size >> 4) * 8)
+#define GET_MON_COORDS_HEIGHT(size)((size & 0xF) * 8)
 #define TRAINER_PARTY_IVS(hp, atk, def, speed, spatk, spdef) (hp | (atk << 5) | (def << 10) | (speed << 15) | (spatk << 20) | (spdef << 25))
 #define TRAINER_PARTY_EVS(hp, atk, def, speed, spatk, spdef) ((const u8[6]){hp,atk,def,spatk,spdef,speed})
 
@@ -110,7 +110,9 @@ struct TypeInfo
     u16 maxMove;
     u16 teraTypeRGBValue;    // Most values pulled from the Tera type icon palette.
     u16 damageCategory:2;    // Used for B_PHYSICAL_SPECIAL_SPLIT <= GEN_3
-    u16 padding:14;
+    u16 useSecondTypeIconPalette:1;
+    u16 isSpecialCaseType:1;
+    u16 padding:12;
     const u32 *const paletteTMHM;
     //u16 enhanceItem;
     //u16 berry;
@@ -255,5 +257,26 @@ static inline const bool32 GetTrainerAIFlagsFromId(u16 trainerId)
 {
     return gTrainers[SanitizeTrainerId(trainerId)].aiFlags;
 }
+
+//! outfits
+
+struct Outfit
+{
+    u8 isHidden:1; //! Will not shows up in the menu if locked.
+    u32 prices[GENDER_COUNT]; //! heh
+    const u8 *name;
+    const u8 *desc;
+    u16 trainerPics[GENDER_COUNT][2];
+    u16 avatarGfxIds[GENDER_COUNT][PLAYER_AVATAR_STATE_COUNT];
+    u16 animGfxIds[GENDER_COUNT][PLAYER_AVATAR_GFX_COUNT];
+    //! region map & frontier pass
+    const void *iconsRM[GENDER_COUNT]; //! region map
+    const void *iconsFP; //! frontier pass
+};
+
+extern const struct Outfit gOutfits[OUTFIT_COUNT];
+
+#define GFX 0
+#define PAL 1
 
 #endif // GUARD_DATA_H

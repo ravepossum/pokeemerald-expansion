@@ -87,6 +87,7 @@ void DoBrailleDigEffect(void)
     DrawWholeMapView();
     PlaySE(SE_BANG);
     FlagSet(FLAG_SYS_BRAILLE_DIG);
+    UnlockPlayerFieldControls();
 }
 
 bool8 CheckRelicanthWailord(void)

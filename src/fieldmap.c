@@ -32,7 +32,7 @@ EWRAM_DATA struct Camera gCamera = {0};
 EWRAM_DATA static struct ConnectionFlags sMapConnectionFlags = {0};
 EWRAM_DATA static u32 UNUSED sFiller = 0; // without this, the next file won't align properly
 
-COMMON_DATA struct BackupMapLayout gBackupMapLayout = {0};
+struct BackupMapLayout gBackupMapLayout;
 
 static const struct ConnectionFlags sDummyConnectionFlags = {0};
 
@@ -944,4 +944,22 @@ void LoadMapTilesetPalettes(struct MapLayout const *mapLayout)
         LoadPrimaryTilesetPalette(mapLayout);
         LoadSecondaryTilesetPalette(mapLayout);
     }
+}
+
+extern void DrawWholeMapView(void);
+void CopyMetatileIdsFromMapLayout(u16 mapGroup, u16 mapNum, const struct UCoords8 *pos)
+{
+    u32 i, block, x, y;
+    struct MapLayout const *layout = Overworld_GetMapHeaderByGroupAndId(mapGroup, mapNum)->mapLayout;
+    
+    i = 0;
+    do {
+        x = pos[i].x;
+        y = pos[i].y;
+        block = layout->map[x + layout->width * y];
+        gBackupMapLayout.map[(x + MAP_OFFSET) + (y + MAP_OFFSET) * gBackupMapLayout.width] = block;
+        i++;
+    } while (pos[i].x != 0xFF);
+    
+    DrawWholeMapView();
 }

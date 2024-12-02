@@ -164,6 +164,8 @@
 	create_movement_action fly_down, MOVEMENT_ACTION_FLY_DOWN
 	create_movement_action emote_double_exclamation_mark, MOVEMENT_ACTION_EMOTE_DOUBLE_EXCL_MARK
 	create_movement_action emote_x, MOVEMENT_ACTION_EMOTE_X
+	create_movement_action emote_happy, MOVEMENT_ACTION_EMOTE_HAPPY
+	create_movement_action emote_upset, MOVEMENT_ACTION_EMOTE_UPSET
 
 	create_movement_action exit_pokeball, MOVEMENT_ACTION_EXIT_POKEBALL
 	create_movement_action enter_pokeball, MOVEMENT_ACTION_ENTER_POKEBALL

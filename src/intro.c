@@ -24,6 +24,7 @@
 #include "util.h"
 #include "title_screen.h"
 #include "expansion_intro.h"
+#include "outfit_menu.h"
 #include "constants/rgb.h"
 #include "constants/battle_anim.h"
 
@@ -112,13 +113,6 @@ extern const struct CompressedSpriteSheet gBattleAnimPicTable[];
 extern const struct CompressedSpritePalette gBattleAnimPaletteTable[];
 extern const struct SpriteTemplate gAncientPowerRockSpriteTemplate[];
 
-enum {
-    COPYRIGHT_INITIALIZE,
-    COPYRIGHT_EMULATOR_BLEND,
-    COPYRIGHT_START_FADE = 140,
-    COPYRIGHT_START_INTRO,
-};
-
 #define TAG_VOLBEAT   1500
 #define TAG_TORCHIC   1501
 #define TAG_MANECTRIC 1502
@@ -179,8 +173,8 @@ static EWRAM_DATA u16 sIntroCharacterGender = 0;
 static EWRAM_DATA u16 UNUSED sUnusedVar = 0;
 static EWRAM_DATA u16 sFlygonYOffset = 0;
 
-COMMON_DATA u32 gIntroFrameCounter = 0;
-COMMON_DATA struct GcmbStruct gMultibootProgramStruct = {0};
+u32 gIntroFrameCounter;
+struct GcmbStruct gMultibootProgramStruct;
 
 static const u16 sIntroDrops_Pal[]            = INCBIN_U16("graphics/intro/scene_1/drops.gbapal");
 static const u16 sIntroLogo_Pal[]             = INCBIN_U16("graphics/intro/scene_1/logo.gbapal");
@@ -829,11 +823,9 @@ static const s16 sGameFreakLetterData[NUM_GF_LETTERS][2] =
     {GAMEFREAK_A, -56},
     {GAMEFREAK_M, -40},
     {GAMEFREAK_E, -24},
-    {GAMEFREAK_F,   8},
-    {GAMEFREAK_R,  24},
-    {GAMEFREAK_E,  40},
-    {GAMEFREAK_A,  56},
-    {GAMEFREAK_K,  72},
+    {GAMEFREAK_F,  -8},
+    {GAMEFREAK_R,   8},
+    {GAMEFREAK_K,  40},
 };
 static const s16 sPresentsLetterData[][2] =
 {
@@ -1074,7 +1066,7 @@ static u8 SetUpCopyrightScreen(void)
 {
     switch (gMain.state)
     {
-    case COPYRIGHT_INITIALIZE:
+    case 0:
         SetVBlankCallback(NULL);
         SetGpuReg(REG_OFFSET_BLDCNT, 0);
         SetGpuReg(REG_OFFSET_BLDALPHA, 0);
@@ -1105,14 +1097,14 @@ static u8 SetUpCopyrightScreen(void)
         GameCubeMultiBoot_Init(&gMultibootProgramStruct);
     // REG_DISPCNT needs to be overwritten the second time, because otherwise the intro won't show up on VBA 1.7.2 and John GBA Lite emulators.
     // The REG_DISPCNT overwrite is NOT needed in m-GBA, No$GBA, VBA 1.8.0, My Boy and Pizza Boy GBA emulators.
-    case COPYRIGHT_EMULATOR_BLEND:
+    case 1:
         REG_DISPCNT = DISPCNT_MODE_0 | DISPCNT_OBJ_1D_MAP | DISPCNT_BG0_ON;
     default:
         UpdatePaletteFade();
         gMain.state++;
         GameCubeMultiBoot_Main(&gMultibootProgramStruct);
         break;
-    case COPYRIGHT_START_FADE:
+    case 140:
         GameCubeMultiBoot_Main(&gMultibootProgramStruct);
         if (gMultibootProgramStruct.gcmb_field_2 != 1)
         {
@@ -1120,7 +1112,7 @@ static u8 SetUpCopyrightScreen(void)
             gMain.state++;
         }
         break;
-    case COPYRIGHT_START_INTRO:
+    case 141:
         if (UpdatePaletteFade())
             break;
 #if EXPANSION_INTRO == TRUE
@@ -1164,6 +1156,11 @@ void CB2_InitCopyrightScreenAfterBootup(void)
         LoadGameSave(SAVE_NORMAL);
         if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_CORRUPT)
             Sav2_ClearSetDefault();
+        if (gSaveBlock2Ptr->currOutfitId == OUTFIT_NONE)
+        {
+            UnlockOutfit(DEFAULT_OUTFIT);
+            gSaveBlock2Ptr->currOutfitId = DEFAULT_OUTFIT;
+        }
         SetPokemonCryStereo(gSaveBlock2Ptr->optionsSound);
         InitHeap(gHeap, HEAP_SIZE);
     }

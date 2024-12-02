@@ -27,7 +27,7 @@
 #define OBJ_EVENT_GFX_MAN_2                       23
 #define OBJ_EVENT_GFX_WOMAN_3                     24
 #define OBJ_EVENT_GFX_POKEFAN_M                   25
-#define OBJ_EVENT_GFX_WOMAN_4                     26
+#define OBJ_EVENT_GFX_WOMAN_4                        26
 #define OBJ_EVENT_GFX_COOK                        27
 #define OBJ_EVENT_GFX_LINK_RECEPTIONIST           28
 #define OBJ_EVENT_GFX_OLD_MAN                     29
@@ -35,7 +35,7 @@
 #define OBJ_EVENT_GFX_CAMPER                      31
 #define OBJ_EVENT_GFX_PICNICKER                   32
 #define OBJ_EVENT_GFX_MAN_3                       33
-#define OBJ_EVENT_GFX_WOMAN_5                     34
+#define OBJ_EVENT_GFX_WOMAN_5                        34
 #define OBJ_EVENT_GFX_YOUNGSTER                   35
 #define OBJ_EVENT_GFX_BUG_CATCHER                 36
 #define OBJ_EVENT_GFX_PSYCHIC_M                   37
@@ -117,7 +117,7 @@
 #define OBJ_EVENT_GFX_MOVING_BOX                 113
 #define OBJ_EVENT_GFX_CABLE_CAR                  114
 #define OBJ_EVENT_GFX_SCIENTIST_2                115
-#define OBJ_EVENT_GFX_DEVON_EMPLOYEE             116
+#define OBJ_EVENT_GFX_DEVON_EMPLOYEE                       116
 #define OBJ_EVENT_GFX_AQUA_MEMBER_M              117
 #define OBJ_EVENT_GFX_AQUA_MEMBER_F              118
 #define OBJ_EVENT_GFX_MAGMA_MEMBER_M             119
@@ -191,7 +191,7 @@
 #define OBJ_EVENT_GFX_LATIAS                     187
 #define OBJ_EVENT_GFX_LATIOS                     188
 #define OBJ_EVENT_GFX_GAMEBOY_KID                189
-#define OBJ_EVENT_GFX_CONTEST_JUDGE              190
+#define OBJ_EVENT_GFX_CONTEST_JUDGE                    190
 #define OBJ_EVENT_GFX_BRENDAN_WATERING           191
 #define OBJ_EVENT_GFX_MAY_WATERING               192
 #define OBJ_EVENT_GFX_BRENDAN_DECORATING         193
@@ -241,12 +241,65 @@
 #define OBJ_EVENT_GFX_LUGIA                      237
 #define OBJ_EVENT_GFX_HOOH                       238
 #define OBJ_EVENT_GFX_POKE_BALL                  239
-#define OBJ_EVENT_GFX_OW_MON                     240
+#define OBJ_EVENT_GFX_FATHER                     240
+#define OBJ_EVENT_GFX_SPY                        241
+#define OBJ_EVENT_GFX_ACE_F                      242
+#define OBJ_EVENT_GFX_ACE_M                      243
+#define OBJ_EVENT_GFX_ACTOR_F                    244
+#define OBJ_EVENT_GFX_ACTOR_M                    245
+#define OBJ_EVENT_GFX_AROMA                      246
+#define OBJ_EVENT_GFX_AGENT                      247
+#define OBJ_EVENT_GFX_BABY                       248
+#define OBJ_EVENT_GFX_BALLER                     249
+#define OBJ_EVENT_GFX_BREEDER                    250
+#define OBJ_EVENT_GFX_BIKER                      251
+#define OBJ_EVENT_GFX_BACK                       252
+#define OBJ_EVENT_GFX_BURGLAR                    253
+#define OBJ_EVENT_GFX_CELEBRITY                  254
+#define OBJ_EVENT_GFX_CLERK                      255
+#define OBJ_EVENT_GFX_CLOWN                      256
+#define OBJ_EVENT_GFX_DOCTOR                     257
+#define OBJ_EVENT_GFX_DRAGON                     258
+#define OBJ_EVENT_GFX_ENGINEER                   259
+#define OBJ_EVENT_GFX_FARMER                     260
+#define OBJ_EVENT_GFX_FIRE_B                     261
+#define OBJ_EVENT_GFX_FIRE_F                     262
+#define OBJ_EVENT_GFX_GUITARIST                  263
+#define OBJ_EVENT_GFX_GYMGUY                     264
+#define OBJ_EVENT_GFX_LINE                       265
+#define OBJ_EVENT_GFX_NINJA                      266
+#define OBJ_EVENT_GFX_OFFICER                    267
+#define OBJ_EVENT_GFX_PAINTER                    268
+#define OBJ_EVENT_GFX_PARASOL                    269
+#define OBJ_EVENT_GFX_RANGER                     270
+#define OBJ_EVENT_GFX_RAPPER                     271
+#define OBJ_EVENT_GFX_SERGEANT                   272
+#define OBJ_EVENT_GFX_SHADES                     273
+#define OBJ_EVENT_GFX_SINGER                     274
+#define OBJ_EVENT_GFX_THUG                       275
+#define OBJ_EVENT_GFX_BOARDER                    276
+#define OBJ_EVENT_GFX_STRIKER                    277
+#define OBJ_EVENT_GFX_TEEN_F                     278
+#define OBJ_EVENT_GFX_TEEN_M                     279
+#define OBJ_EVENT_GFX_TENNIS                     280
+#define OBJ_EVENT_GFX_VIOLINIST                  281
+#define OBJ_EVENT_GFX_NERD                       282
+#define OBJ_EVENT_GFX_SPARK_M                    283
+#define OBJ_EVENT_GFX_SPARK_F                    284
+#define OBJ_EVENT_GFX_SPARK_ADMIN                285
+#define OBJ_EVENT_GFX_SPARK_LEADER               286
+#define OBJ_EVENT_GFX_BLOOD                      287
+#define OBJ_EVENT_GFX_ASHES                      288
+#define OBJ_EVENT_GFX_OW_MON                     289
+#define OBJ_EVENT_GFX_SURGE                      290
+#define OBJ_EVENT_GFX_PORTAL                     291
+#define OBJ_EVENT_GFX_FIRE                       292
+
 
 // NOTE: The maximum amount of object events has been expanded from 255 to 65535.
 // Since dynamic graphics ids still require at least 16 free values, the actual limit
 // is 65519, but even considering follower Pokémon, this should be more than enough :)
-#define NUM_OBJ_EVENT_GFX                        241
+#define NUM_OBJ_EVENT_GFX                        293
 
 
 // These are dynamic object gfx ids.
@@ -284,10 +337,12 @@
 // Whether Object Event is an OW pokemon
 #define IS_OW_MON_OBJ(obj) ((obj)->graphicsId >= OBJ_EVENT_GFX_MON_BASE)
 
-#define SHADOW_SIZE_S    0
-#define SHADOW_SIZE_M    1
-#define SHADOW_SIZE_L    2
-#define SHADOW_SIZE_NONE 3   // Originally SHADOW_SIZE_XL, which went unused due to shadowSize in ObjectEventGraphicsInfo being only 2 bits.
+#define SHADOW_SIZE_S       0
+#define SHADOW_SIZE_M       1
+#define SHADOW_SIZE_L       2
+#define SHADOW_SIZE_NONE    3   // Originally SHADOW_SIZE_XL, which went unused due to shadowSize in ObjectEventGraphicsInfo being only 2 bits.
+
+#define SHADOW_SIZE_XL_BATTLE_ONLY  SHADOW_SIZE_NONE    // Battle-only definition for XL shadow size.
 
 #define F_INANIMATE                        (1 << 6)
 #define F_DISABLE_REFLECTION_PALETTE_LOAD  (1 << 7)
@@ -412,6 +467,47 @@
 #define OBJ_EVENT_PAL_TAG_BALL_BEAST              0x1169
 // Gen VIII
 #define OBJ_EVENT_PAL_TAG_BALL_STRANGE            0x116A
+#define OBJ_EVENT_PAL_TAG_FATHER                  0x116B
+#define OBJ_EVENT_PAL_TAG_MOM                     0x116C
+#define OBJ_EVENT_PAL_TAG_SPY                     0x116D
+#define OBJ_EVENT_PAL_TAG_ACEF                    0x116E
+#define OBJ_EVENT_PAL_TAG_ACEM                    0x116F
+#define OBJ_EVENT_PAL_TAG_ACTORF                  0x1171
+#define OBJ_EVENT_PAL_TAG_ACTORM                  0x1172
+#define OBJ_EVENT_PAL_TAG_BABY                    0x1173
+#define OBJ_EVENT_PAL_TAG_BALLER                  0x1174
+#define OBJ_EVENT_PAL_TAG_BEAUTY                  0x1175
+#define OBJ_EVENT_PAL_TAG_BIKER                   0x1176
+#define OBJ_EVENT_PAL_TAG_BUG                     0x1177
+#define OBJ_EVENT_PAL_TAG_BURGLAR                 0x1178
+#define OBJ_EVENT_PAL_TAG_CAMPER                  0x1179
+#define OBJ_EVENT_PAL_TAG_CLOWN                   0x117A
+#define OBJ_EVENT_PAL_TAG_COOK                    0x117B
+#define OBJ_EVENT_PAL_TAG_CYCLIST                 0x117C
+#define OBJ_EVENT_PAL_TAG_DOCTOR                  0x117D
+#define OBJ_EVENT_PAL_TAG_DRAGON                  0x117E
+#define OBJ_EVENT_PAL_TAG_ENGINEER                0x117F
+#define OBJ_EVENT_PAL_TAG_FARMER                  0x1180
+#define OBJ_EVENT_PAL_TAG_FIREBREATHER            0x1181
+#define OBJ_EVENT_PAL_TAG_HEX                     0x1182
+#define OBJ_EVENT_PAL_TAG_LASS                    0x1183
+#define OBJ_EVENT_PAL_TAG_LINE                    0x1184
+#define OBJ_EVENT_PAL_TAG_AROMA                   0x1185
+#define OBJ_EVENT_PAL_TAG_NURSE                   0x1186
+#define OBJ_EVENT_PAL_TAG_OLD                     0x1187
+#define OBJ_EVENT_PAL_TAG_PAINTER                 0x1188
+#define OBJ_EVENT_PAL_TAG_PARASOL                 0x1189
+#define OBJ_EVENT_PAL_TAG_RAPPER                  0x118A
+#define OBJ_EVENT_PAL_TAG_REPORTER                0x118B
+#define OBJ_EVENT_PAL_TAG_STEVEN                  0x118C
+#define OBJ_EVENT_PAL_TAG_TEENAGERF               0x118D
+#define OBJ_EVENT_PAL_TAG_VIOLINIST               0x118E
+#define OBJ_EVENT_PAL_TAG_UNION                   0x118F
+#define OBJ_EVENT_PAL_TAG_SPARK                   0x1190
+#define OBJ_EVENT_PAL_TAG_PORTAL                  0x1191
+#define OBJ_EVENT_PAL_TAG_FIRE                    0x1192
+
+
 #endif //OW_FOLLOWERS_POKEBALLS
 // Used as a placeholder follower graphic
 #define OBJ_EVENT_PAL_TAG_SUBSTITUTE              0x7611

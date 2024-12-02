@@ -20,6 +20,7 @@
 #include "task.h"
 #include "trig.h"
 #include "util.h"
+#include "outfit_menu.h"
 #include "battle_setup.h"
 #include "data.h"
 #include "constants/field_effects.h"
@@ -111,6 +112,7 @@ static void Task_GridSquares(u8);
 static void Task_AngledWipes(u8);
 static void Task_Mugshot(u8);
 static void Task_Aqua(u8);
+static void Task_Spark(u8);
 static void Task_Magma(u8);
 static void Task_Regice(u8);
 static void Task_Registeel(u8);
@@ -156,6 +158,8 @@ static bool8 Shuffle_Init(struct Task *);
 static bool8 Shuffle_End(struct Task *);
 static bool8 Aqua_Init(struct Task *);
 static bool8 Aqua_SetGfx(struct Task *);
+static bool8 Spark_Init(struct Task *);
+static bool8 Spark_SetGfx(struct Task *);
 static bool8 Magma_Init(struct Task *);
 static bool8 Magma_SetGfx(struct Task *);
 static bool8 FramesCountdown(struct Task *);
@@ -299,8 +303,11 @@ static const u8 sUnusedBrendan_Gfx[] = INCBIN_U8("graphics/battle_transitions/un
 static const u8 sUnusedLass_Gfx[] = INCBIN_U8("graphics/battle_transitions/unused_lass.4bpp");
 static const u32 sShrinkingBoxTileset[] = INCBIN_U32("graphics/battle_transitions/shrinking_box.4bpp");
 static const u16 sEvilTeam_Palette[] = INCBIN_U16("graphics/battle_transitions/evil_team.gbapal");
+static const u16 sSpark_Palette[] = INCBIN_U16("graphics/battle_transitions/spark.gbapal");
 static const u32 sTeamAqua_Tileset[] = INCBIN_U32("graphics/battle_transitions/team_aqua.4bpp.lz");
 static const u32 sTeamAqua_Tilemap[] = INCBIN_U32("graphics/battle_transitions/team_aqua.bin.lz");
+static const u32 sSpark_Tileset[] = INCBIN_U32("graphics/battle_transitions/spark.4bpp.lz");
+static const u32 sSpark_Tilemap[] = INCBIN_U32("graphics/battle_transitions/spark.bin.lz");
 static const u32 sTeamMagma_Tileset[] = INCBIN_U32("graphics/battle_transitions/team_magma.4bpp.lz");
 static const u32 sTeamMagma_Tilemap[] = INCBIN_U32("graphics/battle_transitions/team_magma.bin.lz");
 static const u32 sRegis_Tileset[] = INCBIN_U32("graphics/battle_transitions/regis.4bpp");
@@ -380,6 +387,7 @@ static const TaskFunc sTasks_Main[B_TRANSITION_COUNT] =
     [B_TRANSITION_FRONTIER_CIRCLES_CROSS_IN_SEQ] = Task_FrontierCirclesCrossInSeq,
     [B_TRANSITION_FRONTIER_CIRCLES_ASYMMETRIC_SPIRAL_IN_SEQ] = Task_FrontierCirclesAsymmetricSpiralInSeq,
     [B_TRANSITION_FRONTIER_CIRCLES_SYMMETRIC_SPIRAL_IN_SEQ] = Task_FrontierCirclesSymmetricSpiralInSeq,
+     [B_TRANSITION_SPARK] = Task_Spark,
 };
 
 static const TransitionStateFunc sTaskHandlers[] =
@@ -413,6 +421,17 @@ static const TransitionStateFunc sAqua_Funcs[] =
 {
     Aqua_Init,
     Aqua_SetGfx,
+    PatternWeave_Blend1,
+    PatternWeave_Blend2,
+    PatternWeave_FinishAppear,
+    FramesCountdown,
+    PatternWeave_CircularMask
+};
+
+static const TransitionStateFunc sSpark_Funcs[] =
+{
+    Spark_Init,
+    Spark_SetGfx,
     PatternWeave_Blend1,
     PatternWeave_Blend2,
     PatternWeave_FinishAppear,
@@ -1313,6 +1332,11 @@ static void Task_Aqua(u8 taskId)
     while (sAqua_Funcs[gTasks[taskId].tState](&gTasks[taskId]));
 }
 
+static void Task_Spark(u8 taskId)
+{
+    while (sSpark_Funcs[gTasks[taskId].tState](&gTasks[taskId]));
+}
+
 static void Task_Magma(u8 taskId)
 {
     while (sMagma_Funcs[gTasks[taskId].tState](&gTasks[taskId]));
@@ -1372,6 +1396,21 @@ static bool8 Aqua_Init(struct Task *task)
     CpuFill16(0, tilemap, BG_SCREEN_SIZE);
     LZ77UnCompVram(sTeamAqua_Tileset, tileset);
     LoadPalette(sEvilTeam_Palette, BG_PLTT_ID(15), sizeof(sEvilTeam_Palette));
+
+    task->tState++;
+    return FALSE;
+}
+
+static bool8 Spark_Init(struct Task *task)
+{
+    u16 *tilemap, *tileset;
+
+    task->tEndDelay = 60;
+    InitPatternWeaveTransition(task);
+    GetBg0TilesDst(&tilemap, &tileset);
+    CpuFill16(0, tilemap, BG_SCREEN_SIZE);
+    LZ77UnCompVram(sSpark_Tileset, tileset);
+    LoadPalette(sSpark_Palette, BG_PLTT_ID(15), sizeof(sSpark_Palette));
 
     task->tState++;
     return FALSE;
@@ -1446,6 +1485,18 @@ static bool8 Aqua_SetGfx(struct Task *task)
 
     GetBg0TilesDst(&tilemap, &tileset);
     LZ77UnCompVram(sTeamAqua_Tilemap, tilemap);
+    SetSinWave((s16*)gScanlineEffectRegBuffers[0], 0, task->tSinIndex, 132, task->tAmplitude, DISPLAY_HEIGHT);
+
+    task->tState++;
+    return FALSE;
+}
+
+static bool8 Spark_SetGfx(struct Task *task)
+{
+    u16 *tilemap, *tileset;
+
+    GetBg0TilesDst(&tilemap, &tileset);
+    LZ77UnCompVram(sSpark_Tilemap, tilemap);
     SetSinWave((s16*)gScanlineEffectRegBuffers[0], 0, task->tSinIndex, 132, task->tAmplitude, DISPLAY_HEIGHT);
 
     task->tState++;
@@ -1873,11 +1924,7 @@ static bool8 ClockwiseWipe_TopRight(struct Task *task)
 {
     sTransitionData->VBlank_DMA = FALSE;
 
-#ifdef UBFIX
-    InitBlackWipe(sTransitionData->data, DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2, sTransitionData->tWipeEndX, 0, 1, 1);
-#else
     InitBlackWipe(sTransitionData->data, DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2, sTransitionData->tWipeEndX, -1, 1, 1);
-#endif
     do
     {
         gScanlineEffectRegBuffers[0][sTransitionData->tWipeCurrY] = (sTransitionData->tWipeCurrX + 1) | ((DISPLAY_WIDTH / 2) << 8);
@@ -2518,8 +2565,8 @@ static void HBlankCB_Mugshots(void)
 static void Mugshots_CreateTrainerPics(struct Task *task)
 {
     struct Sprite *opponentSprite, *playerSprite;
-
-    u8 trainerPicId = GetTrainerPicFromId(gTrainerBattleOpponent_A);
+    u32 trainerPicId = GetTrainerPicFromId(gTrainerBattleOpponent_A);
+    u32 playerPicId = GetPlayerTrainerPicIdByOutfitGenderType(gSaveBlock2Ptr->currOutfitId, gSaveBlock2Ptr->playerGender, 0);
     s16 opponentRotationScales = 0;
 
     gReservedSpritePaletteCount = 10;
@@ -2529,10 +2576,7 @@ static void Mugshots_CreateTrainerPics(struct Task *task)
                                                   0, gDecompressionBuffer);
     gReservedSpritePaletteCount = 12;
 
-    task->tPlayerSpriteId = CreateTrainerSprite(PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender),
-                                                DISPLAY_WIDTH + 32,
-                                                106,
-                                                0, gDecompressionBuffer);
+    task->tPlayerSpriteId = CreateTrainerSprite(playerPicId, DISPLAY_WIDTH + 32, 106, 0, gDecompressionBuffer);
 
     opponentSprite = &gSprites[task->tOpponentSpriteId];
     playerSprite = &gSprites[task->tPlayerSpriteId];

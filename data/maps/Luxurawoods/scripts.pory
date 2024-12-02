@@ -1,0 +1,471 @@
+mapscripts Luxurawoods_MapScripts {
+	MAP_SCRIPT_ON_LOAD: mewtwofind
+	MAP_SCRIPT_ON_RESUME: outfit
+}
+script mewtwofind {
+if(var(LUXURA_TRAGEDY)==14){
+	addobject(1)
+	clearflag(FLAG_UNUSED_0x4AF)
+	removeobject(2)
+	setflag(FLAG_ITEM_ROUTE_102_POTION)
+	removeobject(4)
+	removeobject(10)
+	removeobject(5)
+	removeobject(6)
+	setflag(FLAG_UNUSED_0x4B2)
+	removeobject(7)
+	removeobject(8)
+	removeobject(9)
+	setflag(FLAG_UNUSED_0x4B3)
+	}	
+	elif(var(LUXURA_TRAGEDY)==16){
+	removeobject(1)
+	addobject(2)
+	removeobject(4)
+	removeobject(10)
+	removeobject(5)
+	removeobject(6)
+	removeobject(7)
+	removeobject(8)
+	removeobject(9)
+	setflag(FLAG_UNUSED_0x4B3)
+	setflag(FLAG_UNUSED_0x4B2)
+	clearflag(FLAG_ITEM_ROUTE_102_POTION)
+	setflag(FLAG_UNUSED_0x4AF)
+	setmetatile(25,3,0x332,0)
+	setmetatile(26,3,0x332,0)
+	setmetatile(27,3,0x332,0)
+	setmetatile(25,4,0x332,0)
+	setmetatile(25,5,0x332,0)
+	setmetatile(26,4,0x332,0)
+	setmetatile(27,4,0x332,0)
+	setmetatile(26,5,0x332,0)
+	setmetatile(27,5,0x332,0)
+}
+elif(var(LUXURA_TRAGEDY)==17){
+	removeobject(1)
+	removeobject(2)
+	setflag(FLAG_ITEM_ROUTE_102_POTION)
+	addobject(4)
+	addobject(5)
+	addobject(6)
+	addobject(10)
+	clearflag(FLAG_UNUSED_0x4B2)
+	addobject(7)
+	addobject(8)
+	addobject(9)
+	clearflag(FLAG_UNUSED_0x4B3)
+	setflag(FLAG_UNUSED_0x4AF)
+	setmetatile(25,3,0x332,0)
+	setmetatile(26,3,0x332,0)
+	setmetatile(27,3,0x332,0)
+	setmetatile(25,4,0x332,0)
+	setmetatile(25,5,0x332,0)
+	setmetatile(26,4,0x332,0)
+	setmetatile(27,4,0x332,0)
+	setmetatile(26,5,0x332,0)
+	setmetatile(27,5,0x332,0)
+}
+elif(var(LUXURA_TRAGEDY)>17){
+	removeobject(1)
+	removeobject(2)
+	setflag(FLAG_ITEM_ROUTE_102_POTION)
+	removeobject(4)
+	removeobject(5)
+	removeobject(6)
+	removeobject(10)
+	setflag(FLAG_UNUSED_0x4B2)
+	addobject(7)
+	addobject(8)
+	addobject(9)
+	clearflag(FLAG_UNUSED_0x4B3)
+	setflag(FLAG_UNUSED_0x4AF)
+	setmetatile(25,3,0x332,0)
+	setmetatile(26,3,0x332,0)
+	setmetatile(27,3,0x332,0)
+	setmetatile(25,4,0x332,0)
+	setmetatile(25,5,0x332,0)
+	setmetatile(26,4,0x332,0)
+	setmetatile(27,4,0x332,0)
+	setmetatile(26,5,0x332,0)
+	setmetatile(27,5,0x332,0)
+}
+
+}
+script mewtwotend {
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,str)
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Why isn't Mira here yet? She said she'd catch up… Did something happen?\pShe's strong, I know she can handle them… right? But how?\pNo… I can't stop now, she told me to run. She'll be okay…\pShe has to be okay."))
+    hidenamebox
+	applymovement(OBJ_EVENT_ID_PLAYER,exclam)
+	special(SpawnCameraObject)
+	applymovement(OBJ_EVENT_ID_CAMERA,mw)
+	waitmovement(0)
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}What the...?\pIs that... a Pokémon?\pWhat happened to you...?"),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	applymovement(OBJ_EVENT_ID_PLAYER,mw)
+	waitmovement(0)
+	special(RemoveCameraObject)
+	playmoncry(SPECIES_MEWTWO,CRY_MODE_FAINT)
+	waitmoncry
+    namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}You're hurt... bad. I can't just leave you here.\pI don't know if you can understand me, but...\pI'll definitely save you. I promise."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	waitmessage
+	fadescreen(FADE_TO_BLACK)
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}I've lost too much already.I won't let you die here,too."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	waitmessage
+	warp(MAP_GRANITE_CAVE_1F,12,9)
+	fadescreen(FADE_FROM_BLACK)
+	setvar(LUXURA_TRAGEDY,15)
+
+}
+script nocave {
+	lock
+	applymovement(OBJ_EVENT_ID_PLAYER,nol)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_BLUE}I should not go into the cave alone."))
+	release
+}
+script mewtwotendq {
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,thuddd)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_BLUE}I'm worried."))
+	goto(mewtwotend)
+}
+script mewtwotende {
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,mq)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_BLUE}I'm worried."))
+	goto(mewtwotend)
+}
+movement mq {
+	walk_left*2
+}
+script miradr {
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,no)
+	msgbox(format("No! I have to get away."),MSGBOX_AUTOCLOSE)
+	releaseall
+}
+movement nol {
+	walk_down
+	
+}
+script mewherb {
+	if((!flag(FLAG_UNUSED_0x4B0)) && (!flag(FLAG_UNUSED_0x4B1))){
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,no)
+	msgbox(format("I should search for the herbs."),MSGBOX_AUTOCLOSE)
+	releaseall
+}
+elif((flag(FLAG_UNUSED_0x4B0)) && (!flag(FLAG_UNUSED_0x4B1))){
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,no)
+	msgbox(format("I should look for water."),MSGBOX_AUTOCLOSE)
+	releaseall
+}
+elif((flag(FLAG_UNUSED_0x4B0)) && (flag(FLAG_UNUSED_0x4B1))){
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,no)
+	msgbox(format("I can't leave him alone."),MSGBOX_AUTOCLOSE)
+	releaseall
+}
+}
+script mewrev {
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,no)
+	msgbox(format("I can't leave him alone."),MSGBOX_AUTOCLOSE)
+	releaseall
+}
+movement no {
+	walk_right	
+}
+movement mw {
+	walk_up*5
+}
+script revivalherb {
+	lockall
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}I found it... This is it!\pMira, you were right, these herbs really do grow everywhere."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	finditem(ITEM_REVIVAL_HERB,1)
+	removeobject(2)
+	setflag(FLAG_ITEM_ROUTE_102_POTION)
+	releaseall
+
+}
+
+script revive {
+	if((!flag(FLAG_UNUSED_0x4B0)) && (!flag(FLAG_UNUSED_0x4B1))&& (!flag(FLAG_UNUSED_0x479))){
+	lockall	
+	checkitem(ITEM_REVIVAL_HERB,1)
+	if (var(VAR_RESULT)==TRUE){
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}I should apply the herb on the wounds."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+    fadescreen(FADE_TO_BLACK)
+	removeitem(ITEM_REVIVAL_HERB,1)
+	playse(MUS_HEAL)
+	waitse
+	fadescreen(FADE_FROM_BLACK)
+    namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}This should help stop the bleeding...\pBut it's not enough. You need water too."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	applymovement(OBJ_EVENT_ID_PLAYER,str)
+    namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Hang in there, I'll be back in no time."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	setflag(FLAG_UNUSED_0x4B0)
+	}
+	else{
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}I should go search for the herbs\pthe wounds look pretty painful."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	}
+    releaseall
+	}
+	elif((flag(FLAG_UNUSED_0x4B0)) && (!flag(FLAG_UNUSED_0x4B1))&& (!flag(FLAG_UNUSED_0x479))){
+    lockall	
+	checkitem(ITEM_FRESH_WATER,1)
+	if (var(VAR_RESULT)==TRUE){
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Hang in there, I've got the water."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	fadescreen(FADE_TO_BLACK)
+	removeitem(ITEM_FRESH_WATER,1)
+	playse(MUS_HEAL)
+	waitse
+	fadescreen(FADE_FROM_BLACK)
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Finally... This should do.\pYou've been through so much... Just a little longer.\pWe'll get through this together."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	fadescreen(FADE_TO_BLACK)
+	msgbox(format("Xylar continued to take care of the pokemon for a few days hoping it would open it's eyes."),MSGBOX_AUTOCLOSE)
+	msgbox(format("A few days later..."),MSGBOX_AUTOCLOSE)
+	fadescreen(FADE_FROM_BLACK)
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}I can't... I can't keep going like this. How many days has it been... since I last ate anything real? These plants... they barely keep me standing\p but he looks better than before."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	setflag(FLAG_UNUSED_0x4B1)
+	}	
+	else{
+    lockall
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}I have to find some water for him."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	}
+	releaseall
+}
+elif((flag(FLAG_UNUSED_0x4B0)) && (flag(FLAG_UNUSED_0x4B1))&& (!flag(FLAG_UNUSED_0x479))){
+	lockall
+	namebox(mewtwo)
+	msgbox(format("{COLOR LIGHT_RED}{SHADOW LIGHT_GRAY}...Who... are you?"),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	namebox(Xylar)
+	msgbox(format("(Is this telepathy?)\p{COLOR BLUE}{SHADOW LIGHT_GRAY}I...\pI found you.You were hurt, bleeding...\pI couldn't just leave you there."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	namebox(mewtwo)
+	msgbox(format("{COLOR LIGHT_RED}{SHADOW LIGHT_GRAY}Why would you help me?\pHumans are nothing but deceivers..."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	fadescreen(FADE_TO_BLACK)
+	playse(SE_M_PSYBEAM2)
+	waitse
+	msgbox(format("Mewtwo used his psychic powers to read Xylar's mind"),MSGBOX_AUTOCLOSE)
+    fadescreen(FADE_FROM_BLACK)
+    namebox(mewtwo)
+	msgbox(format("(He's... telling the truth. His concern... it's genu...)"),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}He fainted.\pMaybe using telepathy strained him, since he hasn't fully recovered yet.\pI should also rest for a bit."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	fadescreen(FADE_TO_BLACK)
+	playse(MUS_HEAL)
+	msgbox(format("Zzzzzz....."),MSGBOX_AUTOCLOSE)
+	waitse
+	fadescreen(FADE_FROM_BLACK)
+	setflag(FLAG_UNUSED_0x479)
+	releaseall
+	setvar(LUXURA_TRAGEDY,17)
+
+}
+elif((flag(FLAG_UNUSED_0x4B0)) && (flag(FLAG_UNUSED_0x4B1))&& (flag(FLAG_UNUSED_0x479))){
+	lockall
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}He's still recovering, I should look for more herbs."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	releaseall	
+}
+}
+text mewtwo {
+	format("Mewtwo")
+}
+
+script gruntsded {
+	lockall
+	applymovement(6,invisible)
+	applymovement(7,invisible)
+	applymovement(8,invisible)
+	applymovement(9,invisible)
+	applymovement(10,invisible)
+	applymovement(OBJ_EVENT_ID_PLAYER,dd)
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}It's a relief i remembered about the herbs.\pI'm worried about Mira, It's been almost a week.\pI hope she is okay."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	special(SpawnCameraObject)
+	applymovement(OBJ_EVENT_ID_PLAYER,exclam)
+	waitmovement(0)
+	applymovement(OBJ_EVENT_ID_CAMERA,in)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Look who we have here..."),MSGBOX_AUTOCLOSE)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}The little runaway.\pAnd all alone this time..."),MSGBOX_AUTOCLOSE)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Poor little rich boy... you think you can run? Think you can hide? No, no, no... your fate is written, carved in the same blood as your family's."),MSGBOX_AUTOCLOSE)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Look at him... so lost, so angry.\pWe can almost taste it, can't we?"),MSGBOX_AUTOCLOSE)
+    namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Where is Mira? What did you do to her?"),MSGBOX_AUTOCLOSE)
+	hidenamebox
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Mira... such a sweet girl.\pBrave.\pToo brave for her own good."),MSGBOX_AUTOCLOSE)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}She fought so hard.\pBut do you know what broke her? It wasn't the pain\p...\pIt was You.\pHer hope in you... shattered like glass. She screamed for you, right before we made her...\pDisappear."),MSGBOX_AUTOCLOSE)
+    namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Stop... stop lying!"),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	applymovement(10,dds)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Lie? Why would we lie? It was beautiful.\pThe way her eyes widened when she realized... you weren't coming.\pYou couldn't save her, just like you couldn't save anyone!"),MSGBOX_AUTOCLOSE)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}You think this all started today? Oh, no... it's always been you, Xylar. Your weakness... your failure. They're dead because of you."),MSGBOX_AUTOCLOSE)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Your father... your mother... Mira... They all died... waiting for you."),MSGBOX_AUTOCLOSE)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}You couldn't save her. You couldn't save any of them.\pAnd now you're alone... Just like you were always meant to be.\pAlone in the dark, where no one will hear you scream."),MSGBOX_AUTOCLOSE)
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}I'll kill you! I'll fucking kill you all!"),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Kill us?\pYou?\pYou can't even save yourself! You're drowning in your own guilt.\pAnd the deeper you sink, the closer you get to her... to all of them, waiting for you in the dark."),MSGBOX_AUTOCLOSE)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Yes, join them! Let the guilt consume you. Soon... you'll hear their voices too, whispering your name. Waiting for you to fall... just like them."),MSGBOX_AUTOCLOSE)
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}I SAID SHUT UP!"),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}They died because of you. And now... you'll join them.\pLet's see how strong you really are when you can't even save yourself.\pElectrode!"),MSGBOX_AUTOCLOSE)
+	applymovement(6,visible)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Let's end this...\pElectrode, EXPLODE!"),MSGBOX_AUTOCLOSE)
+	playmoncry(SPECIES_ELECTRODE,CRY_MODE_ENCOUNTER)
+	msgbox(format("Bzzz"))
+	waitmoncry
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}HAHAHAHAHAHAHA!"),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	applymovement(4,exclam)
+	applymovement(5,exclam)
+	waitmovement(0)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}What... what the hell is wrong with you?"),MSGBOX_AUTOCLOSE)
+	waitmessage
+    namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}You think I couldn't save her? You think it's over? It's never over!\pI'LL TEAR THIS WORLD APART! RIP EVERY ONE OF YOU TO SHREDS!\pYOU'RE DEAD! DEAD! DEAD!\pI'LL KILL EVERY LAST ONE OF YOU! I'LL MAKE YOU FEEL EVERYTHING I'VE FELT! YOU HEAR ME?!"),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}He's... he's broken."),MSGBOX_AUTOCLOSE)
+    namebox(unknown)
+	msgbox(format("{COLOR LIGHT_RED}{SHADOW LIGHT_GRAY}This ends now!"),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	fadescreen(FADE_TO_BLACK)
+	applymovement(10,visible)
+	fadescreen(FADE_FROM_BLACK)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}What the...\pElectrode finish both of them.\pUse Explosion!"),MSGBOX_AUTOCLOSE)
+	playmoncry(SPECIES_ELECTRODE,CRY_MODE_WEAK)
+	msgbox(format("Bzzz"))
+	waitmoncry
+	playse(SE_M_COSMIC_POWER)
+	waitse
+	msgbox(format("Electrode, frozen mid-charge, begins to tremble under Mewtwo's control."))
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Do something you stupid ball."),MSGBOX_AUTOCLOSE)
+	namebox(mewtwo)
+	msgbox(format("{COLOR LIGHT_RED}{SHADOW LIGHT_GRAY}You know what to do."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+    applymovement(6,ee)
+	applymovement(4,exclam)
+	applymovement(5,exclam)
+	waitmovement(0)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}W-What?! No! What's happening?!"),MSGBOX_AUTOCLOSE)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Stop it, you stupid ball! Listen to us!"),MSGBOX_AUTOCLOSE)
+    waitmessage
+	namebox(mewtwo)
+	msgbox(format("{COLOR LIGHT_RED}{SHADOW LIGHT_GRAY}Now...\pExplode."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	fadescreen(FADE_TO_BLACK)
+	playse(SE_M_EXPLOSION)
+	waitse
+	removeobject(4)
+	removeobject(5)
+	removeobject(6)
+	applymovement(7,visible)
+	applymovement(8,visible)
+	applymovement(9,visible)
+	fadescreen(FADE_FROM_BLACK)
+	applymovement(OBJ_EVENT_ID_CAMERA,strp)
+	special(RemoveCameraObject)
+	applymovement(10,sss)
+	namebox(mewtwo)
+	msgbox(format("{COLOR LIGHT_RED}{SHADOW LIGHT_GRAY}Let's go, Human."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	fadescreen(FADE_TO_BLACK)
+	removeobject(10)
+	setflag(FLAG_UNUSED_0x4B2)
+	special(RemoveCameraObject)
+	warp(MAP_GRANITE_CAVE_1F,12,9)
+	fadescreen(FADE_FROM_BLACK)
+	releaseall
+	setvar(LUXURA_TRAGEDY,18)
+    
+
+}
+movement sss {
+	face_down
+	
+}
+movement dds {
+	walk_down*4
+	walk_left*2
+	face_up
+}
+movement ss {
+	walk_up*5
+}
+movement dd {
+	walk_up
+	
+}
+movement ee {
+	face_up
+     
+}
+script gruntded{
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,rr)
+	msgbox(format("I'm glad he's fine."),MSGBOX_AUTOCLOSE)
+	goto(gruntsded)
+}
+movement rr {
+	walk_left
+	face_up
+	
+}
+movement cm {
+	walk_right
+	face_up
+}
+script grut {
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,cm)
+	msgbox(format("I'm glad he's fine."),MSGBOX_AUTOCLOSE)
+	goto(gruntsded)	
+}
+
+script nio {
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,csm)
+	msgbox(format("That's not where herbs grow."),MSGBOX_AUTOCLOSE)
+	releaseall
+	
+}
+movement csm {
+	walk_down
+	
+}

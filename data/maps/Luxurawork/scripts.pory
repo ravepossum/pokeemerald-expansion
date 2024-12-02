@@ -1,0 +1,310 @@
+raw `
+Luxurawork_MapScripts::
+map_script MAP_SCRIPT_ON_LOAD, Luxurawork_MapScripts_MAP_SCRIPT_ON_LOAD
+map_script MAP_SCRIPT_ON_FRAME_TABLE, Luxurawork_MapScripts_MAP_SCRIPT_ON_FRAME_TABLE
+map_script MAP_SCRIPT_ON_RESUME, outfit
+
+	.byte 0
+Luxurawork_MapScripts_MAP_SCRIPT_ON_FRAME_TABLE:
+map_script_2 LUXURA_TRAGEDY, 11, trage
+.2byte 0
+`
+script Luxurawork_MapScripts_MAP_SCRIPT_ON_LOAD {
+if (var(LUXURA_TRAGEDY) < 5) {
+    removeobject(4)
+	removeobject(5)
+	removeobject(6)
+	removeobject(7)
+	removeobject(8)
+	removeobject(9)
+	removeobject(10)
+	removeobject(11)
+	removeobject(12)
+	removeobject(14)
+	removeobject(13)
+	removeobject(15)
+	removeobject(16)
+	removeobject(17)
+	removeobject(18)
+	setflag(FLAG_UNUSED_0x4A6)
+    setflag(FLAG_UNUSED_0x49A)
+	
+} elif (var(LUXURA_TRAGEDY) >= 5 && var(LUXURA_TRAGEDY) <= 10) {
+    addobject(4)
+	removeobject(5)
+	removeobject(6)
+	removeobject(7)
+	removeobject(8)
+	removeobject(9)
+	removeobject(10)
+	removeobject(11)
+	removeobject(12)
+	removeobject(14)
+	removeobject(13)
+	removeobject(15)
+	removeobject(16)
+	removeobject(17)
+	removeobject(18)
+	setflag(FLAG_UNUSED_0x4A6)
+    clearflag(FLAG_UNUSED_0x49A)
+} elif (var(LUXURA_TRAGEDY) > 10) {
+	removeobject(1)
+	removeobject(2)
+	removeobject(3)
+	removeobject(4)
+	addobject(5)
+	addobject(6)
+	addobject(7)
+	addobject(8)
+	addobject(9)
+	addobject(10)
+	addobject(11)
+	addobject(12)
+	addobject(13)
+	addobject(14)
+	addobject(15)
+	addobject(16)
+	addobject(17)
+	addobject(18)
+	setflag(FLAG_UNUSED_0x4A7)
+	setflag(FLAG_UNUSED_0x4A8)
+	clearflag(FLAG_UNUSED_0x4A6)
+    setflag(FLAG_UNUSED_0x49A)
+}
+
+}
+
+script dad {
+	if(!flag(FLAG_UNUSED_0x49D)){
+	lockall
+	faceplayer
+	namebox(name3)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Xylar, all set for the academy?"))
+	hidenamebox
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Yeah, Dad.\pI've got everything packed."))
+	hidenamebox
+	namebox(name3)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Good to hear.\pRemember you don't need to worry about living up to our name.\pI want you to have a life full of joy and discovery."))
+	hidenamebox
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Thanks Dad, I'll try to make the most of it."))
+	hidenamebox
+    namebox(name3)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}That's all i ask, son."))
+	hidenamebox
+    waitmessage
+	applymovement(4,exclam)
+	namebox(name3)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Oh, Xylar, I almost forgot\pGuests from the academy are coming in two days."))
+	hidenamebox
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Guests?\pFrom the academy, You didn't tell me about this."))
+	hidenamebox	
+	namebox(name3)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Hahaha I meant to but it slipped my mind.\pThey want to meet you before the start.\pDon't worry they're just here to make sure you're comfortable and ready."))
+	hidenamebox
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Alright, I guess I'd better be on my best behaviour, then."))
+	hidenamebox
+	namebox(name3)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Just be yourself, son. That's all they'll want to see."))
+	hidenamebox
+    releaseall
+	setflag(FLAG_UNUSED_0x49D)}
+	else{
+	lockall
+	faceplayer
+	namebox(name3)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}I have some work to do.\pGo ahead and join your mother."))
+	hidenamebox
+	releaseall
+	}
+}
+movement exclam {
+	emote_exclamation_mark
+}
+
+script trage {
+	lockall
+	applymovement(10,players)
+	applymovement(9,players)
+	waitmovement(0)
+	special(SpawnCameraObject)
+    applymovement(OBJ_EVENT_ID_CAMERA,mo)
+	waitmovement(0)
+	namebox(surge)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}This is my last Pokemon."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	waitmessage
+	namebox(name3)
+	msgbox("{COLOR BLUE}{SHADOW LIGHT_GRAY}Hoopa!\pEnd this.",MSGBOX_AUTOCLOSE)
+	hidenamebox
+	applymovement(15,visible)
+	waitmovement(0)
+	applymovement(11,invisible)
+	waitmovement(0)
+	applymovement(15,invisible)
+	waitmovement(0)
+	applymovement(11,finish)
+	applymovement(15,finish)
+	waitmovement(0)
+	applymovement(15,visible)
+	waitmovement(0)
+	applymovement(11,visible)
+	waitmovement(0)
+	applymovement(15,invisible)
+    applymovement(11,atk)
+	applymovement(OBJ_EVENT_ID_CAMERA,moq)
+	applymovement(12,faint)
+	waitmovement(0)
+	applymovement(13,visible)
+	applymovement(13,invisible)
+	waitmovement(0)
+	applymovement(OBJ_EVENT_ID_CAMERA,notal)
+	waitmovement(0)
+	namebox(surge)
+	msgbox("{COLOR BLUE}{SHADOW LIGHT_GRAY}You're strong. I'll give you that.",MSGBOX_AUTOCLOSE)
+	hidenamebox
+	namebox(name3)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Strong? Is that what you call this?\pYou're weak, Surge.Pathetically so.\pNow it's the end for you."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	applymovement(16,visible)
+	waitmovement(0)
+	applymovement(11,run)
+	fadescreen(FADE_TO_BLACK)
+	namebox(unknown)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}You spoke too soon,\nAurther."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	applymovement(17,visible)
+	applymovement(18,invisible)
+    fadescreen(FADE_FROM_BLACK)
+	applymovement(OBJ_EVENT_ID_CAMERA,ded)
+	applymovement(8,exclam)
+	namebox(name2)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Honey!!!"),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	waitmessage
+	applymovement(16,ded)
+	namebox(unknown)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}I told you, you can't defeat him.\pHe solely took down the Nexus Order.\pYou could even call him the strongest trainer to ever exist."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	namebox(surge)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Looks like even the strongest can fall if you kill them.\pRight Aurther?"),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	applymovement(11,revert)
+    applymovement(14,reverte)
+    waitmovement(0)
+	namebox(surge)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}So, his death would seal Hoopa's powers.\pNow it would be much easier to catch Hoopa, I guess."))
+	hidenamebox
+	namebox(name2)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Hoopa, your powers... they're sealed! You're too weak, please, run!\pYou cannot let them capture you."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	waitmessage
+	applymovement(15,visible)
+	waitmovement(0)
+	applymovement(14,invisible)
+    waitmovement(0)
+	applymovement(15,invisible)
+	namebox(unknown)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}My work here is done.\pI'll go report everything to boss."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	applymovement(OBJ_EVENT_ID_CAMERA,back)
+    waitmovement(0)
+	namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}No... no, this can't be happening."))
+    hidenamebox
+	waitmessage
+	applymovement(8,players)
+	applymovement(5,players)
+	waitmovement(0)
+	msgbox(format("{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}(Xylar stares at his father's lifeless body, blood soaking the ground. His heart pounds in his chest, unable to fully grasp the horror in front of him.)"),MSGBOX_AUTOCLOSE)
+	waitmessage
+	namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Dad?.......DAD!!!!"),MSGBOX_AUTOCLOSE)
+    hidenamebox
+	namebox(surge)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}What do we have here?\pGrunts! capture them.\pThey could be valuable test subjects."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Yes Sir!"),MSGBOX_AUTOCLOSE)
+	applymovement(9,capture)
+	applymovement(10,capture)
+	waitmovement(0)
+	namebox(name2)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Mira! Take Xylar and run.\pHurry!!"),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	special(RemoveCameraObject)
+	releaseall
+    warp(MAP_LUXURA_INDOOR,7,6)	
+	setvar(LUXURA_TRAGEDY,12)
+
+}
+movement capture {
+	walk_down*2
+	
+}
+text surge{
+	format("Surge")
+}
+text unknown{
+	format("???")
+}
+
+movement back {	
+	walk_down*4
+}
+movement reverte {
+	delay_16
+	set_visible
+	face_up
+	face_left
+	face_down
+	face_right
+	face_up
+	
+}
+
+movement revert {
+	face_left
+	face_down
+	face_right
+	face_up
+	set_invisible
+}
+movement moq {
+   walk_fast_right*3	
+}
+movement faint {
+	delay_16
+	slide_right*10
+	set_invisible
+}
+movement players {
+	emote_exclamation_mark
+	face_down
+}
+movement atk {
+	face_right
+	set_visible
+	slide_right*3
+	slide_left*3
+	face_right
+}
+movement visible {
+	set_visible
+}
+movement invisible {
+	set_invisible
+}
+movement mo {
+	walk_up*11
+}
+movement finish {
+    walk_left*3
+    walk_down*3
+}
+movement ded {
+	walk_down*3
+	
+}

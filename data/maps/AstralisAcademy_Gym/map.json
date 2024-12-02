@@ -1,0 +1,34 @@
+{
+  "id": "MAP_ASTRALIS_ACADEMY_GYM",
+  "name": "AstralisAcademy_Gym",
+  "layout": "LAYOUT_ASTRALIS_ACADEMY_GYM",
+  "music": "MUS_GYM",
+  "region_map_section": "MAPSEC_ASTRALIS_ACADEMY",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_INDOOR",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": false,
+  "show_map_name": false,
+  "battle_scene": "MAP_BATTLE_SCENE_GYM",
+  "connections": [
+    {
+      "map": "MAP_ASTRALIS_ACADEMY",
+      "offset": 18,
+      "direction": "left"
+    }
+  ],
+  "object_events": [
+
+  ],
+  "warp_events": [
+
+  ],
+  "coord_events": [
+
+  ],
+  "bg_events": [
+
+  ]
+}

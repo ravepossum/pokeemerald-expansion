@@ -1,0 +1,514 @@
+raw`
+LuxuraIsland_MapScripts::
+map_script MAP_SCRIPT_ON_FRAME_TABLE, LuxuraIsland_MapScripts_MAP_SCRIPT_ON_FRAME_TABLE
+map_script MAP_SCRIPT_ON_LOAD, LuxuraIsland_MapScripts_MAP_SCRIPT_ON_LOAD
+map_script MAP_SCRIPT_ON_TRANSITION, musicchange
+map_script MAP_SCRIPT_ON_RESUME, outfit
+	.byte 0
+LuxuraIsland_MapScripts_MAP_SCRIPT_ON_FRAME_TABLE:
+map_script_2 LUXURA_TRAGEDY, 9, stroll
+.2byte 0
+`
+script ran{
+    lockall
+    clearflag(FLAG_UNUSED_0x496)
+    special(SpawnCameraObject)
+    applymovement(OBJ_EVENT_ID_CAMERA,cam)
+    waitmovement(0)
+    applymovement(1,face)
+    applymovement(2,mol)
+    waitmovement(0)
+    namebox(name4)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Now that's perfect."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(gardener)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Wow! Lady Mira, You really have a knack for this.\pIt turned out so beautiful."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(name4)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}No no, It's all your hard wor.."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Miiiirrrraaaa!!"),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    applymovement(1,run)
+    waitmovement(0)
+    applymovement(OBJ_EVENT_ID_PLAYER,mir)
+    waitmovement(0)
+    special(RemoveCameraObject)
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}You tricked me with that Ramen, I ran down so fast and then they all started laughing.\pYou know Dad would never allow it.\pBut seroiusly, you won't get away with this so easily"),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(name4)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}I'm sorry, Master Xylar, but I couldn't resist! You should've seen your face. "),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Uhhhh!!!"),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    applymovement(1,rum)
+    applymovement(OBJ_EVENT_ID_PLAYER,rmu)
+    waitmovement(0)
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}You can't escape that easily, Mira."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    waitmessage
+    namebox(name4)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Catch me if you can, Master Xylar."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    applymovement(1,move)
+    applymovement(OBJ_EVENT_ID_PLAYER,move2)
+    waitmovement(0)
+    namebox(name4)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Hahahaha"),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    applymovement(1,falls)
+    namebox(name4)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Ahh..Oh no.."))
+    hidenamebox
+    applymovement(OBJ_EVENT_ID_PLAYER,fall)
+    waitmovement(0)
+    applymovement(3,fallss)
+    namebox(name4)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Well, this wasn't part of the plan."))
+    hidenamebox
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Hahahaha, Serves you right.\pI guess now I have to help you out, huh?"))
+    hidenamebox
+    applymovement(OBJ_EVENT_ID_PLAYER,falll)
+    waitmovement(0)
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Here Mira, grab my hand, I'll pull you out."))
+    hidenamebox
+    namebox(name4)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Thanks, Master Xylar."))
+    hidenamebox
+    applymovement(OBJ_EVENT_ID_PLAYER,fallls)
+    applymovement(3,fal)
+    waitmovement(0)
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Hey! Mira, What was that for?"))
+    hidenamebox
+    applymovement(4,fals)
+    waitmovement(0)
+    namebox(name4)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Hahahaha!\pYou wanted to help me, didn't you?\pNow we're both in this together!"))
+    hidenamebox
+    fadescreen(FADE_TO_BLACK)
+    removeobject(3)
+    removeobject(4)
+    setflag(FLAG_UNUSED_0x495)
+    setflag(FLAG_UNUSED_0x494)
+    applymovement(1,fade)
+    applymovement(OBJ_EVENT_ID_PLAYER,fade2)
+    waitmovement(0)
+    fadescreen(FADE_FROM_BLACK)
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}I can't believe you pulled me in.\pNow we're both soaked."))
+    hidenamebox
+    namebox(name4)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}It was worth it.\pWe won't have any more moments like this when you leave for the Pokemon Academy."))
+    hidenamebox
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Yeah...\pIt feels strange knowing i'll be away from everyone.\pI'm a bit nervous."))
+    hidenamebox
+    namebox(name4)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}You'll do great, Master Xylar.\pRemember, We're always here for you.\pAnd when you come back I'll make Ramen for you and this time for real."))
+    hidenamebox
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Promise?"))
+    hidenamebox
+    namebox(name4)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Promise. Now, let's get inside before we catch a cold."))
+    hidenamebox
+    fadescreen(FADE_TO_BLACK)
+    removeobject(1)
+    removeobject(OBJ_EVENT_ID_PLAYER)
+    setflag(FLAG_UNUSED_0x497)
+    warp(MAP_LUXURA_INDOOR,14,41)
+    releaseall
+    setvar(LUXURA_TRAGEDY, 5)
+    
+}
+movement talk{
+    face_left
+}
+movement tak {
+    face_right
+}
+movement inn {
+    walk_up*3
+    face_right
+    
+}
+movement in {
+    walk_up*3
+    face_left
+}
+movement fade2 {
+    walk_left*5
+    walk_up*2
+    face_down
+    set_visible
+}
+movement fade {
+    walk_left*4
+    walk_up*2
+    face_down
+    set_visible
+}
+movement fals {
+    face_right
+    set_visible
+}
+movement fal {
+    walk_right
+    face_left
+}
+movement fallls {
+    jump_2_right
+    set_invisible
+}
+movement falll {
+    walk_right*2
+    
+}
+movement fallss{
+    face_left
+    set_visible
+}
+movement falls {
+    walk_faster_right*1
+    jump_2_right
+    set_invisible
+}
+
+movement fall {
+    walk_fast_right*1
+}
+movement move {
+    emote_happy
+    walk_fast_up*20
+    walk_fast_right*2
+    face_left
+}
+movement move2 {
+    walk_fast_right*2
+    walk_fast_up*20
+    face_right
+}
+movement run {
+    emote_exclamation_mark
+    face_up
+}
+movement cam {
+    walk_down*4
+}
+text gardener{
+    format("Gardener")
+}
+movement face {
+    emote_heart
+    face_left    
+}
+movement mir {
+   walk_down*4 
+}
+movement rum {
+   walk_fast_right*18
+   face_left 
+}
+movement rmu {
+    delay_8
+    walk_down*2
+    walk_fast_right*15
+    
+}
+script trig1 {
+    lockall
+    applymovement(OBJ_EVENT_ID_PLAYER,player)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Where is she?"))
+    goto(ran)
+}
+script trig2 {
+    applymovement(OBJ_EVENT_ID_PLAYER,tro)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Where is she?"))
+    goto(ran)
+}
+movement player {
+    walk_left
+    face_down
+}
+movement tro {
+    walk_left*2
+    face_down
+}
+script gone{
+    removeobject(6)
+    setflag(FLAG_UNUSED_0x496)
+}
+script indoor {
+    lockall
+    applymovement(OBJ_EVENT_ID_PLAYER,innnn)
+    applymovement(6,ii)
+    waitmovement(0)
+    applymovement(OBJ_EVENT_ID_PLAYER,inn)
+    applymovement(6,in)
+    waitmovement(0)
+    namebox(name4)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Master Xylar, You should take a bath and get changed before Lady Elysia sees you like this."))
+    hidenamebox
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Yeah.I'll do that."))
+    hidenamebox
+    fadescreen(FADE_TO_BLACK)
+    warp(MAP_PLAYERROOM,2,5)
+    fadescreen(FADE_FROM_BLACK)
+    releaseall
+    setflag(FLAG_UNUSED_0x496)
+}
+  
+movement innn {
+    walk_right
+    walk_up
+}
+movement ii {
+    face_up
+    set_visible
+}
+movement innnn {
+   face_down   
+}
+
+
+movement io {
+    walk_up*2
+}
+
+movement ioo {
+    walk_left
+    walk_up
+    
+}
+
+script stroll {
+    lockall
+    applymovement(5,str)
+    waitmovement(0)
+    namebox(name4)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Let's go Master Xylar."))
+    hidenamebox
+    applymovement(OBJ_EVENT_ID_PLAYER,strp)
+    waitmovement(0)
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Okay, Let's go."))
+    hidenamebox
+    setfollower(5,CAN_LEAVE_ROUTE)
+    releaseall
+    setvar(LUXURA_TRAGEDY,10)
+    
+}
+movement str{
+    walk_up*2
+}
+script mirafollowerscript {
+    lockall
+    facefollower
+    namebox(name4)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Let's go Master Xylar."))
+    hidenamebox
+    releaseall
+}
+
+movement strp{
+    walk_down*3
+}
+
+script LuxuraIsland_MapScripts_MAP_SCRIPT_ON_LOAD {
+    if(var(LUXURA_TRAGEDY)<9){
+        removeobject(5)
+        setflag(FLAG_UNUSED_0x4EF)
+        removeobject(6)
+        setflag(FLAG_UNUSED_0x4A5)
+    }
+     elif(var(LUXURA_TRAGEDY)==9){
+        addobject(5)
+        clearflag(FLAG_UNUSED_0x4EF)
+        removeobject(6)
+        setflag(FLAG_UNUSED_0x4A5)
+    }
+    elif(var(LUXURA_TRAGEDY)==10){
+        addobject(5)
+        clearflag(FLAG_UNUSED_0x4EF)
+        removeobject(6)
+        setflag(FLAG_UNUSED_0x4A5)
+    }
+    elif(var(LUXURA_TRAGEDY)==11){
+        addobject(5)
+        clearflag(FLAG_UNUSED_0x4EF)
+        removeobject(2)
+        setflag(FLAG_UNUSED_0x4A4)
+        addobject(6)
+        clearflag(FLAG_UNUSED_0x4A5)
+        setmetatile(6,28,0x001,1)
+    }
+    elif(var(LUXURA_TRAGEDY)>11 && var(LUXURA_TRAGEDY)<14){
+        addobject(5)
+        clearflag(FLAG_UNUSED_0x4EF)
+        removeobject(2)
+        setflag(FLAG_UNUSED_0x4A4)
+        addobject(6)
+        clearflag(FLAG_UNUSED_0x4A5)
+        setmetatile(6,28,0x001,1)
+    }
+    elif(var(LUXURA_TRAGEDY)>13){
+        removeobject(5)
+        setflag(FLAG_UNUSED_0x4EF)
+        removeobject(2)
+        setflag(FLAG_UNUSED_0x4A4)
+        addobject(6)
+        clearflag(FLAG_UNUSED_0x4A5)
+        setmetatile(6,28,0x001,1)   
+}
+  elif(var(LUXURA_TRAGEDY)==19 && var(LUXURA_TRAGEDY)==20){
+        removeobject(5)
+        setflag(FLAG_UNUSED_0x4EF)
+        removeobject(2)
+        setflag(FLAG_UNUSED_0x4A4)
+        addobject(6)
+        clearflag(FLAG_UNUSED_0x4A5)
+        setmetatile(6,28,0x001,1)    
+}
+  elif(var(LUXURA_TRAGEDY)>= 21){
+        removeobject(5)
+        setflag(FLAG_UNUSED_0x4EF)
+        removeobject(2)
+        setflag(FLAG_UNUSED_0x4A4)
+        addobject(6)
+        clearflag(FLAG_UNUSED_0x4A5)
+        setmetatile(6,28,0x001,1)    
+}
+}
+script strolll{
+    lockall
+    applymovement(OBJ_EVENT_ID_PLAYER,strp)
+    applymovement(OBJ_EVENT_ID_FOLLOWER,strp)
+    namebox(name4)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}That's not the way,Master Xylar."))
+    hidenamebox
+    releaseall
+}
+script Sailor {
+    lockall
+    faceplayer
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Master Xylar, I have to tell you, your father is one of the bravest men I've ever known.\pThe way he stood up against the Dark Force to protect us all,I've never seen courage like that.\pWithout him, who knows what would have happened?\pHe's a true hero, and it's an honor to serve him."))
+    releaseall
+}
+
+script sailorr {
+    lockall
+    faceplayer
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Good day, young master Xylar!\pThe captain's busy preparing the ship for your journey, even though the academy starts in a week.\pHe wants to make sure everything is perfect for when the time comes.\pWe'll be ready to set sail whenever you're ready!"))
+    releaseall   
+}
+
+script sail {
+    lockall
+    faceplayer
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Master Xylar, I'll never forget the day your Father faced the Dark Force.\pThe skies turned dark, and portals opened everywhere, unleashing chaos.\pIt was the most terrifying thing I've ever seen.\pBut your father, he didn't even flinch.\pHe stood firm, right in the face of that monster, and fought with a bravery I've never witnessed before.\pWe all owe him our lives for what he did that day."))
+    releaseall     
+}
+script blood{
+    lockall
+    msgbox(format("The blood splatters on the ground, its vivid red stark against everything else."))
+    releaseall     
+
+}
+
+script bloodsee {
+    lockall
+    applymovement(OBJ_EVENT_ID_PLAYER,exclam)
+    applymovement(OBJ_EVENT_ID_FOLLOWER,exclam)
+    facefollower
+    namebox(name4)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Master Xylar, Don't look at it. You're too young to see something like this... Please, just trust me and let's go back inside."))
+    hidenamebox
+    releaseall
+    setvar(VAR_ROUTE103_STATE,4)
+    
+}
+script blo {
+    lockall
+    applymovement(OBJ_EVENT_ID_PLAYER,io)
+    applymovement(OBJ_EVENT_ID_FOLLOWER,io)
+    namebox(name4)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Master Xylar, Don't look at it. You're too young to see something like this... Please, just trust me and let's go back inside."))
+    hidenamebox
+    releaseall
+    
+}
+
+script musicchange {
+    if(flag(FLAG_UNUSED_0x4AA)){
+    setweather(WEATHER_RAIN_THUNDERSTORM)
+    doweather
+    playbgm(MUS_DUMMY,TRUE)
+    
+}
+}
+
+script strollll{
+    lockall
+    applymovement(OBJ_EVENT_ID_PLAYER,strp)
+    applymovement(OBJ_EVENT_ID_FOLLOWER,strp)
+    namebox(name4)
+    msgbox(format("I should go to mansion.\pI'm worried about Mom and Dad."))
+    hidenamebox
+    releaseall
+}
+script signluxura {
+    lock
+    msgbox(format("Luxura Island\p{COLOR BLUE}{SHADOW LIGHT_GRAY}A serene haven where beauty and mystery intertwine beneath tranquil skies."),MSGBOX_SIGN)
+    release
+}
+script signlmansion {
+    lock
+    msgbox(format("Luxura Mansion\p{COLOR BLUE}{SHADOW LIGHT_GRAY}A magnificent estate, home to wealth, power, and a legacy of prestige."),MSGBOX_SIGN)
+    release
+}
+script signforest {
+    lock
+    msgbox(format("Luxura Veilwood\p{COLOR BLUE}{SHADOW LIGHT_GRAY}A dense, ancient forest where secrets are whispered among the trees and shadows linger at every turn."),MSGBOX_SIGN)
+    release
+    
+}
+script signservantquarter {
+    lock
+    msgbox(format("Servant's Quarter"),MSGBOX_SIGN)
+    release
+    
+}
+script signluxuraharbor {
+    lock
+    msgbox(format("Harbor Haven\p{COLOR BLUE}{SHADOW LIGHT_GRAY}The central gathering place for sailors on Luxura Island, where voyages are planned and tales are shared."),MSGBOX_SIGN)
+    release
+    
+}
+script signend{
+    lock
+    msgbox(format("End of Beta 1."))
+    release
+}
+script outfit {
+    
+    if(flag(FLAG_UNUSED_0x49E)){
+    iswearingoutfit(OUTFIT_USUAL_GREEN)
+    if (var(VAR_RESULT)==TRUE){
+    setflag(FLAG_SYS_B_DASH)
+    }
+    else{
+        clearflag(FLAG_SYS_B_DASH)
+    }
+}
+    else{
+        end
+    }
+}

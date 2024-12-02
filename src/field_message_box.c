@@ -5,8 +5,12 @@
 #include "text.h"
 #include "match_call.h"
 #include "field_message_box.h"
+#include "text_window.h"
+#include "script.h"
+#include "field_name_box.h"
 
 static EWRAM_DATA u8 sFieldMessageBoxMode = 0;
+EWRAM_DATA u8 gWalkAwayFromSignpostTimer = 0;
 
 static void ExpandStringAndStartDrawFieldMessage(const u8 *, bool32);
 static void StartDrawFieldMessage(void);
@@ -29,7 +33,12 @@ static void Task_DrawFieldMessage(u8 taskId)
     switch (task->tState)
     {
         case 0:
-           LoadMessageBoxAndBorderGfx();
+            if (gMsgIsSignPost)
+                LoadSignPostWindowFrameGfx();
+            else
+                LoadMessageBoxAndBorderGfx();
+            task->tState++;
+            break;
            task->tState++;
            break;
         case 1:

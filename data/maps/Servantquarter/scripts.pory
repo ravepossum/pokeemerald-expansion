@@ -1,0 +1,48 @@
+mapscripts Servantquarter_MapScripts{
+MAP_SCRIPT_ON_LOAD: trag
+MAP_SCRIPT_ON_TRANSITION: newheal1
+MAP_SCRIPT_ON_RESUME: outfit
+
+}
+script newheal1 {
+	setrespawn(HEAL_LOCATION_NURSEMET)
+	end
+}
+script trag {
+    if(var(LUXURA_TRAGEDY)==12){
+    	removeobject(1)
+        setflag(FLAG_UNUSED_0x4A9)
+        setmetatile(14,3,0x0F4,1)
+		setmetatile(15,3,0x0F5,1)
+		setmetatile(14,4,0x0FC,1)
+		setmetatile(15,4,0x0FD,1)
+        setmetatile(6,8,0x0F1,1)
+		setmetatile(7,8,0x0F2,1)
+		setmetatile(6,9,0x0F9,1)
+		setmetatile(7,9,0x0FA,1)
+     }
+ elif(var(LUXURA_TRAGEDY)>12){
+        setmetatile(14,3,0x0F4,1)
+		setmetatile(15,3,0x0F5,1)
+		setmetatile(14,4,0x0FC,1)
+		setmetatile(15,4,0x0FD,1)
+        setmetatile(6,8,0x0F1,1)
+		setmetatile(7,8,0x0F2,1)
+		setmetatile(6,9,0x0F9,1)
+		setmetatile(7,9,0x0FA,1)
+
+ }
+  elif(var(LUXURA_TRAGEDY)>18){
+		addobject(1)
+        clearflag(FLAG_UNUSED_0x4A9)
+        setmetatile(14,3,0x0F4,1)
+		setmetatile(15,3,0x0F5,1)
+		setmetatile(14,4,0x0FC,1)
+		setmetatile(15,4,0x0FD,1)
+        setmetatile(6,8,0x0F1,1)
+		setmetatile(7,8,0x0F2,1)
+		setmetatile(6,9,0x0F9,1)
+		setmetatile(7,9,0x0FA,1)
+    
+}
+}

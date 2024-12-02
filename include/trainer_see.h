@@ -28,5 +28,7 @@ u8 GetChosenApproachingTrainerObjectEventId(u8 arrayId);
 void PlayerFaceTrainerAfterBattle(void);
 u8 FldEff_DoubleExclMarkIcon(void);
 u8 FldEff_XIcon(void);
+u8 FldEff_HappyIcon(void);
+u8 FldEff_UpsetIcon(void);
 
 #endif // GUARD_TRAINER_SEE_H

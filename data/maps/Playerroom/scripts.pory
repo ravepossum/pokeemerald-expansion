@@ -1,0 +1,125 @@
+raw `
+Playerroom_MapScripts::
+	map_script MAP_SCRIPT_ON_FRAME_TABLE, Playerroom_MapScripts_MAP_SCRIPT_ON_FRAME_TABLE
+	map_script MAP_SCRIPT_ON_RESUME, outfit
+
+	.byte 0
+	Playerroom_MapScripts_MAP_SCRIPT_ON_FRAME_TABLE:
+     map_script_2 LUXURA_TRAGEDY, 1, mira
+	 map_script_2 LUXURA_TRAGEDY, 5, metdad
+	.2byte 0
+`
+script mira{
+	lockall
+	msgbox(format("KNOCK..KNOCK"))
+	special(SpawnCameraObject)
+	applymovement(OBJ_EVENT_ID_CAMERA,camera1)
+	applymovement (1,miramove)
+	waitmovement(0)
+	namebox (name4)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Master Xylar, good morning. It's time for breakfast. Lord Aurther and Lady Elysia are waiting for you at the table."))
+    hidenamebox
+	applymovement(OBJ_EVENT_ID_CAMERA,camera)
+	applymovement (1,miramove1)
+	waitmovement(0)
+	special(RemoveCameraObject)
+	namebox(name4)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Still in bed, I see? You know you can't stay there all day, young master. Come now, you wouldn't want to keep Lord Aurther and Lady Elysia waiting, would you?"))
+	hidenamebox
+	applymovement(OBJ_EVENT_ID_PLAYER,xylar1)
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Umm.."))
+	hidenamebox
+	namebox (name4)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Up with you, Master Xylar. If you don't hurry, I'll have to pull the covers off myself. Don't make me do it."))
+    hidenamebox
+	namebox(name4)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Besides, I made your favorite Ramen this morning. You wouldn't want it to get cold, would you?"))
+	hidenamebox
+	applymovement(OBJ_EVENT_ID_PLAYER,xylar)
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Ramen? But didn't Dad say I shouldn't have it? He always forbids it."))
+	hidenamebox 
+	namebox(name4)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Ah, yes, Lord Aurther did mention that. But Lady Elysia insisted it was alright this morning. She thought it might be just the thing to brighten your day."))
+	hidenamebox 
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}I'll be there in a sec."))
+	hidenamebox 
+	applymovement(1,miramove2)
+    waitmovement(0)
+	removeobject (1)
+	releaseall
+	setflag(FLAG_UNUSED_0x0E9)
+	setvar (LUXURA_TRAGEDY,2)
+
+}
+movement miramove{
+	face_up
+	set_visible
+
+}
+movement miramove2{
+	emote_happy
+	walk_right*2
+	walk_down*4
+}
+
+movement miramove1{
+	walk_up*4
+	walk_left*2
+	emote_upset
+}
+movement xylar{
+	emote_exclamation_mark
+	face_right
+}
+movement xylar1{
+	delay_1
+	face_left
+}
+text Xylar{
+	format("Xylar")
+}
+
+movement camera1{
+	delay_2
+	walk_down*4
+}
+movement camera{
+	walk_up*4
+}
+
+script clock {
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,notp)
+	msgbox(format("The clock isn't working, i should fix it before going."))
+	setflag(FLAG_UNUSED_0x496)
+	releaseall
+}
+movement notp{
+	walk_up*2
+}
+
+script guest {
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,not)
+	msgbox(format("I can't sleep here, this bed is for guests not for me."))
+	releaseall
+}
+movement not {
+	walk_right
+	
+}
+script parent {
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,not)
+	msgbox(format("I can't sleep here, this bed is for Mom and Dad,not me"))
+	releaseall
+}
+script metdad {
+	lockall
+	msgbox(format("I should check on Dad.\pHe's probably busy with his work.\p(He usually works downstairs, in the first room on the left.)"))
+	releaseall
+	setvar(LUXURA_TRAGEDY,6)
+}

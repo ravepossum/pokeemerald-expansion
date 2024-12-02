@@ -122,8 +122,8 @@ static EWRAM_DATA u8 sPokeBallRotation = 0;
 static EWRAM_DATA struct PokedexListItem *sPokedexListItem = NULL;
 
 // This is written to, but never read.
-COMMON_DATA u8 gUnusedPokedexU8 = 0;
-COMMON_DATA void (*gPokedexVBlankCB)(void) = NULL;
+u8 gUnusedPokedexU8;
+void (*gPokedexVBlankCB)(void);
 
 struct SearchOptionText
 {
@@ -1869,7 +1869,8 @@ static void Task_ClosePokedex(u8 taskId)
         ClearMonSprites();
         FreeWindowAndBgBuffers();
         DestroyTask(taskId);
-        SetMainCallback2(CB2_ReturnToFieldWithOpenMenu);
+//SetMainCallback2(CB2_ReturnToFieldWithOpenMenu);
+        SetMainCallback2(CB2_ReturnToFullScreenStartMenu);       
         m4aMPlayVolumeControl(&gMPlayInfo_BGM, TRACKS_ALL, 0x100);
         Free(sPokedexView);
     }

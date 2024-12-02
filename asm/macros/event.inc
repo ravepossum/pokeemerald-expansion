@@ -1221,9 +1221,10 @@
 
 	@ Opens the Pokemart system, offering the specified products for sale.
 	@ Products should be a list of .2byte item values preceded by an .align 2
-	.macro pokemart products:req
+	.macro pokemart products:req, useVariablePrices=FALSE
 	.byte 0x86
 	.4byte \products
+	.2byte \useVariablePrices
 	.endm
 
 	@ Opens the Pokemart system and treats the list of items as decorations.
@@ -1798,7 +1799,7 @@
 	.4byte \text
 	.endm
 
-	@ Equivalent to fadescreen but copies gPlttBufferUnfaded to gPaletteDecompressionBuffer on the fade out
+	@ Equivalent to fadescreen but copies gPlttBufferUnfaded to gDecompressionBuffer on the fade out
 	@ and the reverse on the fade in, in effect saving gPlttBufferUnfaded to restore it.
 	.macro fadescreenswapbuffers mode:req
 	.byte 0xdc
@@ -1883,6 +1884,89 @@
 
 	.macro dynmultistack left:req, top:req, ignoreBPress:req, maxBeforeScroll:req, shouldSort:req, initialSelected:req, callbacks:req
 	_dynmultichoice \left, \top, \ignoreBPress, \maxBeforeScroll, \shouldSort, \initialSelected, \callbacks, NULL
+	.endm
+
+	@ sets an NPC up to follow the player
+    .macro setfollower localId:req, flags:req, script
+	ballfollowingmon
+	.ifnb \script
+		loadword 0, \script
+	.endif
+    .byte 0xe5
+    .byte \localId
+    .2byte \flags
+	updatefollowingmon
+    .endm
+    
+    @ remove the following NPC (assumes there will only ever be one)
+    .macro destroyfollower
+    .byte 0xe6
+    .endm
+    
+    @ makes the player and follower face one another
+    .macro facefollower
+    .byte 0xe7
+    .endm
+    
+    @ checks if you have a follower. returns the result to VAR_RESULT
+    .macro checkfollower
+    .byte 0xe8
+    .endm
+
+	@ Updates Pokemon follower
+	.macro updatefollowingmon
+    .byte 0xe9
+    .endm
+
+	@ Returns Pokemon follower to ball
+	.macro ballfollowingmon
+	.byte 0xea
+	delay 16
+	.endm
+
+	@ Starts displaying a name box containing the specified text. If text is a pointer, then the string at 
+	@ that offset will be loaded and used. If text is script bank 0, then the value of script bank 0 will be treated as 
+	@ a pointer to the text. (You can use loadpointer to place a string pointer in a script bank.)
+	.macro namebox name:req
+	.byte 0xeb
+	.4byte \name
+	.endm
+    
+	@ Closes the current message box.
+	.macro hidenamebox
+	.byte 0xec
+	.endm
+	
+	@! Unlocks a locked outfit
+	.macro toggleoutfit outfitId:req, type:req
+	.byte 0xed
+	.2byte \outfitId
+	.byte \type
+	.endm
+
+	@! Gets the current status of the specified outfit where:
+	@! OUTFIT_CHECK_FLAG is for checking if it's either unlocked/locked
+	@! OUTFIT_CHECK_USED is for checking if it's currently used
+	.macro getoutfitstatus outfitId:req, data:req
+	.byte 0xee
+	.2byte \outfitId
+	.byte \data
+	.endm
+
+	@! Buffers either the name or the description strings of an outfit
+	@! to a str var
+	.macro bufferoutfitstr stringVarId:req, outfitId:req, type:req
+	.byte 0xef
+	stringvar \stringVarId
+	.2byte \outfitId
+	.byte \type
+	.endm
+
+	@ Opens the Pokemart system, offering the specified outfit products for sale.
+	@ Products should be a list of .2byte item values preceded by an .align 2
+	.macro pokemartoutfit products:req
+	.byte 0xf0
+	.4byte \products
 	.endm
 
 @ Supplementary
@@ -2164,7 +2248,7 @@
 	@ Attempts to trigger a special evolution method in the overworld.
 	@ There may be other conditions required which are coded for in GetEvolutionTargetSpecies.
 	@ EX: tryspecialevo EVO_WATER_SCROLL, FALSE, FALSE triggers Kubfu's EVO_WATER_SCROLL evolution
-	@ 	  method, cannot be cancelled in the evolution scene, and will only evolve one Kubfu if there
+	@	  method, cannot be cancelled in the evolution scene, and will only evolve one Kubfu if there
 	@	  are multiple in the player's party.
 	.macro tryspecialevo evoMethod:req, canStopEvo=TRUE, tryMultiple=TRUE
 	setvar VAR_0x8000, \evoMethod
@@ -2178,6 +2262,56 @@
 	setvar VAR_0x8004, \trainer1
 	callnative CreateTrainerPartyForPlayer
 	trainerbattle_no_intro \trainer2, NULL
+	.endm
+
+	@! neat shortcuts for outfits
+
+	.macro checkoutfitflag outfitId:req
+	getoutfitstatus \outfitId, OUTFIT_CHECK_FLAG
+	.endm
+
+	.macro iswearingoutfit outfitId:req
+	getoutfitstatus \outfitId, OUTFIT_CHECK_USED
+	.endm
+
+	.macro bufferoutfitname stringVarId:req, outfitId:req
+	bufferoutfitstr \stringVarId, \outfitId, OUTFIT_BUFFER_NAME
+	.endm
+
+	.macro bufferoutfitdesc stringVarId:req, outfitId:req
+	bufferoutfitstr \stringVarId, \outfitId, OUTFIT_BUFFER_DESC
+	.endm
+
+	.macro unlockoutfit outfitId:req
+	toggleoutfit \outfitId, OUTFIT_TOGGLE_UNLOCK
+	.endm
+
+	.macro lockoutfit outfitId:req
+	toggleoutfit \outfitId, OUTFIT_TOGGLE_LOCK
+	.endm
+
+	@! Jumps to \dest if the specified outfit is unlocked
+	.macro call_if_outfitunlocked outfit:req, dest:req
+	checkoutfitflag \outfit
+	call_if FALSE, \dest
+	.endm
+
+	@! Jumps to \dest if the specified outfit is locked
+	.macro call_if_outfitlocked outfit:req, dest:req
+	checkoutfitflag \outfit
+	call_if TRUE, \dest
+	.endm
+
+	@! Jumps to \dest if the specified outfit is currently wear
+	.macro call_if_wearoutfit outfit:req, dest:req
+	iswearingoutfit \outfit
+	call_if TRUE, \dest
+	.endm
+
+	@! Jumps to \dest if the specified outfit is not currently wear
+	.macro call_if_notwearoutfit outfit:req, dest:req
+	iswearingoutfit \outfit
+	call_if FALSE, \dest
 	.endm
 
 	@ Sets VAR_RESULT to TRUE if stat can be hyper trained, or to
@@ -2321,3 +2455,112 @@
 	.macro togglefakertc
 	callnative Script_ToggleFakeRtc
 	.endm
+
+	@ ============================ @
+	@ ITEM DESCRIPTION HEADER MACROS
+	@ Used with OW_SHOW_ITEM_DESCRIPTIONS config
+	.macro showitemdescription
+	callnative ScriptShowItemDescription
+	.byte 0
+	.endm
+
+	.macro showberrydescription
+	callnative ScriptShowItemDescription
+	.byte 1
+	.endm
+
+	.macro hideitemdescription
+	callnative ScriptHideItemDescription
+	.endm
+
+	@ Remove all of specified item from the player's bag and return the number of removed items to VAR_RESULT
+	.macro removeallitem itemId:req
+	callnative ScrCmd_removeallitem
+	.2byte \itemId
+	.endm
+
+	@ Stores the position of the given object in destX and destY. Mode CURRENT_POSITION will take the object's current position. Mode TEMPLATE_POSITION will take the object's template position.
+	.macro getobjectxy localId:req, posType:req, destX:req, destY:req
+	callnative ScrCmd_getobjectxy
+	.2byte \localId
+	.2byte \posType
+	.2byte \destX
+	.2byte \destY
+	.endm
+
+	.macro getobjecttemplatexy localId:req, posType = TEMPLATE_POSITION, destX:req, destY:req
+	callnative ScrCmd_getobjectxy
+	.2byte \localId
+	.2byte \posType
+	.2byte \destX
+	.2byte \destY
+	.endm
+
+	.macro getobjectcurrentxy localId:req, posType = CURRENT_POSITION, destX:req, destY:req
+	callnative ScrCmd_getobjectxy
+	.2byte \localId
+	.2byte \posType
+	.2byte \destX
+	.2byte \destY
+	.endm
+
+	@ Return TRUE to dest if there is an object at the position x and y.
+	.macro checkobjectat x:req, y:req, dest = VAR_RESULT
+	callnative ScrCmd_checkobjectat
+	.2byte \x
+	.2byte \y
+	.2byte \dest
+	.endm
+
+	@ Returns the state of the Pokedex Seen Flag to VAR_RESULT for the Pokemon with speciesId
+	.macro getseenmon species:req
+	callnative Scrcmd_getsetpokedexflag
+	.2byte \species
+	.2byte FLAG_GET_SEEN
+	.endm
+
+	@ Returns the state of the Pokedex Caught Flag to VAR_RESULT for the Pokemon with speciesId
+	.macro getcaughtmon species:req
+	callnative Scrcmd_getsetpokedexflag
+	.2byte \species
+	.2byte FLAG_GET_CAUGHT
+	.endm
+
+	@ Sets the Pokedex Seen Flag for the Pokemon with speciesId
+	.macro setseenmon species:req
+	callnative Scrcmd_getsetpokedexflag
+	.2byte \species
+	.2byte FLAG_SET_SEEN
+	.endm
+
+	@ Sets the Pokedex Caught Flag for the Pokemon with speciesId
+	.macro setcaughtmon species:req
+	callnative Scrcmd_getsetpokedexflag
+	.2byte \species
+	.2byte FLAG_SET_CAUGHT
+	.endm
+
+	@ Check if the Player has speciesId in their party. OPEN_PARTY_SCREEN will have the player select a mon from their party. NO_PARTY_SCREEN will automatically check every mon in the player's party.
+	.macro checkspecies speciesId:req, mode=NO_PARTY_SCREEN
+	.if \mode == OPEN_PARTY_SCREEN
+		special ChoosePartyMon
+		waitstate
+		callnative Scrcmd_checkspecies_choose
+		.2byte \speciesId
+	.else
+		callnative Scrcmd_checkspecies
+		.2byte \speciesId
+	.endif
+	.endm
+
+	.macro checkspecies_choose speciesId:req
+	checkspecies \speciesId, OPEN_PARTY_SCREEN
+	.endm
+
+	@ Gets the facing direction of a given event object and stores it in the variable dest.
+	.macro getobjectfacingdirection localId:req, dest:req
+	callnative Scrcmd_getobjectfacingdirection
+	.2byte \localId
+	.2byte \dest
+	.endm
+

@@ -88,7 +88,7 @@ Moves all information from `gItemIconTable` to `gItemsInfo`.
         .pocket = POCKET_POKE_BALLS,
         .type = ITEM_USE_BAG_MENU,
         .battleUsage = EFFECT_ITEM_THROW_BALL,
-        .secondaryId = ITEM_POKE_BALL - FIRST_BALL,
+        .secondaryId = BALL_POKE,
 +        .iconSprite = gItemIcon_PokeBall,
 +        .iconPalette = gItemIconPalette_PokeBall,
     },
@@ -113,7 +113,7 @@ Converts trainer data (for `convert_trainer_parties.py`) and partner data (for `
 
 #### [src/data/trainers.party](..src/data/trainers.party)
 ```diff
-+=== TRAINER_SAWYER_1 ===
++=== SPARK_GRUNT_1 ===
 +Name: SAWYER
 +Class: Hiker
 +Pic: Hiker

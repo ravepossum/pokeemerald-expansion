@@ -1,0 +1,371 @@
+raw `
+LuxuraIsland1_MapScripts::
+map_script MAP_SCRIPT_ON_TRANSITION, musicchange
+map_script MAP_SCRIPT_ON_LOAD,explosion
+map_script MAP_SCRIPT_ON_RESUME, outfit
+	.byte 0
+`script luxuraisland {
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,notal)
+	msgbox(format("I'm not allowed to go there alone."))
+	releaseall
+	
+}
+movement notal {
+	walk_left*3
+}
+script officer {
+	lockall
+	faceplayer
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Good day, Young Master."))
+	releaseall
+}
+
+script forest {
+    lockall
+    applymovement(5,exclam)
+	waitmovement(0)
+	applymovement(OBJ_EVENT_ID_PLAYER,run)
+	waitmovement(0)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Young Master, you're not allowed to go the forest.\pIt's filled with wild and dangerous Pokemon."))
+	waitmessage
+	delay(60)
+	setvar(VAR_0x8004,4)
+	setvar(VAR_0x8005,6)
+	setvar(VAR_0x8006,7)
+	setvar(VAR_0x8007,7)	
+	special(ShakeCamera)
+	playse(SE_M_THUNDERBOLT)
+	waitse
+	playse(SE_M_EXPLOSION)
+	waitse
+	setweather(WEATHER_RAIN_THUNDERSTORM)
+	doweather
+	playse(MUS_DUMMY)
+	setflag(FLAG_UNUSED_0x4AA)
+	applymovement(OBJ_EVENT_ID_PLAYER,exclam)
+	applymovement(OBJ_EVENT_ID_FOLLOWER,exclam)
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}What was that?"))
+	hidenamebox
+	namebox(name4)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Master Xylar, did you hear that? It sounded like a voice coming from the direction of the mansion.\pWe should go check it out!"))
+	hidenamebox
+    applymovement(OBJ_EVENT_ID_PLAYER,notal)
+    applymovement(OBJ_EVENT_ID_FOLLOWER,notal)
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Mom and Dad are in the Mansion."))
+	hidenamebox
+    releaseall
+	setflag(FLAG_AFTERTRAGEDY_MUSIC)
+	setvar(LUXURA_TRAGEDY, 11)
+	setvar(VAR_ROUTE103_STATE, 3)
+
+}
+
+script hurry{
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,notal)
+	msgbox(format("I should hurry."))
+	releaseall
+}
+script explosion{
+	 if(var(LUXURA_TRAGEDY)<13){
+       removeobject(6)
+	   removeobject(7)
+	   removeobject(8)
+	   removeobject(9)
+	   removeobject(10)
+	   removeobject(11)
+	   removeobject(12)
+	   removeobject(13)
+	   removeobject(14)
+	   addobject(1)
+	   addobject(2)
+	   addobject(3)
+	   addobject(4)
+	   addobject(5)
+	   clearflag(FLAG_UNUSED_0x4AD)
+	   setflag(FLAG_UNUSED_0x4AC)  
+	   setflag(FLAG_UNUSED_0x4AE)  
+	   removeobject(15)
+	   setflag(FLAG_UNUSED_0x4B6)
+	   
+	}
+	elif(var(LUXURA_TRAGEDY)==13){
+        removeobject(1)
+	    removeobject(2)
+	    removeobject(3)
+	    removeobject(4)
+	    removeobject(5)
+	    addobject(6)
+	    addobject(7)
+	    addobject(8)
+	    addobject(9)
+	    addobject(10)
+		addobject(11)
+	    addobject(12)
+	    addobject(13)
+	    addobject(14)
+	    clearflag(FLAG_UNUSED_0x4AC)
+		clearflag(FLAG_UNUSED_0x4AE)
+	    setflag(FLAG_UNUSED_0x4AD)
+		removeobject(15)
+		setflag(FLAG_UNUSED_0x4B6)  
+	}
+	elif((var(LUXURA_TRAGEDY)>13) && (var(LUXURA_TRAGEDY)<19)){
+		removeobject(1)
+	    removeobject(2)
+	    removeobject(3)
+	    removeobject(4)
+	    removeobject(5)
+		addobject(6)
+	    addobject(7)
+	    addobject(8)
+	    addobject(9)
+	    addobject(10)
+		addobject(14)
+		removeobject(11)
+	    removeobject(12)
+	    removeobject(13)
+		removeobject(15)
+		setflag(FLAG_UNUSED_0x4B6)
+		clearflag(FLAG_UNUSED_0x4AC)
+	    setflag(FLAG_UNUSED_0x4AD)
+		setflag(FLAG_UNUSED_0x4AE)  
+}
+elif(var(LUXURA_TRAGEDY)==19){
+		removeobject(1)
+	    removeobject(2)
+	    removeobject(3)
+	    removeobject(4)
+	    removeobject(5)
+		addobject(6)
+	    addobject(7)
+	    addobject(8)
+	    addobject(9)
+	    addobject(10)
+		addobject(14)
+		removeobject(11)
+	    removeobject(12)
+	    removeobject(13)
+		addobject(15)
+	    clearflag(FLAG_UNUSED_0x4B6)
+		clearflag(FLAG_UNUSED_0x4AC)
+	    setflag(FLAG_UNUSED_0x4AD)
+		setflag(FLAG_UNUSED_0x4AE)  
+}
+}
+
+script miraded {
+	lockall
+	applymovement(14,invisible)
+	waitmovement(0)
+	applymovement(OBJ_EVENT_ID_PLAYER,boo)
+	applymovement(OBJ_EVENT_ID_FOLLOWER,boo)
+    namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Let's ask the officer and sailors for help.\pThey'll surely help us."))
+	hidenamebox
+	namebox(name4)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Okay, Master Xylar."))
+	hidenamebox
+	applymovement(OBJ_EVENT_ID_PLAYER,exclam)
+	applymovement(OBJ_EVENT_ID_FOLLOWER,exclam)
+	waitmovement(0)
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}What happened here?"))
+	hidenamebox
+	namebox(name4)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}That's horrible.\pWhy would they resort to this?"))
+	hidenamebox
+	applymovement(OBJ_EVENT_ID_PLAYER,run)
+	applymovement(OBJ_EVENT_ID_FOLLOWER,run)
+	special(SpawnCameraObject)
+	applymovement(OBJ_EVENT_ID_CAMERA,bo)
+	waitmovement(0)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}The Shadow Slayers sure work fast."),MSGBOX_AUTOCLOSE)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Yeah, they killed everyone on the island in an instant."),MSGBOX_AUTOCLOSE)
+	waitmessage
+	applymovement(11,players)
+	applymovement(12,players)
+	waitmovement(0)
+	applymovement(11,backes)
+	applymovement(12,backes)
+	applymovement(OBJ_EVENT_ID_CAMERA,backes)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}We really are lucky today."),MSGBOX_AUTOCLOSE)
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Yeah.\pWe were ordered to capture you two but you two came running to us on your own."),MSGBOX_AUTOCLOSE)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Now , Let's head back peacefully since I'm in a good mood today."),MSGBOX_AUTOCLOSE)
+	namebox(name4)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Not gonna happen."))
+	hidenamebox
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Do you guys really think you can escape?"),MSGBOX_AUTOCLOSE)
+	namebox(name4)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}..."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}You're joking? right?"),MSGBOX_AUTOCLOSE)
+	applymovement(12,talk)
+	applymovement(11,tak)
+	waitmovement(0)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}They actually think they can escape.\pHAHAHAHA\pHow stupid."),MSGBOX_AUTOCLOSE)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}It's ridiculous.\pHAHAHAHA!"),MSGBOX_AUTOCLOSE)
+	applymovement(12,innnn)
+	applymovement(11,innnn)
+	waitmovement(0)
+	facefollower
+	namebox(name4)
+	msgbox(format("(If we both try to escape we will end up getting captured.)\p{COLOR RED}{SHADOW LIGHT_GRAY}Master Xylar, I'll slow them down.\pYou should run towards the forest quickly."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}No, I'm not gonna leave you behind."))
+	hidenamebox
+	namebox(name4)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}I'll join you soon.So, trust me and run."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	applymovement(OBJ_EVENT_ID_PLAYER,lok)
+	applymovement(OBJ_EVENT_ID_FOLLOWER,lok)
+	waitmovement(0)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Look at the hero,trying to protect the little boy.\pHow cute."),MSGBOX_AUTOCLOSE)
+	applymovement(12,heart)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}But it's not gonna work since we are gonna kill her and take the child."),MSGBOX_AUTOCLOSE)
+	applymovement(12,talk)
+	applymovement(11,tak)
+	waitmovement(0)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}YEAH YEAH, make her explode like BOOM!\pMake her bleed.\pMake her scream.\pOh, I can already hear it."),MSGBOX_AUTOCLOSE)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}And kid's reaction...priceless i would say."),MSGBOX_AUTOCLOSE)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Now I'm really excited."),MSGBOX_AUTOCLOSE)
+	applymovement(12,innnn)
+	applymovement(11,innnn)
+	waitmovement(0)
+	facefollower
+	namebox(name4)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Master Xylar, Listen to me, from now no matter what happens don't look back and run as fast as you can\pGo! and remember it's not your fault."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Mira, why are you talking like this?"))
+	hidenamebox
+	namebox(name4)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Go hurry!"),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	applymovement(OBJ_EVENT_ID_PLAYER,byee)
+	waitmovement(0)
+	applymovement(OBJ_EVENT_ID_FOLLOWER,lok)
+	waitmovement(0)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Aww, how touching, He's running away.\pToo bad you won't get to see him grow up"),MSGBOX_AUTOCLOSE)
+	namebox(name4)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}And too bad for you since you won't be able to capture him."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}What?\pYou dare mock me.\pKill her this instant. "))
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Say goodbye, lady.This is the end of the road for you."),MSGBOX_AUTOCLOSE)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Electrode!"))
+    applymovement(13,visible)
+	waitmovement(0)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Use EXPLOSION"))
+	waitmessage
+	applymovement(13,back)
+	playmoncry(SPECIES_ELECTRODE,CRY_MODE_ENCOUNTER)
+	msgbox(format("Bzzz"))
+	waitmoncry
+	fadescreen(FADE_TO_WHITE)
+	playse(SE_M_EXPLOSION)
+	playse(SE_M_EXPLOSION)
+    waitse
+    destroyfollower
+	applymovement(13,invisible)
+	applymovement(14,visible)
+	fadescreen(FADE_FROM_WHITE)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Ahh, look at that beautiful red... It's so vibrant, so alive!\pBlood always gets my heart racing. Don't you just love the smell?\pIt's like... the essence of life escaping. I can't get enough of it."),MSGBOX_AUTOCLOSE)
+    releaseall
+	warp(MAP_LUXURAWOODS,3,35)
+	setflag(FLAG_UNUSED_0x26B)
+	setvar(LUXURA_TRAGEDY,14)
+}
+movement lok{
+	face_up
+}
+movement backes {
+	walk_down*7
+	
+}
+movement backe {
+	walk_down*3
+	
+}
+movement byee {
+	walk_faster_right*11
+	set_invisible
+	
+}
+movement bo {
+	walk_up*9
+}
+movement boo{
+	walk_right*9
+}
+script Mira {
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,ms)
+	applymovement(OBJ_EVENT_ID_FOLLOWER,ms)
+	msgbox(format("I should hurry and ask for help."))
+	goto(miraded)
+    releaseall
+}
+movement ms {
+	walk_down
+	face_right
+	
+}
+
+script Mira2 {
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,ms1)
+	applymovement(OBJ_EVENT_ID_FOLLOWER,ms1)
+	msgbox(format("I should hurry and ask for help."))
+	goto(miraded)
+    releaseall
+}
+
+movement ms1 {
+	walk_down*2
+	face_right
+	
+}
+
+script Mira3 {
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,ms2)
+	applymovement(OBJ_EVENT_ID_FOLLOWER,ms2)
+	msgbox(format("I should hurry and ask for help."))
+	goto(miraded)
+    releaseall
+}
+
+movement ms2 {
+	walk_down*3
+	face_right
+}
+script mira1 {
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,m1)
+	applymovement(OBJ_EVENT_ID_FOLLOWER,m1)
+	msgbox(format("I should hurry and ask for help."))
+	goto(miraded)
+    releaseall
+}
+
+movement m1 {
+	walk_up*2
+	face_right
+}
+script mira2 {
+	lockall
+	applymovement(OBJ_EVENT_ID_PLAYER,m2)
+	applymovement(OBJ_EVENT_ID_FOLLOWER,m2)
+	msgbox(format("I should hurry and ask for help."))
+	goto(miraded)
+    releaseall
+}
+
+movement m2 {
+ 	walk_up
+	face_right
+}

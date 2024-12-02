@@ -5,8 +5,8 @@
 #include "blit.h"
 
 // This global is set to 0 and never changed.
-COMMON_DATA u8 gTransparentTileNumber = 0;
-COMMON_DATA void *gWindowBgTilemapBuffers[NUM_BACKGROUNDS] = {0};
+  u8 gTransparentTileNumber = 0;
+  void *gWindowBgTilemapBuffers[NUM_BACKGROUNDS] = {0};
 extern u32 gWindowTileAutoAllocEnabled;
 
 EWRAM_DATA struct Window gWindows[WINDOWS_MAX] = {0};

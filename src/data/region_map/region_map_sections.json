@@ -1,32 +1,32 @@
 {
   "map_sections": [
     {
-      "map_section": "MAPSEC_LITTLEROOT_TOWN",
-      "name": "LITTLEROOT TOWN",
+      "map_section": "MAPSEC_LUXURA_ISLAND",
+      "name": "LUXURA ISLAND",
       "x": 4,
       "y": 11,
       "width": 1,
       "height": 1
     },
     {
-      "map_section": "MAPSEC_OLDALE_TOWN",
-      "name": "OLDALE TOWN",
+      "map_section": "MAPSEC_LUXURA_MANSION",
+      "name": "LUXURA MANSION",
       "x": 4,
       "y": 9,
       "width": 1,
       "height": 1
     },
     {
-      "map_section": "MAPSEC_DEWFORD_TOWN",
-      "name": "DEWFORD TOWN",
+      "map_section": "MAPSEC_SPARK",
+      "name": "SPARK'S BASE",
       "x": 2,
       "y": 14,
       "width": 1,
       "height": 1
     },
     {
-      "map_section": "MAPSEC_LAVARIDGE_TOWN",
-      "name": "LAVARIDGE TOWN",
+      "map_section": "MAPSEC_LUXURA_VEILWOOD",
+      "name": "LUXURA VEILWOOD",
       "x": 5,
       "y": 3,
       "width": 1,
@@ -57,8 +57,8 @@
       "height": 1
     },
     {
-      "map_section": "MAPSEC_PETALBURG_CITY",
-      "name": "PETALBURG CITY",
+      "map_section": "MAPSEC_ASTRALIS_ACADEMY",
+      "name": "ASTRALIS ACADEMY",
       "x": 1,
       "y": 9,
       "width": 1,
@@ -1704,8 +1704,8 @@
       "height": 1
     },
     {
-      "map_section": "MAPSEC_TRAINER_HILL",
-      "name": "TRAINER HILL",
+      "map_section": "MAPSEC_SERVANTQUARTER",
+      "name": "SERVANT'S QUARTER",
       "x": 8,
       "y": 4,
       "width": 1,

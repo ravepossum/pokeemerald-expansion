@@ -1,9 +1,11 @@
 gText_Birch_Welcome::
-	.string "Hi! Sorry to keep you waiting!\p"
-	.string "Welcome to the world of POKéMON!\p"
-	.string "My name is BIRCH.\p"
-	.string "But everyone calls me the POKéMON\n"
-	.string "PROFESSOR.\p"
+	.string "{COLOR BLUE}{SHADOW LIGHT_GRAY}Welcome to a world unlike any you've\n"
+	.string "ever known. A world where shadows hide\l"
+	.string "secrets, and every step forward is a\l"
+	.string "step deeper into a tale of loss,\l"
+	.string "vengeance, and redemption.Before we\l"
+	.string "begin, let me introduce you to the mind\l"
+	.string "behind this tale. I'm{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY} GlitchMasterX,\p"
 	.string "$"
 
 gText_Birch_Pokemon::
@@ -12,25 +14,24 @@ gText_Birch_Pokemon::
 	.string "$"
 
 gText_Birch_MainSpeech::
-	.string "This world is widely inhabited by\n"
-	.string "creatures known as POKéMON.\p"
-	.string "We humans live alongside POKéMON,\n"
-	.string "at times as friendly playmates, and\l"
-	.string "at times as cooperative workmates.\p"
-	.string "And sometimes, we band together\n"
-	.string "and battle others like us.\p"
-	.string "But despite our closeness, we don't\n"
-	.string "know everything about POKéMON.\p"
-	.string "In fact, there are many, many\n"
-	.string "secrets surrounding POKéMON.\p"
-	.string "To unravel POKéMON mysteries,\n"
-	.string "I've been undertaking research.\l"
-	.string "That's what I do.\p"
+	.string "{COLOR BLUE}{SHADOW LIGHT_GRAY}and this is my creation,a journey forged\n"
+	.string "from my imagination, inspired by tales\l"
+	.string "of dark intrigue and complex heroes.\l"
+	.string "I've poured my heart into crafting this\l"
+	.string "story, and I hope you find it as\l"
+	.string "captivating and intense as I do.\p"
 	.string "$"
 
 gText_Birch_AndYouAre::
-	.string "And you are?$"
-
+	.string "{COLOR BLUE}{SHADOW LIGHT_GRAY}You are about to embark on a journey\n"
+	.string "with {COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}Xylar,{COLOR BLUE}{SHADOW LIGHT_GRAY} a young man whose life was\l"
+	.string "shattered by a darkness that few could\l"
+	.string "endure. But from this darkness, a fire\l"
+	.string "was born,a fire that drives him on a path\l"
+	.string "not of a hero, but of something far more\l"
+	.string "complex.\p"
+	.string "$"
+	
 gText_Birch_BoyOrGirl::
 	.string "Are you a boy?\n"
 	.string "Or are you a girl?$"
@@ -40,22 +41,35 @@ gText_Birch_WhatsYourName::
 	.string "What's your name?$"
 
 gText_Birch_SoItsPlayer::
-	.string "So it's {PLAYER}{KUN}?$"
+	.string "{COLOR BLUE}{SHADOW LIGHT_GRAY}You are about to embark on a journey\n"
+	.string "with {COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}Xylar,{COLOR BLUE}{SHADOW LIGHT_GRAY} a young man whose life was\l"
+	.string "shattered by a darkness that few could\l"
+	.string "endure. But from this darkness, a fire\l"
+	.string "was born,a fire that drives him on a path\l"
+	.string "not of a hero, but of something far more\l"
+	.string "complex.\p"
+	.string "$"
 
 gText_Birch_YourePlayer::
-	.string "Ah, okay!\p"
-	.string "You're {PLAYER}{KUN} who's moving to my\n"
-	.string "hometown of LITTLEROOT.\l"
-	.string "I get it now!\p"
+	.string "{COLOR BLUE}{SHADOW LIGHT_GRAY}This is not a tale of good versus evil,\n"
+	.string "but of one soul's relentless pursuit of\l"
+	.string "justice... or is it revenge? Only time\l"
+	.string "will tell.Each step you take will unravel\l"
+	.string "layers of a dark conspiracy, revealing\l"
+	.string "truths that are both horrifying and\l"
+	.string "hauntingly beautiful. As the shadows of\l"
+	.string "your past come alive, remember that\l"
+	.string "your choices will shape the world\l"
+	.string "around you.\p"
 	.string "$"
 
 gText_Birch_AreYouReady::
-	.string "All right, are you ready?\p"
-	.string "Your very own adventure is about\n"
-	.string "to unfold.\p"
-	.string "Take courage, and leap into the\n"
-	.string "world of POKéMON where dreams,\l"
-	.string "adventure, and friendships await!\p"
-	.string "Well, I'll be expecting you later.\n"
-	.string "Come see me in my POKéMON LAB.\p"
+	.string "{COLOR BLUE}{SHADOW LIGHT_GRAY}Welcome to {COLOR RED}{SHADOW LIGHT_GRAY}POKEMON CRISMON REQUIEM.\n"
+	.string "{COLOR BLUE}{SHADOW LIGHT_GRAY}Your journey starts now, but the\l"
+	.string "outcome depends on the choices you\l"
+	.string "make along the way. Forge your path,\l"
+	.string "seek the truth, and face the darkness\l"
+	.string "that lies within and beyond.\p"
 	.string "$"
+
+	

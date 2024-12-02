@@ -1,0 +1,148 @@
+raw `
+luxurakitchen_MapScripts::
+	map_script MAP_SCRIPT_ON_LOAD, luxurakitchen_MapScripts_MAP_SCRIPT_ON_LOAD
+    map_script MAP_SCRIPT_ON_RESUME, outfit
+	.byte 0
+`
+script luxurakitchen_MapScripts_MAP_SCRIPT_ON_LOAD {
+	if(var(LUXURA_TRAGEDY)==6){
+		addobject(7)
+		addobject(8)
+		removeobject(9)
+		removeobject(10)
+		removeobject(11)
+		setflag(FLAG_UNUSED_0x4A3)
+		setflag(FLAG_UNUSED_0x4A0)
+		setflag(FLAG_UNUSED_0x4A1)
+		clearflag(FLAG_UNUSED_0x49B)
+		clearflag(FLAG_UNUSED_0x49C)
+	}
+	elif(var(LUXURA_TRAGEDY)<5){
+		removeobject(7)
+		removeobject(8)
+		removeobject(9)
+		removeobject(10)
+		removeobject(11)
+		setflag(FLAG_UNUSED_0x4A3)
+		setflag(FLAG_UNUSED_0x4A0)
+		setflag(FLAG_UNUSED_0x4A1)
+		setflag(FLAG_UNUSED_0x49B)
+		setflag(FLAG_UNUSED_0x49C)
+	}
+	elif(var(LUXURA_TRAGEDY)>9){
+		removeobject(7)
+		removeobject(8)
+		removeobject(9)
+		removeobject(10)
+		removeobject(11)
+		setflag(FLAG_UNUSED_0x4A3)
+		setflag(FLAG_UNUSED_0x4A0)
+		setflag(FLAG_UNUSED_0x4A1)
+		setflag(FLAG_UNUSED_0x49B)
+		setflag(FLAG_UNUSED_0x49C)
+	}
+	elif(var(LUXURA_TRAGEDY)==7){
+		removeobject(7)
+		addobject(9)
+		addobject(10)
+		setflag(FLAG_UNUSED_0x49B)
+		clearflag(FLAG_UNUSED_0x4A0)
+		clearflag(FLAG_UNUSED_0x4A1)
+	}
+    elif(var(LUXURA_TRAGEDY)==8){
+	removeobject(8)
+	setflag(FLAG_UNUSED_0x49C)
+	addobject(11)
+	clearflag(FLAG_UNUSED_0x4A3)
+
+	}
+    elif(var(LUXURA_TRAGEDY)==9){
+		removeobject(11)
+		setflag(FLAG_UNUSED_0x4A3)
+		removeobject(8)
+	    setflag(FLAG_UNUSED_0x49C)
+	}
+}
+
+script momm {
+	if(!flag(FLAG_UNUSED_0x49D)){
+		lockall
+		faceplayer
+		namebox(name2)
+		msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Xylar, your Father wanted to have a talk with you.\pHe's in his workroom busy as usual.\pYou should go see him."))
+		hidenamebox
+		namebox(Xylar)
+		msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Okay, Mom.\pI'll head there now."))
+		hidenamebox
+		namebox(name2)
+		msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Don't worry, I'm sure it's nothing serious."))
+		hidenamebox
+		releaseall
+	}
+	elif(flag(FLAG_UNUSED_0x49D)){
+		lockall
+		faceplayer
+		namebox(name2)
+		msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Xylar, Can you call Felicia for me?\pShe must be in the Library."))
+		hidenamebox
+		releaseall
+		setflag(FLAG_UNUSED_0x49E)
+	}
+} 
+
+script mommafter{
+	lockall
+	faceplayer
+	namebox(name2)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Thanks, dear."))
+	hidenamebox
+	releaseall
+}
+script feliciaafter{
+	lockall
+	faceplayer
+	namebox(felicia)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}I'd do anything for her."))
+	hidenamebox
+	releaseall
+}
+
+script mirakitchen {
+	if(!(flag(FLAG_UNUSED_0x49F)||(flag(FLAG_SYS_B_DASH)))){
+		lockall
+		faceplayer
+		namebox(name4)
+	    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Master Xylar, I'm a little busy right now.\pWhy don't you find something else to do for a while."))
+	    hidenamebox
+        releaseall
+	}
+	elif((flag(FLAG_UNUSED_0x49F))||(!flag(FLAG_SYS_B_DASH)))
+	{	lockall
+		faceplayer
+		namebox(Xylar)
+		msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Mira, It's time for our walk.\pReady to go."))
+		hidenamebox
+		namebox(name4)
+	    msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Already?\pAlright,Master Xylar.Just give me a moment and we can head out."))
+	    hidenamebox
+		msgbox(format("I should go grab my shoes.\pThe maid upstairs should have it."))
+        releaseall
+		setflag(FLAG_UNUSED_0x4A2)
+	}
+    
+}
+script mirastrol {
+	lockall
+	faceplayer
+	namebox(name4)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Master Xylar, I'll be waiting for you outside."))
+	hidenamebox
+	fadescreen(FADE_TO_BLACK)
+	removeobject(11)
+	fadescreen(FADE_FROM_BLACK)
+	releaseall
+	setflag(FLAG_UNUSED_0x4A3)
+	setvar(LUXURA_TRAGEDY,9)
+	setvar(VAR_ROUTE103_STATE,2)
+	
+}

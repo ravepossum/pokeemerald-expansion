@@ -1,0 +1,216 @@
+raw `
+Luxuradining_MapScripts::
+	map_script MAP_SCRIPT_ON_FRAME_TABLE, Luxuradining_MapScripts_MAP_SCRIPT_ON_FRAME_TABLE
+	map_script MAP_SCRIPT_ON_LOAD, Luxuradining_MapScripts_MAP_SCRIPT_ON_LOAD
+	map_script MAP_SCRIPT_ON_RESUME, outfit
+	.byte 0
+Luxuradining_MapScripts_MAP_SCRIPT_ON_FRAME_TABLE:
+	map_script_2 LUXURA_TRAGEDY, 3, Youwake
+	.2byte 0
+`
+script Youwake {
+	lockall
+	special(SpawnCameraObject)
+	applymovement(OBJ_EVENT_ID_CAMERA,camera2)
+	waitmovement(0)
+	applymovement(2,mom)
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Good Morning, Mom,Dad.\pSorry to keep you waiting."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	namebox(name3)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}No need to apologize.We were just discussing today's plans.\pCome sit next to me."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	applymovement(OBJ_EVENT_ID_CAMERA,camera3)
+	waitmovement(0)
+	special(RemoveCameraObject)
+	applymovement(OBJ_EVENT_ID_PLAYER,dining)
+	waitmovement(0)
+	special(SpawnCameraObject)
+	applymovement(OBJ_EVENT_ID_CAMERA,camera4)
+	waitmovement(0)
+	namebox(name2)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}How did you sleep dear?"),MSGBOX_AUTOCLOSE)
+    hidenamebox
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}I slept well."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	applymovement(OBJ_EVENT_ID_PLAYER,mlq)
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Where is my Ramen?"),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	applymovement(1,mlo)
+    namebox(name3)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Ramen? I thought I forbade it."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	applymovement(1,mol)
+	waitmovement(0)
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}But Mira told me you allowed it for today."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	applymovement(2,happy)
+	applymovement(1,happy)
+	namebox(name3)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Hahahaha..\pShe got you again."),MSGBOX_AUTOCLOSE)
+	hidenamebox
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}What do you mean?"),MSGBOX_AUTOCLOSE)
+	hidenamebox	
+	namebox(name2)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}You have been tricked my dear."))
+    hidenamebox
+	applymovement(OBJ_EVENT_ID_PLAYER,upset)
+	waitmovement(0)
+    namebox(name3)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Ok, now lets eat before the food gets cold."))
+	hidenamebox
+	namebox(name2)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Sure\pMaids"))
+    hidenamebox
+	fadescreen(FADE_TO_BLACK)
+	fadescreen(FADE_FROM_BLACK)
+	namebox(Xylar)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Where is Mira?\pI need to ask her something."))
+	hidenamebox
+	namebox(name2)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}She's out helping the gardener."))
+    hidenamebox
+	applymovement(OBJ_EVENT_ID_CAMERA,camera5)
+	waitmovement(0)
+	special(RemoveCameraObject)
+    releaseall
+	setvar(LUXURA_TRAGEDY, 4)
+}
+movement happy {
+	emote_happy
+}
+movement camera5 {
+	walk_down*2
+}
+movement camera2 {
+	walk_left*21
+}
+movement camera4 {
+	walk_up*2
+}
+movement camera3{
+	walk_right*21
+}
+movement mom{
+	face_right
+	emote_heart
+	face_down
+}
+movement dining {
+	walk_down*3
+	walk_left*22
+	face_up
+}
+movement mlq {
+	emote_question_mark
+}
+movement mlo{
+	emote_question_mark
+	face_down
+}
+movement mol{
+	face_right
+}
+movement upset {
+	emote_upset
+}
+script Mom {
+	lockall
+	faceplayer
+	namebox(name2)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}She's always successful in tricking you"))
+	hidenamebox
+	releaseall
+}
+script Dad{
+	lockall 
+	faceplayer
+	namebox(name3)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Guess you guys are really close.\pShe always knows how to trick you."))
+    hidenamebox
+	releaseall
+}
+script waiting {
+	lockall 
+	applymovement(OBJ_EVENT_ID_PLAYER,camera4)
+	msgbox(format("I should hurry, I don't want to make Mom and Dad wait!"))
+	releaseall
+}
+
+script Luxuradining_MapScripts_MAP_SCRIPT_ON_LOAD {
+	if(var(LUXURA_TRAGEDY)>4){
+		removeobject(1)
+		removeobject(2)
+		setflag(FLAG_UNUSED_0x498)
+		setflag(FLAG_UNUSED_0x499)
+	}
+
+	
+}
+script garden {
+	lock
+	faceplayer
+	namebox(gardener)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}This garden has never looked better, thanks to Lady Mira."))
+	hidenamebox
+	release
+}
+script rest{
+	lock
+	faceplayer
+	namebox("Maid")
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Good day, Young Master! It's my rest day so I'm taking it easy.\pBut if you need anything, just let me know."))
+	hidenamebox
+	release
+}
+script nurse{
+	if((!flag(FLAG_UNUSED_0x479))&& (!flag(FLAG_UNUSED_0x4B7))){
+	lockall
+	faceplayer
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Good day,Master Xylar."))
+	releaseall
+	
+}
+elif((flag(FLAG_UNUSED_0x479))&& (!flag(FLAG_UNUSED_0x4B7))){
+	lockall
+	faceplayer
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}When they attacked the mansion... they didn't kill me. They kept me alive. Not out of mercy, but because they needed someone to heal their Pokémon. I... I didn't have a choice.\pI was just a tool to them, a way to keep their strength up. Every time I patched them up, I felt like I was betraying everyone in that house.\pBut seeing you alive... it's a small relief in all this darkness. I'm so glad you made it, Master Xylar.\pBut it's dangerous here ,you should hide."),MSGBOX_AUTOCLOSE)
+	msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}I survived for a reason. I'll get my revenge, every last one of them will pay for what they've done.\pDon't worry about me. I know what I have to do."),MSGBOX_AUTOCLOSE)
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}If your Pokémon need healing, don't hesitate to come to me. No matter what happens, I'll be here to help them recover.\pHere are some items that will help you."),MSGBOX_AUTOCLOSE)
+	giveitem(ITEM_POTION,2)
+	giveitem(ITEM_PARALYZE_HEAL,3)
+    setflag(FLAG_UNUSED_0x4B7)
+	setvar(LUXURA_TRAGEDY,20)
+	releaseall
+  
+}
+elif((flag(FLAG_UNUSED_0x479))&&(flag(FLAG_UNUSED_0x4B7))){
+	lockall
+	msgbox(format("{COLOR RED}{SHADOW LIGHT_GRAY}Master Xylar, Let me heal your pokemon."))
+	setvar(VAR_0x800B, 1)
+	call(EventScript_PkmnCenterNurse_TakeAndHealPkmn)
+	waitmessage
+	waitbuttonpress
+	release
+	end
+}
+}
+script checknurse {
+	applymovement(OBJ_EVENT_ID_PLAYER,no)
+	msgbox(format("I should look for some healing supplies in the servant's quarter."))
+	releaseall
+	
+}
+script atkspark {
+	applymovement(OBJ_EVENT_ID_PLAYER,luspark)
+	msgbox(format("I should hurry, mom is in danger."))
+	releaseall
+	
+}
+movement luspark {
+	walk_left
+}

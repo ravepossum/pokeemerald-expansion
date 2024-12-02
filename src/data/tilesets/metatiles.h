@@ -207,3 +207,27 @@ const u16 gMetatileAttributes_MysteryEventsHouse[] = INCBIN_U16("data/tilesets/s
 
 const u16 gMetatiles_UnionRoom[] = INCBIN_U16("data/tilesets/secondary/union_room/metatiles.bin");
 const u16 gMetatileAttributes_UnionRoom[] = INCBIN_U16("data/tilesets/secondary/union_room/metatile_attributes.bin");
+
+const u16 gMetatiles_general2[] = INCBIN_U16("data/tilesets/primary/general_2/metatiles.bin");
+const u16 gMetatileAttributes_general2[] = INCBIN_U16("data/tilesets/primary/general_2/metatile_attributes.bin");
+
+const u16 gMetatiles_luxuraisland[] = INCBIN_U16("data/tilesets/secondary/luxuraisland/metatiles.bin");
+const u16 gMetatileAttributes_luxuraisland[] = INCBIN_U16("data/tilesets/secondary/luxuraisland/metatile_attributes.bin");
+
+const u16 gMetatiles_luxuraindoor[] = INCBIN_U16("data/tilesets/secondary/luxuraindoor/metatiles.bin");
+const u16 gMetatileAttributes_luxuraindoor[] = INCBIN_U16("data/tilesets/secondary/luxuraindoor/metatile_attributes.bin");
+
+const u16 gMetatiles_kitchen1[] = INCBIN_U16("data/tilesets/secondary/kitchen_1/metatiles.bin");
+const u16 gMetatileAttributes_kitchen1[] = INCBIN_U16("data/tilesets/secondary/kitchen_1/metatile_attributes.bin");
+
+const u16 gMetatiles_library[] = INCBIN_U16("data/tilesets/secondary/library/metatiles.bin");
+const u16 gMetatileAttributes_library[] = INCBIN_U16("data/tilesets/secondary/library/metatile_attributes.bin");
+
+const u16 gMetatiles_building2[] = INCBIN_U16("data/tilesets/primary/building_2/metatiles.bin");
+const u16 gMetatileAttributes_building2[] = INCBIN_U16("data/tilesets/primary/building_2/metatile_attributes.bin");
+
+const u16 gMetatiles_Forest[] = INCBIN_U16("data/tilesets/secondary/forest/metatiles.bin");
+const u16 gMetatileAttributes_Forest[] = INCBIN_U16("data/tilesets/secondary/forest/metatile_attributes.bin");
+
+const u16 gMetatiles_cave1[] = INCBIN_U16("data/tilesets/secondary/cave_1/metatiles.bin");
+const u16 gMetatileAttributes_cave1[] = INCBIN_U16("data/tilesets/secondary/cave_1/metatile_attributes.bin");

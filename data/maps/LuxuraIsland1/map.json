@@ -1,0 +1,386 @@
+{
+  "id": "MAP_LUXURA_ISLAND1",
+  "name": "LuxuraIsland1",
+  "layout": "LAYOUT_LUXURA_ISLAND1",
+  "music": "MUS_RG_SEVII_45",
+  "region_map_section": "MAPSEC_LUXURA_ISLAND",
+  "requires_flash": false,
+  "weather": "WEATHER_NONE",
+  "map_type": "MAP_TYPE_CITY",
+  "allow_cycling": false,
+  "allow_escaping": false,
+  "allow_running": false,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": [
+    {
+      "map": "MAP_LUXURA_ISLAND",
+      "offset": -9,
+      "direction": "left"
+    }
+  ],
+  "object_events": [
+    {
+      "graphics_id": "OBJ_EVENT_GFX_SAILOR",
+      "x": 34,
+      "y": 10,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "sailorr",
+      "flag": "FLAG_UNUSED_0x4AD"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_SAILOR",
+      "x": 39,
+      "y": 16,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_WANDER_UP_AND_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "sail",
+      "flag": "FLAG_UNUSED_0x4AD"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_SAILOR",
+      "x": 31,
+      "y": 17,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_WANDER_DOWN_AND_UP",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "Sailor",
+      "flag": "FLAG_UNUSED_0x4AD"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_SAILOR",
+      "x": 35,
+      "y": 10,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "sailorr",
+      "flag": "FLAG_UNUSED_0x4AD"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_OFFICER",
+      "x": 42,
+      "y": 23,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "officer",
+      "flag": "FLAG_UNUSED_0x4AD"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_BLOOD",
+      "x": 35,
+      "y": 10,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "blood",
+      "flag": "FLAG_UNUSED_0x4AC"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_BLOOD",
+      "x": 39,
+      "y": 16,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "blood",
+      "flag": "FLAG_UNUSED_0x4AC"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_BLOOD",
+      "x": 31,
+      "y": 17,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "blood",
+      "flag": "FLAG_UNUSED_0x4AC"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_BLOOD",
+      "x": 42,
+      "y": 24,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "blood",
+      "flag": "FLAG_UNUSED_0x4AC"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_BLOOD",
+      "x": 34,
+      "y": 10,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "NULL",
+      "flag": "FLAG_UNUSED_0x4AC"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_SPARK_M",
+      "x": 33,
+      "y": 12,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_UP",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "NULL",
+      "flag": "FLAG_UNUSED_0x4AE"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_SPARK_F",
+      "x": 35,
+      "y": 12,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_UP",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "NULL",
+      "flag": "FLAG_UNUSED_0x4AE"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(ELECTRODE)",
+      "x": 34,
+      "y": 19,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_INVISIBLE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "NULL",
+      "flag": "FLAG_UNUSED_0x4AE"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_BLOOD",
+      "x": 34,
+      "y": 24,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "blood",
+      "flag": "FLAG_UNUSED_0x4AC"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_SPARK_M",
+      "x": 44,
+      "y": 23,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NORMAL",
+      "trainer_sight_or_berry_tree_id": "3",
+      "script": "spark1",
+      "flag": "FLAG_UNUSED_0x4B6"
+    }
+  ],
+  "warp_events": [
+    {
+      "x": 54,
+      "y": 25,
+      "elevation": 0,
+      "dest_map": "MAP_LUXURAWOODS",
+      "dest_warp_id": "2"
+    },
+    {
+      "x": 54,
+      "y": 24,
+      "elevation": 0,
+      "dest_map": "MAP_LUXURAWOODS",
+      "dest_warp_id": "0"
+    },
+    {
+      "x": 54,
+      "y": 23,
+      "elevation": 0,
+      "dest_map": "MAP_LUXURAWOODS",
+      "dest_warp_id": "1"
+    },
+    {
+      "x": 54,
+      "y": 26,
+      "elevation": 0,
+      "dest_map": "MAP_LUXURAWOODS",
+      "dest_warp_id": "3"
+    }
+  ],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 42,
+      "y": 24,
+      "elevation": 0,
+      "var": "LUXURA_TRAGEDY",
+      "var_value": "10",
+      "script": "forest"
+    },
+    {
+      "type": "trigger",
+      "x": 42,
+      "y": 25,
+      "elevation": 0,
+      "var": "LUXURA_TRAGEDY",
+      "var_value": "10",
+      "script": "forest"
+    },
+    {
+      "type": "trigger",
+      "x": 42,
+      "y": 26,
+      "elevation": 0,
+      "var": "LUXURA_TRAGEDY",
+      "var_value": "10",
+      "script": "forest"
+    },
+    {
+      "type": "trigger",
+      "x": 41,
+      "y": 23,
+      "elevation": 0,
+      "var": "LUXURA_TRAGEDY",
+      "var_value": "11",
+      "script": "hurry"
+    },
+    {
+      "type": "trigger",
+      "x": 41,
+      "y": 24,
+      "elevation": 0,
+      "var": "LUXURA_TRAGEDY",
+      "var_value": "11",
+      "script": "hurry"
+    },
+    {
+      "type": "trigger",
+      "x": 41,
+      "y": 25,
+      "elevation": 0,
+      "var": "LUXURA_TRAGEDY",
+      "var_value": "11",
+      "script": "hurry"
+    },
+    {
+      "type": "trigger",
+      "x": 41,
+      "y": 26,
+      "elevation": 0,
+      "var": "LUXURA_TRAGEDY",
+      "var_value": "11",
+      "script": "hurry"
+    },
+    {
+      "type": "trigger",
+      "x": 26,
+      "y": 26,
+      "elevation": 0,
+      "var": "LUXURA_TRAGEDY",
+      "var_value": "13",
+      "script": "mira1"
+    },
+    {
+      "type": "trigger",
+      "x": 26,
+      "y": 25,
+      "elevation": 0,
+      "var": "LUXURA_TRAGEDY",
+      "var_value": "13",
+      "script": "mira2"
+    },
+    {
+      "type": "trigger",
+      "x": 26,
+      "y": 24,
+      "elevation": 0,
+      "var": "LUXURA_TRAGEDY",
+      "var_value": "13",
+      "script": "miraded"
+    },
+    {
+      "type": "trigger",
+      "x": 26,
+      "y": 23,
+      "elevation": 0,
+      "var": "LUXURA_TRAGEDY",
+      "var_value": "13",
+      "script": "Mira"
+    },
+    {
+      "type": "trigger",
+      "x": 26,
+      "y": 22,
+      "elevation": 0,
+      "var": "LUXURA_TRAGEDY",
+      "var_value": "13",
+      "script": "Mira2"
+    },
+    {
+      "type": "trigger",
+      "x": 26,
+      "y": 21,
+      "elevation": 0,
+      "var": "LUXURA_TRAGEDY",
+      "var_value": "13",
+      "script": "Mira3"
+    }
+  ],
+  "bg_events": [
+    {
+      "type": "sign",
+      "x": 29,
+      "y": 22,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_NORTH",
+      "script": "signluxura"
+    },
+    {
+      "type": "sign",
+      "x": 32,
+      "y": 11,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_NORTH",
+      "script": "signluxuraharbor"
+    }
+  ]
+}

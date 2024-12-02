@@ -1,0 +1,281 @@
+mapscripts Sparkbase_MapScripts {
+    MAP_SCRIPT_ON_FRAME_TABLE[
+
+    ]
+
+}
+script spark2 {
+    trainerbattle_single(SPARK_GRUNT_2, Grunt2_Intro, Grunt2_Outro)
+	msgbox(PostBattle_Grunt2, MSGBOX_AUTOCLOSE) 
+	waitmessage
+    end
+}
+
+text Grunt2_Intro {
+    format("{COLOR BLUE}{SHADOW LIGHT_GRAY}You think you can outrun a lightning bolt? Think again!")
+}
+text Grunt2_Outro {
+    format("Wha..?! You're tougher than I thought... but this isn't over!")    
+}
+script spark3 {
+    trainerbattle_single(SPARK_GRUNT_3, Grunt3_Intro, Grunt3_Outro)
+	msgbox(PostBattle_Grunt3, MSGBOX_AUTOCLOSE) 
+	waitmessage
+    end
+}
+
+text Grunt3_Intro {
+    format("{COLOR BLUE}{SHADOW LIGHT_GRAY}One zap, and you're done! Let's see if you can survive it!")
+}
+text Grunt3_Outro {
+    format("Ugh, I can't believe this! You're just lucky. Next time, you won't be so fortunate!\pXylar: There won't e any next time.")    
+}
+script spark4 {
+    trainerbattle_single(SPARK_GRUNT_4, Grunt4_Intro, Grunt4_Outro)
+	msgbox(PostBattle_Grunt4, MSGBOX_AUTOCLOSE) 
+	waitmessage
+    end
+}
+
+text Grunt4_Intro {
+    format("{COLOR RED}{SHADOW LIGHT_GRAY}I love the smell of static in the air… Time to shock you into submission!")
+}
+text Grunt4_Outro {
+    format("Enjoy your victory... it won't last long.\pXylar:This isn't about victory anymore... It's about making sure you never take another breath.")    
+}
+text PostBattle_Grunt4 {
+    format("{COLOR RED}{SHADOW LIGHT_GRAY}Our general will defeat you.")
+}
+text PostBattle_Grunt3 {
+    format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Our general will defeat you.")
+}
+text PostBattle_Grunt2 {
+    format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Our general will defeat you.")
+}
+script spark5 {
+    trainerbattle_single(SPARK_GRUNT_5, Grunt5_Intro, Grunt5_Outro)
+	msgbox(PostBattle_Grunt5, MSGBOX_AUTOCLOSE) 
+	waitmessage
+    end
+}
+
+text Grunt5_Intro {
+    format("{COLOR RED}{SHADOW LIGHT_GRAY}You think you can stop us? Let's see how you handle the thunder!")
+}
+text Grunt5_Outro {
+    format("Tch, enjoy your victory while you can. Spark always strikes again.")    
+}
+text PostBattle_Grunt5 {
+    format("{COLOR RED}{SHADOW LIGHT_GRAY}Our general will defeat you.")
+}
+script spark6 {
+    trainerbattle_single(SPARK_GRUNT_6, Grunt6_Intro, Grunt6_Outro,surgeb)
+	msgbox(PostBattle_Grunt6, MSGBOX_AUTOCLOSE) 
+	waitmessage
+    setvar(LUXURA_TRAGEDY,21)
+    end
+}
+
+text Grunt6_Intro {
+    format("{COLOR BLUE}{SHADOW LIGHT_GRAY}You're in over your head, kid. Spark's about to send you packing!")
+}
+text Grunt6_Outro {
+    format("Impossible! How did you overpower us?!")    
+}
+text PostBattle_Grunt6 {
+    format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Our general will defeat you.")
+}
+script Surgebattle {
+    lock
+    applymovement(11,invisible)
+    applymovement(12,invisible)
+    applymovement(13,invisible)
+    applymovement(14,invisible)
+    waitmovement(0)
+    special(HealPlayerParty)
+    ballfollowingmon
+    setflag(FLAG_UNUSED_0x267)
+    special(SpawnCameraObject)
+    applymovement(OBJ_EVENT_ID_CAMERA,camera4)
+    waitmovement(0)
+    applymovement(6,surd)
+    waitmovement(0)
+    applymovement(OBJ_EVENT_ID_PLAYER,camera4)
+    applymovement(10,camera4)
+    waitmovement(0)
+    namebox(surge)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}You're Aurther's kid, aren't you?"),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Where is my Mom?"),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(surge)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Mom?\pOh.. you mean her..."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    waitmessage
+    applymovement(6,surde)
+    applymovement(OBJ_EVENT_ID_CAMERA,camera4)
+    waitmovement(0)
+    applymovement(OBJ_EVENT_ID_CAMERA,camera5)
+    special(RemoveCameraObject)
+    namebox(surge)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}She was a tough one.\pNo one's ever survived a fusion with a Poison-type before, but she did.\p And even after all that...\n she still had a sliver of consciousness left.\pShe even tried to take us down.\pBut luckily, we recieved orders to put an end to that toxic bitch."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}You...What the fuck did you just called my Mom?"),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(surge)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Struck a nerve, did I?\pHeh... Not surprising.\pShe was strong, I'll give her that. Even tried to kill us.\pBut in the end, we were ordered to dispose of that TOXIC mistake. Guess her strength wasn't enough, huh?"),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}You... You bastards... You... killed her?! You destroyed everything! I'll make you pay, I swear..."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(surge)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Kid, you don't get it, do you? Your father, Aurther, saved the world once. He fought to stop Nexus Order from controlling Hoopa. But you know what they say, right?\pWhen a hero is too strong... he's always killed by the very people he saved."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}What are you talking about?! My father was a hero... What does any of this have to do with you?!"),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(surge)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}You still don't know, huh? Your father... Aurther, was once the leader of Origin. It wasn't always like this, though. Origin wasn't a group of 18 organizations back then. Under Aurther's command, they were heroes, with a clean public image, saving the world. But things changed after he retired... after he was forced to retire."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Origin?"),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(surge)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Yeah, Origin. A group of 18 organizations, each one specializing in a type. Sure, when Aurther was in charge, Origin were heroes but things have changed now. Origin's only cause  is to gain power and change this world into something more perfect. Something your father would've never been able to do."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}I don't give a damn about this Origin or whatever twisted mess you've created. Let me make one thing crystal clear: \pNo matter who you are or how many of you there are, I'll destroy every single one of you. If there are 18 organizations, I'll wipe every last one off the map.\pAnd if, by some sick twist of fate, you manage to create your so-called PERFECT WORLD....\pI'LL BURN THAT {COLOR RED}{SHADOW LIGHT_GRAY}PERFECT WORLD {COLOR BLUE}{SHADOW LIGHT_GRAY}OF YOURS."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(surge)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}You've got guts, kid. But don't fool yourself..nothing you do will ever be enough to break us. We're more than just a few organizations; we're a force that's reshaping the world. And if you think you can stand in our way, you're in for a world of hurt."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}You can keep your delusions of grandeur. I've lost everything that mattered to me because of your kind. Every threat you make just fuels my rage.\pIf you think you're unstoppable, then good. I want you to understand the full depth of what you've created...\pstarting with you. I'll make sure you feel every bit of my pain and anger. It's time to settle this once and for all."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    trainerbattle_no_intro(SPARK_ADMIN_SURGE,surgelose)
+    namebox(surge)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}You were lucky since Aurther injured my pokemon, they were not in the condition to fight but I'll defeat you next time since I'm stronger than you."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Let me tell you one thing, you see...\p I once heard someone saying that....\p Even the strongest can fall if you kill them."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    waitmessage
+    applymovement(6,exclam)
+    namebox(surge)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}What the ..."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Mewtwo!"),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    applymovement(10,fireball)
+    waitmovement(0)
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Use FireBlast!"),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    playfirstmoncry
+    waitmoncry
+    applymovement(11,visible)
+    applymovement(12,visible)
+    applymovement(13,visible)
+    waitmovement(0)
+    applymovement(11,f0)
+    applymovement(12,f0)
+    applymovement(13,f0)
+    playse(SE_M_FLAME_WHEEL)
+    waitse
+    setfollower(10,CAN_LEAVE_ROUTE)
+    removeobject(6)
+    applymovement(14,visible)
+    waitmovement(0)
+    applymovement(11,f1)
+    applymovement(12,f2)
+    applymovement(13,f3)
+    waitmovement(0)
+    removeobject(11)
+    removeobject(12)
+    removeobject(13)
+    setflag(FLAG_UNUSED_0x4B8)    
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}Surge, you were just the start. This {COLOR RED}{SHADOW LIGHT_GRAY}Crimson Requiem {COLOR BLUE}{SHADOW LIGHT_GRAY}I've begun will be a symphony of retribution. Your death marks the first note in a melody of vengeance that will echo until everyone who wronged me has met their end. This is only the beginning."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    waitmessage
+    applymovement(OBJ_EVENT_ID_PLAYER,startcrim)
+    waitmovement(0)
+    namebox(Xylar)
+    msgbox(format("{COLOR BLUE}{SHADOW LIGHT_GRAY}I'm sorry, Mother... I failed you. I failed Father. But this… this isn't the end. I swear, they'll pay with everything they have. They stole you from me, and now… they'll face my wrath.\pThey think they can reshape this world, make it perfect by taking everything I hold dear. But I'll show them what true destruction is. I'll bring them the blood and ruin they deserve.\pThis is just the beginning... the {COLOR RED}{SHADOW LIGHT_GRAY}Crimson Requiem{COLOR BLUE}{SHADOW LIGHT_GRAY} will echo through their perfect world until it all crumbles into dust. They'll wish they'd never taken you away. I'll end them all... one by one.\pLet's go Mom."),MSGBOX_AUTOCLOSE)
+    hidenamebox
+    clearflag(FLAG_AFTERTRAGEDY_MUSIC)
+    fadescreen(FADE_TO_BLACK)
+    playbgm(MUS_RG_TEACHY_TV_MENU,TRUE)
+    msgbox(format("Hey there, Trainer! This is where Beta 1 of our journey comes to an end. I hope you've enjoyed the adventure so far. We're working hard to bring you the next chapter, and your support means everything to us."),MSGBOX_AUTOCLOSE)
+    msgbox(format("If you liked what you've seen, please consider sharing your thoughts and spreading the word. Your feedback will help make this game even better. Until next time...stay strong, and thanks for playing!"))
+    warp(MAP_NEWHOUSE,2,24)
+    destroyfollower
+    fadescreen(FADE_FROM_BLACK)   
+    setvar(LUXURA_TRAGEDY,21)
+    release
+}
+text surgelose {
+    format("I was stronger than you, How could I lose?")
+    
+}
+movement startcrim {
+    walk_left
+    walk_up*6
+    face_right
+}
+
+movement surd {
+    emote_exclamation_mark
+    face_down   
+}
+movement surde {
+    face_up
+    delay_16
+    face_down
+}
+script surgeb {
+    applymovement(11,invisible)
+    applymovement(12,invisible)
+    applymovement(13,invisible)
+    applymovement(14,invisible)
+    waitmovement(0)
+    applymovement(OBJ_EVENT_ID_PLAYER,sbat)
+    msgbox(format("..."),MSGBOX_AUTOCLOSE)
+    goto(Surgebattle)
+}
+movement sbat {
+    walk_up
+}
+script surgebw {
+    applymovement(OBJ_EVENT_ID_PLAYER,sbatw)
+    msgbox(format("..."),MSGBOX_AUTOCLOSE)
+    goto(Surgebattle)
+}
+movement sbatw {
+    walk_left
+    face_up
+    
+}
+movement f0 {
+    walk_up    
+}
+movement fireball {
+    walk_right
+    walk_up*3
+    walk_left
+    face_up
+}
+movement f1 {
+    walk_left
+    
+}
+movement f2 {
+    walk_right    
+}
+
+movement f3 {
+    walk_up
+}

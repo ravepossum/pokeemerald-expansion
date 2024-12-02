@@ -173,7 +173,8 @@ struct LinkPlayer
     /* 0x04 */ u32 trainerId;
     /* 0x08 */ u8 name[PLAYER_NAME_LENGTH + 1];
     /* 0x10 */ u8 progressFlags; // (& 0x0F) is hasNationalDex, (& 0xF0) is hasClearedGame
-    /* 0x11 */ u8 neverRead;
+    /* 0x11 */ u8 neverRead:4;
+               u8 currOutfitId:4;
     /* 0x12 */ u8 progressFlagsCopy;
     /* 0x13 */ u8 gender;
     /* 0x14 */ u32 linkType;
@@ -344,5 +345,6 @@ bool8 DoesLinkPlayerCountMatchSaved(void);
 void SetCloseLinkCallbackAndType(u16 type);
 bool32 IsSendingKeysToLink(void);
 u32 GetLinkRecvQueueLength(void);
+bool32 ShouldCheckForUnionRoom(void);
 
 #endif // GUARD_LINK_H

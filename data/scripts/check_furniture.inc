@@ -6,6 +6,14 @@ EventScript_BookShelf::
 	msgbox Text_BookShelf, MSGBOX_SIGN
 	end
 
+EventScript_Blood::
+	msgbox Text_Blood, MSGBOX_SIGN,
+	end
+
+EventScript_M_Grave::
+	msgbox Text_M_grave, MSGBOX_SIGN,
+	end
+
 EventScript_PokemonCenterBookShelf::
 	msgbox Text_PokemonCenterBookShelf, MSGBOX_SIGN
 	end

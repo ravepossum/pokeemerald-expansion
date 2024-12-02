@@ -1,0 +1,418 @@
+raw`
+Hospital_MapScripts::
+# 2 "data/maps/Hospital/scripts.pory"
+	map_script MAP_SCRIPT_ON_FRAME_TABLE, Hospital_MapScripts_MAP_SCRIPT_ON_FRAME_TABLE
+	map_script MAP_SCRIPT_ON_RESUME, outfit
+	.byte 0
+
+Hospital_MapScripts_MAP_SCRIPT_ON_FRAME_TABLE:
+# 3 "data/maps/Hospital/scripts.pory"
+	map_script_2 LUXURA_TRAGEDY, 0, Luxura
+	.2byte 0
+
+
+Luxura::
+playse MUS_DUMMY
+# 8 "data/maps/Hospital/scripts.pory"
+	lockall
+# 9 "data/maps/Hospital/scripts.pory"
+	fadescreen FADE_TO_BLACK
+# 10 "data/maps/Hospital/scripts.pory"
+	hideobjectat OBJ_EVENT_ID_PLAYER, MAP_LUXURA_ISLAND
+# 11 "data/maps/Hospital/scripts.pory"
+	fadescreen FADE_FROM_BLACK
+# 12 "data/maps/Hospital/scripts.pory"
+	special SpawnCameraObject
+# 13 "data/maps/Hospital/scripts.pory"
+	applymovement OBJ_EVENT_ID_CAMERA, boom
+# 14 "data/maps/Hospital/scripts.pory"
+	waitmovement 0
+# 15 "data/maps/Hospital/scripts.pory"
+	msgbox myloll , MSGBOX_AUTOCLOSE
+# 16 "data/maps/Hospital/scripts.pory"
+	applymovement OBJ_EVENT_ID_CAMERA, mylol
+# 17 "data/maps/Hospital/scripts.pory"
+	waitmovement 0
+# 18 "data/maps/Hospital/scripts.pory"
+	msgbox scared , MSGBOX_AUTOCLOSE
+# 19 "data/maps/Hospital/scripts.pory"
+	applymovement 11, thudd
+# 20 "data/maps/Hospital/scripts.pory"
+	applymovement 9, thud
+# 21 "data/maps/Hospital/scripts.pory"
+	msgbox Luxura_Text_0 , MSGBOX_AUTOCLOSE
+# 22 "data/maps/Hospital/scripts.pory"
+	waitmovement 0
+# 23 "data/maps/Hospital/scripts.pory"
+	applymovement 10, thuddd
+# 24 "data/maps/Hospital/scripts.pory"
+	applymovement OBJ_EVENT_ID_CAMERA, old
+# 25 "data/maps/Hospital/scripts.pory"
+	waitmovement 0
+# 26 "data/maps/Hospital/scripts.pory"
+	msgbox Luxura_Text_1 , MSGBOX_AUTOCLOSE
+# 27 "data/maps/Hospital/scripts.pory"
+	applymovement OBJ_EVENT_ID_CAMERA, main
+# 28 "data/maps/Hospital/scripts.pory"
+	waitmovement 0
+# 29 "data/maps/Hospital/scripts.pory"
+    namebox(name1)
+	msgbox Luxura_Text_2 , MSGBOX_AUTOCLOSE
+	hidenamebox
+# 30 "data/maps/Hospital/scripts.pory"
+    setvar VAR_0x8000, MUGSHOT_BABY
+    callnative DrawMugshot
+	msgbox Luxura_Text_3
+	callnative ClearMugshot
+# 31 "data/maps/Hospital/scripts.pory"
+	applymovement 2, heart
+# 32 "data/maps/Hospital/scripts.pory"
+	namebox(name2)
+	msgbox Luxura_Text_4 , MSGBOX_AUTOCLOSE
+	hidenamebox
+# 33 "data/maps/Hospital/scripts.pory"
+	waitmovement 0
+# 34 "data/maps/Hospital/scripts.pory"
+    namebox(name3)
+	msgbox Luxura_Text_5 , MSGBOX_AUTOCLOSE
+	hidenamebox
+# 35 "data/maps/Hospital/scripts.pory"
+    setvar VAR_0x8000, MUGSHOT_BABY
+    callnative DrawMugshot
+	msgbox Luxura_Text_6 , MSGBOX_AUTOCLOSE
+	callnative ClearMugshot
+# 36 "data/maps/Hospital/scripts.pory"
+	applymovement 4, bye
+# 37 "data/maps/Hospital/scripts.pory"
+	applymovement 3, bye
+# 38 "data/maps/Hospital/scripts.pory"
+	waitmovement 0
+# 39 "data/maps/Hospital/scripts.pory"
+    namebox(name2)
+	msgbox Luxura_Text_7 , MSGBOX_AUTOCLOSE
+	hidenamebox
+# 40 "data/maps/Hospital/scripts.pory"
+    namebox(name3)
+	msgbox Luxura_Text_8 , MSGBOX_AUTOCLOSE
+	hidenamebox
+# 41 "data/maps/Hospital/scripts.pory"
+    setvar VAR_0x8000, MUGSHOT_BABY
+    callnative DrawMugshot
+	msgbox Luxura_Text_9 , MSGBOX_AUTOCLOSE
+	callnative ClearMugshot
+# 42 "data/maps/Hospital/scripts.pory"
+	namebox(name4)
+	msgbox Luxura_Text_10 , MSGBOX_AUTOCLOSE
+	hidenamebox
+# 43 "data/maps/Hospital/scripts.pory"
+	fadescreen FADE_TO_BLACK
+# 44 "data/maps/Hospital/scripts.pory"
+	msgbox Luxura_Text_11 , MSGBOX_AUTOCLOSE
+	applymovement 1,heart
+	applymovement 2,heart
+	applymovement 5,heart
+	waitmovement 0
+# 45 "data/maps/Hospital/scripts.pory"
+	warp MAP_PLAYERROOM, 2, 5
+# 46 "data/maps/Hospital/scripts.pory"
+	showobjectat OBJ_EVENT_ID_PLAYER, MAP_LUXURA_INDOOR
+# 47 "data/maps/Hospital/scripts.pory"
+	fadescreen FADE_FROM_BLACK
+# 48 "data/maps/Hospital/scripts.pory"
+	setvar LUXURA_TRAGEDY, 1
+# 49 "data/maps/Hospital/scripts.pory"
+	releaseall
+	return
+
+
+# 51 "data/maps/Hospital/scripts.pory"
+boom:
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+# 52 "data/maps/Hospital/scripts.pory"
+	walk_up
+	step_end
+
+# 54 "data/maps/Hospital/scripts.pory"
+bye:
+# 55 "data/maps/Hospital/scripts.pory"
+	walk_down
+# 55 "data/maps/Hospital/scripts.pory"
+	walk_down
+# 55 "data/maps/Hospital/scripts.pory"
+	walk_down
+# 55 "data/maps/Hospital/scripts.pory"
+	walk_down
+# 55 "data/maps/Hospital/scripts.pory"
+	walk_down
+# 55 "data/maps/Hospital/scripts.pory"
+	walk_down
+# 55 "data/maps/Hospital/scripts.pory"
+	walk_down
+# 55 "data/maps/Hospital/scripts.pory"
+	walk_down
+# 55 "data/maps/Hospital/scripts.pory"
+	walk_down
+# 55 "data/maps/Hospital/scripts.pory"
+	walk_down
+	step_end
+
+# 58 "data/maps/Hospital/scripts.pory"
+mylol:
+# 59 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 59 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 59 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 59 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 59 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 59 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 59 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 59 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 59 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 59 "data/maps/Hospital/scripts.pory"
+	walk_right
+	step_end
+
+# 62 "data/maps/Hospital/scripts.pory"
+thud:
+# 63 "data/maps/Hospital/scripts.pory"
+	walk_fast_down
+# 63 "data/maps/Hospital/scripts.pory"
+	walk_fast_down
+# 63 "data/maps/Hospital/scripts.pory"
+	walk_fast_down
+# 64 "data/maps/Hospital/scripts.pory"
+	walk_fast_right
+# 65 "data/maps/Hospital/scripts.pory"
+	walk_fast_down
+# 65 "data/maps/Hospital/scripts.pory"
+	walk_fast_down
+	step_end
+
+# 67 "data/maps/Hospital/scripts.pory"
+main:
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 68 "data/maps/Hospital/scripts.pory"
+	walk_right
+	step_end
+
+# 70 "data/maps/Hospital/scripts.pory"
+old:
+# 71 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 71 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 71 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 71 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 71 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 71 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 71 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 71 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 71 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 71 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 71 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 71 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 71 "data/maps/Hospital/scripts.pory"
+	walk_right
+# 71 "data/maps/Hospital/scripts.pory"
+	walk_right
+	step_end
+
+# 73 "data/maps/Hospital/scripts.pory"
+thudd:
+# 74 "data/maps/Hospital/scripts.pory"
+	jump_2_left
+# 75 "data/maps/Hospital/scripts.pory"
+	face_right
+	step_end
+
+# 79 "data/maps/Hospital/scripts.pory"
+thuddd:
+# 80 "data/maps/Hospital/scripts.pory"
+	walk_left
+	step_end
+
+# 83 "data/maps/Hospital/scripts.pory"
+heart:
+# 84 "data/maps/Hospital/scripts.pory"
+	emote_heart
+	step_end
+
+Luxura_Text_0:
+# 21 "data/maps/Hospital/scripts.pory"
+	.string "Doctor:{COLOR BLUE}{SHADOW LIGHT_GRAY} Nurses, grab her don't let her\n"
+	.string "run away!$"
+
+Luxura_Text_1:
+# 26 "data/maps/Hospital/scripts.pory"
+	.string "Doctor:{COLOR BLUE}{SHADOW LIGHT_GRAY}Don't worry you will feel better\n"
+	.string "after taking the medicine.\p"
+	.string "{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}Old woman:{COLOR RED}{SHADOW LIGHT_GRAY}Will he be alright?\p"
+	.string "{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}Nurse:{COLOR RED}{SHADOW LIGHT_GRAY}Don't worry Ma'am.$"
+
+Luxura_Text_2:
+# 29 "data/maps/Hospital/scripts.pory"
+	.string "{COLOR RED}{SHADOW LIGHT_GRAY}Congratulations, it's a boy!\p"
+	.string "{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}(The nurse gently hands baby to his\n"
+	.string "mother.)$"
+
+Luxura_Text_3:
+# 30 "data/maps/Hospital/scripts.pory"
+	.string "Baby:Wahh...Wahh$"
+
+Luxura_Text_4:
+# 32 "data/maps/Hospital/scripts.pory"
+	.string "{COLOR RED}{SHADOW LIGHT_GRAY}He's so small...\n"
+	.string "and perfect.\p"
+	.string "What should we name him?$"
+
+Luxura_Text_5:
+# 34 "data/maps/Hospital/scripts.pory"
+	.string "{COLOR BLUE}{SHADOW LIGHT_GRAY}We'll name him Xylar. He's\n"
+	.string "destined for great things, I can feel\l"
+	.string "it.$"
+
+Luxura_Text_6:
+# 35 "data/maps/Hospital/scripts.pory"
+	.string "Baby:Hehh...Hehh$"
+
+Luxura_Text_7:
+# 39 "data/maps/Hospital/scripts.pory"
+	.string "{COLOR RED}{SHADOW LIGHT_GRAY}Xylar... Our precious little Xylar.\n"
+	.string "We'll protect you, always.$"
+
+Luxura_Text_8:
+# 40 "data/maps/Hospital/scripts.pory"
+	.string "{COLOR BLUE}{SHADOW LIGHT_GRAY}This world is full of challenges,\n"
+	.string "but you won't face them alone. We'll be\l"
+	.string "with you, every step of the way.$"
+
+Luxura_Text_9:
+# 41 "data/maps/Hospital/scripts.pory"
+	.string "Baby:Goo...Gahh$"
+
+Luxura_Text_10:
+# 42 "data/maps/Hospital/scripts.pory"
+	.string "{COLOR RED}{SHADOW LIGHT_GRAY}He's a strong one already. I can\n"
+	.string "tell he'll grow up to be someone special.$"
+
+Luxura_Text_11:
+# 44 "data/maps/Hospital/scripts.pory"
+	.string "12 years later$"
+
+myloll::
+# 87 "data/maps/Hospital/scripts.pory"
+	.string "Doctor:{COLOR BLUE}{SHADOW LIGHT_GRAY}Say Aaaaaa\p"
+	.string "$"
+
+scared::
+# 91 "data/maps/Hospital/scripts.pory"
+	.string "Girl:{COLOR RED}{SHADOW LIGHT_GRAY}I can't take that injection! I have\n"
+	.string "to get out of here!\p"
+	.string "THUUDDD!!!$"
+`
+text name1{
+	format("Nurse")
+}
+
+text name2{
+	format("Elysia")
+}
+text name3{
+	format("Aurther")
+}
+
+text name4{
+	format("Mira")
+}

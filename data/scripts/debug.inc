@@ -1,4 +1,3 @@
-.if DEBUG_OVERWORLD_MENU == TRUE
 Debug_MessageEnd:
 	waitmessage
 	waitbuttonpress
@@ -54,7 +53,7 @@ Debug_CheatStart::
 	setflag FLAG_VISITED_FALLARBOR_TOWN
 	setflag FLAG_VISITED_VERDANTURF_TOWN
 	setflag FLAG_VISITED_PACIFIDLOG_TOWN
-	setflag FLAG_VISITED_PETALBURG_CITY
+	setflag FLAG_VISITED_ASTRALIS_ACADEMY
 	setflag FLAG_VISITED_SLATEPORT_CITY
 	setflag FLAG_VISITED_MAUVILLE_CITY
 	setflag FLAG_VISITED_RUSTBORO_CITY
@@ -448,5 +447,3 @@ Debug_EventScript_EWRAMCounters::
 Debug_EventScript_EWRAMCounters_Text::
 	.string "Follower Steps: {STR_VAR_1}.\n"
 	.string "Fishing Chain: {STR_VAR_2}.$"
-
-.endif
