@@ -6,6 +6,7 @@
 #include "constants/moves.h"
 #include "constants/songs.h"
 #include "constants/game_stat.h"
+#include "constants/region_map_sections.h"
 	.include "asm/macros.inc"
 	.include "asm/macros/battle_script.inc"
 	.include "constants/constants.inc"
@@ -179,7 +180,9 @@ BattleScript_SafariBallThrow::
 BattleScript_SuccessBallThrow::
 	setbyte sMON_CAUGHT, TRUE
 	incrementgamestat GAME_STAT_POKEMON_CAPTURES
+	jumpifinmapsec MAPSEC_ROUTE_102, BattleScript_PrintCaughtMonNoMusic
 	printstring STRINGID_GOTCHAPKMNCAUGHTPLAYER
+BattleScript_BallThrowCheckExp:
 	jumpifbyte CMP_NOT_EQUAL, sEXP_CATCH, TRUE, BattleScript_TryPrintCaughtMonInfo
 	setbyte sGIVEEXP_STATE, 0
 	getexp BS_TARGET
@@ -206,6 +209,10 @@ BattleScript_SuccessBallThrowEnd::
 	setbyte gBattleOutcome, B_OUTCOME_CAUGHT
 	finishturn
 
+BattleScript_PrintCaughtMonNoMusic:
+	printstring STRINGID_GOTCHAPKMNCAUGHTPLAYERNOMUSIC
+	goto BattleScript_BallThrowCheckExp
+	
 BattleScript_WallyBallThrow::
 	printstring STRINGID_GOTCHAPKMNCAUGHTWALLY
 	setbyte gBattleOutcome, B_OUTCOME_CAUGHT

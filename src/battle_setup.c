@@ -261,7 +261,8 @@ static void CreateBattleStartTask(u8 transition, u16 song)
     u8 taskId = CreateTask(Task_BattleStart, 1);
 
     gTasks[taskId].tTransition = transition;
-    PlayMapChosenOrBattleBGM(song);
+    if (!ShouldSkipBattleMusic())
+        PlayMapChosenOrBattleBGM(song);
 }
 
 static void Task_BattleStart_Debug(u8 taskId)
@@ -1378,7 +1379,8 @@ void PlayTrainerEncounterMusic(void)
         trainerId = TRAINER_BATTLE_PARAM.opponentB;
 
     if (TRAINER_BATTLE_PARAM.mode != TRAINER_BATTLE_CONTINUE_SCRIPT_NO_MUSIC
-        && TRAINER_BATTLE_PARAM.mode != TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE_NO_MUSIC)
+        && TRAINER_BATTLE_PARAM.mode != TRAINER_BATTLE_CONTINUE_SCRIPT_DOUBLE_NO_MUSIC
+        && !ShouldSkipTrainerClassMusic(trainerId))
     {
         switch (GetTrainerEncounterMusicId(trainerId))
         {

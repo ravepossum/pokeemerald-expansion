@@ -5422,27 +5422,29 @@ static void HandleEndTurn_BattleWon(void)
     {
         BattleStopLowHpSound();
         gBattlescriptCurrInstr = BattleScript_LocalTrainerBattleWon;
-
-        switch (GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA))
+        if (!ShouldSkipBattleMusic())
         {
-        case TRAINER_CLASS_ELITE_FOUR:
-        case TRAINER_CLASS_CHAMPION:
-            PlayBGM(MUS_VICTORY_LEAGUE);
-            break;
-        case TRAINER_CLASS_TEAM_AQUA:
-        case TRAINER_CLASS_TEAM_MAGMA:
-        case TRAINER_CLASS_AQUA_ADMIN:
-        case TRAINER_CLASS_AQUA_LEADER:
-        case TRAINER_CLASS_MAGMA_ADMIN:
-        case TRAINER_CLASS_MAGMA_LEADER:
-            PlayBGM(MUS_VICTORY_AQUA_MAGMA);
-            break;
-        case TRAINER_CLASS_LEADER:
-            PlayBGM(MUS_VICTORY_GYM_LEADER);
-            break;
-        default:
-            PlayBGM(MUS_VICTORY_TRAINER);
-            break;
+            switch (GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA))
+            {
+            case TRAINER_CLASS_ELITE_FOUR:
+            case TRAINER_CLASS_CHAMPION:
+                PlayBGM(MUS_VICTORY_LEAGUE);
+                break;
+            case TRAINER_CLASS_TEAM_AQUA:
+            case TRAINER_CLASS_TEAM_MAGMA:
+            case TRAINER_CLASS_AQUA_ADMIN:
+            case TRAINER_CLASS_AQUA_LEADER:
+            case TRAINER_CLASS_MAGMA_ADMIN:
+            case TRAINER_CLASS_MAGMA_LEADER:
+                PlayBGM(MUS_VICTORY_AQUA_MAGMA);
+                break;
+            case TRAINER_CLASS_LEADER:
+                PlayBGM(MUS_VICTORY_GYM_LEADER);
+                break;
+            default:
+                PlayBGM(MUS_VICTORY_TRAINER);
+                break;
+            }
         }
     }
     else
@@ -5583,7 +5585,8 @@ static void HandleEndTurn_FinishBattle(void)
         if (gTestRunnerEnabled)
             TestRunner_Battle_AfterLastTurn();
         BeginFastPaletteFade(3);
-        FadeOutMapMusic(5);
+        if (!ShouldSkipBattleMusic())
+            FadeOutMapMusic(5);
         if (B_TRAINERS_KNOCK_OFF_ITEMS == TRUE || B_RESTORE_HELD_BATTLE_ITEMS >= GEN_9)
             TryRestoreHeldItems();
 
@@ -6121,4 +6124,16 @@ static s32 Factorial(s32 n)
     for (i = 2; i <= n; i++)
         f *= i;
     return f;
+}
+
+bool32 ShouldSkipTrainerClassMusic(u16 trainerId)
+{
+    return GetTrainerClassFromId(trainerId) == TRAINER_CLASS_LASS; 
+}
+
+bool32 ShouldSkipBattleMusic(void)
+{
+    return gMapHeader.regionMapSectionId == MAPSEC_ROUTE_102
+        || ((gBattleTypeFlags & BATTLE_TYPE_TRAINER) 
+        && ShouldSkipTrainerClassMusic(TRAINER_BATTLE_PARAM.opponentA));
 }
