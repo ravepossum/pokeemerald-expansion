@@ -2948,8 +2948,8 @@ static const struct SpriteSheet sSpriteSheet_MoveInfoWindow =
 
 #define LAST_USED_BALL_X_F    14
 #define LAST_USED_BALL_X_0    -14
-#define LAST_USED_BALL_Y      ((IsDoubleBattle()) ? 78 : 70)
-#define LAST_USED_BALL_Y_BNC  ((IsDoubleBattle()) ? 76 : 68)
+#define LAST_USED_BALL_Y      ((IsDoubleBattle()) ? 80 : 70)
+#define LAST_USED_BALL_Y_BNC  ((IsDoubleBattle()) ? 78 : 68)
 
 #define LAST_BALL_WIN_X_F       (LAST_USED_BALL_X_F - 0)
 #define LAST_BALL_WIN_X_0       (LAST_USED_BALL_X_0 - 0)
@@ -3043,6 +3043,8 @@ static void DestroyLastUsedBallGfx(struct Sprite *sprite)
     gBattleStruct->ballSpriteIds[0] = MAX_SPRITES;
 }
 
+#define MOVE_INFO_WIN_Y ((IsDoubleBattle()) ? LAST_USED_WIN_Y + 29 : LAST_USED_WIN_Y + 38)
+
 void TryToAddMoveInfoWindow(void)
 {
     LoadSpritePalette(&sSpritePalette_AbilityPopUp);
@@ -3051,7 +3053,7 @@ void TryToAddMoveInfoWindow(void)
 
     if (gBattleStruct->moveInfoSpriteId == MAX_SPRITES)
     {
-        gBattleStruct->moveInfoSpriteId = CreateSprite(&sSpriteTemplate_MoveInfoWindow, LAST_BALL_WIN_X_0, LAST_USED_WIN_Y + 32, 6);
+        gBattleStruct->moveInfoSpriteId = CreateSprite(&sSpriteTemplate_MoveInfoWindow, LAST_BALL_WIN_X_0, MOVE_INFO_WIN_Y, 6);
         gSprites[gBattleStruct->moveInfoSpriteId].sHide = FALSE;
     }
 }
