@@ -106,8 +106,6 @@ on separate lines to mark those colors as being light-blended, i.e:
 10
 ```
 
-You might have to `make mostlyclean` or change the `.pal` file to pick up the changes.
-
 ### `(guillotine)` Q: How can I keep my string(s) from being decapped?
 A: There are a number of ways to make a string "fixed case" so that it will not be decapitalized when displayed:
 
