@@ -4,11 +4,11 @@
 
 /* Check if VA_OPT_ is supported by the compiler. GCC's version should be at least 9.5*/
 #define PP_THIRD_ARG(a,b,c,...) c
-#define VA_OPT_SUPPORTED_I(...) PP_THIRD_ARG(__VA_OPT__(,),TRUE,FALSE,)
+#define VA_OPT_SUPPORTED_I(...) PP_THIRD_ARG(__VA_OPT__(,),1,0,)
 #define VA_OPT_SUPPORTED VA_OPT_SUPPORTED_I(?)
 
 #if !VA_OPT_SUPPORTED
-#error ERROR: VA_OPT__ is not supported. Please update your gcc compiler to version 10 or higher
+#error ERROR: __VA_OPT__ is not supported. Please update your arm-none-eabi-gcc compiler to version 10 or higher
 #endif // VA_OPT_SUPPORTED
 
 /* Calls m0/m1/.../m8 depending on how many arguments are passed. */
@@ -44,12 +44,12 @@
 #define EXCEPT_3(a, ...) __VA_OPT__(EXCEPT_2(__VA_ARGS__))
 #define EXCEPT_4(a, ...) __VA_OPT__(EXCEPT_3(__VA_ARGS__))
 
-/* 'UNPACK (x, y, z)' expands to 'x, y, z'.
+/* 'UNPACK_META (x, y, z)' expands to 'x, y, z'.
  * Useful for passing arguments which may contain commas into a macro. */
-#define UNPACK(...) __VA_ARGS__
+#define UNPACK_META(...) __VA_ARGS__
 
 /* Expands to 'macro(...args, ...)'. */
-#define INVOKE_WITH(macro, args, ...) INVOKE_WITH_(macro, UNPACK args __VA_OPT__(, __VA_ARGS__))
+#define INVOKE_WITH(macro, args, ...) INVOKE_WITH_(macro, UNPACK_META args __VA_OPT__(, __VA_ARGS__))
 #define INVOKE_WITH_(macro, ...) macro(__VA_ARGS__)
 
 /* Recursive macros.

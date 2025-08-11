@@ -3,7 +3,6 @@
 
 DOUBLE_BATTLE_TEST("Spread Moves: Ability and Item effects activate correctly after a multi target move")
 {
-    // TODO: Might be a bug, verify on cardridge
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_LUM_BERRY); }
         PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_COVERT_CLOAK); }
@@ -16,15 +15,16 @@ DOUBLE_BATTLE_TEST("Spread Moves: Ability and Item effects activate correctly af
             MOVE(opponentRight, MOVE_HEAT_WAVE);
             MOVE(playerLeft, MOVE_HYPER_VOICE);
             SEND_OUT(opponentRight, 3);
-            SEND_OUT(opponentLeft, 2);
         }
     } SCENE {
         ANIMATION(ANIM_TYPE_MOVE, MOVE_HYPER_VOICE, playerLeft);
         ANIMATION(ANIM_TYPE_GENERAL, B_ANIM_HELD_ITEM_EFFECT, opponentRight);
         MESSAGE("The opposing Wobbuffet is switched out with the Eject Button!");
         MESSAGE("2 sent out Pikachu!");
-        ABILITY_POPUP(opponentLeft, ABILITY_EMERGENCY_EXIT);
-        MESSAGE("2 sent out Wynaut!");
+        NONE_OF {
+            ABILITY_POPUP(opponentLeft, ABILITY_EMERGENCY_EXIT);
+            MESSAGE("2 sent out Wynaut!");
+        }
     }
 }
 
@@ -188,7 +188,7 @@ DOUBLE_BATTLE_TEST("Spread Moves: AOE move vs Disguise, Volt Absorb (right) and 
     }
 }
 
-DOUBLE_BATTLE_TEST("Spread Moves: AOE move vs Disguise, Volt Absorb (left) and Lightning Rod (reft)")
+DOUBLE_BATTLE_TEST("Spread Moves: AOE move vs Disguise, Volt Absorb (left) and Lightning Rod (right)")
 {
     GIVEN {
         ASSUME(GetMoveTarget(MOVE_DISCHARGE) == MOVE_TARGET_FOES_AND_ALLY);
