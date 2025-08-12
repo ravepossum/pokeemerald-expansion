@@ -25,6 +25,7 @@
 #include "util.h"
 #include "text.h"
 #include "constants/abilities.h"
+#include "constants/item_effects.h"
 #include "constants/songs.h"
 #include "pokemon_animation.h"
 
@@ -3257,4 +3258,17 @@ bool32 SwitchIn_TryShinyAnimUtil(u32 battler)
         SetBattlerShadowSpriteCallback(battler, GetBattlerVisualSpecies(battler));
 
     return TRUE;
+}
+
+void UpdateFriendshipFromXItem(u32 battler, u16 item)
+{   
+    u8 friendship[1];
+    struct Pokemon *party = GetBattlerParty(battler);
+    gBattleResources->bufferA[battler][1] = REQUEST_FRIENDSHIP_BATTLE;
+    GetBattlerMonData(battler, party, gBattlerPartyIndexes[battler], friendship);
+    if (*friendship < X_ITEM_MAX_FRIENDSHIP)
+    {
+        gBattleResources->bufferA[battler][3] = *friendship + X_ITEM_FRIENDSHIP_INCREASE;
+        SetBattlerMonData(battler, GetBattlerParty(battler), gBattlerPartyIndexes[battler]);
+    }
 }
