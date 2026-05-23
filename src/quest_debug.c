@@ -14,8 +14,36 @@ void DummySetupFunc(void){}
 
 #define currentQuestState gQuests[questID].states[questState]
 
+static void SetupIndividualQuest(u16 questID)
+{
+    for (u32 state = 0; state < MAX_QUEST_STATES; state++)
+    {
+        if (gQuests[questID].states[state].setupFunc == DummySetupFunc) return;
+
+        gQuests[questID].states[state].setupFunc();            
+    } 
+}
+
+static void CallAllQuestDependencies(u16 questID, u8 questState)
+{
+    for (u32 quest = 0; quest < questID; quest++)
+    {
+        if (gQuests[quest].act != gQuests[questID].act) continue;
+         
+        SetupIndividualQuest(quest);
+    }
+    
+    for (u32 depIndex = 0; depIndex < MAX_QUEST_EXPLICIT_DEPENDENCIES; depIndex++)
+    {
+        if (gQuests[questID].dependencies[depIndex] == QUEST_NONE) break;
+
+        SetupIndividualQuest(gQuests[questID].dependencies[depIndex]);
+    }
+}
+
 void SetQuestState(u16 questID, u8 questState)
 {
+    CallAllQuestDependencies(questID, questState);
     currentQuestState.setupFunc();
 }
 
@@ -92,7 +120,6 @@ void QuestIntroMale_InTruck(void)
 
 void QuestIntroMale_EnteredHouse(void)
 {
-    QuestIntroMale_SetupIntroFlags();
     VarSet(VAR_LITTLEROOT_INTRO_STATE, 3);
     FlagSet(FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_TRUCK);
     FlagSet(FLAG_HIDE_LITTLEROOT_TOWN_MOM_OUTSIDE);
@@ -102,7 +129,6 @@ void QuestIntroMale_EnteredHouse(void)
 
 void QuestIntroMale_ClockSet(void)
 {
-    QuestIntroMale_EnteredHouse();
     VarSet(VAR_LITTLEROOT_INTRO_STATE, 6);
     FlagSet(FLAG_SET_WALL_CLOCK);
     FlagSet(FLAG_HIDE_LITTLEROOT_TOWN_PLAYERS_HOUSE_VIGOROTH_1);
@@ -111,7 +137,6 @@ void QuestIntroMale_ClockSet(void)
 
 void QuestIntroMale_GoMeetRival(void)
 {
-    QuestIntroMale_ClockSet();
     VarSet(VAR_TEMP_1, 1);
     VarSet(VAR_LITTLEROOT_INTRO_STATE, 7);
 }

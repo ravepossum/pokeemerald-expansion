@@ -5,26 +5,37 @@
 
 typedef void (*QuestStateFunc)(void);
 
+#define MAX_QUEST_EXPLICIT_DEPENDENCIES 10
+
+enum QuestAct 
+{
+    QUEST_ACT_1,
+    NUM_QUEST_ACTS
+};
+
 enum QuestID 
 {
     QUEST_INTRO_MALE,
-    NUM_QUESTS
+    NUM_QUESTS,
+    QUEST_NONE = 0xFFFF
 };
 
 struct QuestState
 {
     const u8 *title;
-    QuestStateFunc setupFunc;
-    s8 mapGroup;
-    s8 mapNum;
-    s8 warpId;
-    s8 x;
-    s8 y;
+    const QuestStateFunc setupFunc;
+    const s8 mapGroup;
+    const s8 mapNum;
+    const s8 warpId;
+    const s8 x;
+    const s8 y;
 };
 
 struct Quest
 {
     const u8 *title;
+    const enum QuestAct act;
+    const u16 dependencies[MAX_QUEST_EXPLICIT_DEPENDENCIES];
     const struct QuestState states[MAX_QUEST_STATES];
 };
 
