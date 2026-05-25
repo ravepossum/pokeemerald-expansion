@@ -20,6 +20,7 @@
 #include "gpu_regs.h"
 #include "trig.h"
 #include "graphics.h"
+#include "story_jump_menu.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
 
@@ -50,6 +51,7 @@ static void CB2_GoToClearSaveDataScreen(void);
 static void CB2_GoToResetRtcScreen(void);
 static void CB2_GoToBerryFixScreen(void);
 static void CB2_GoToCopyrightScreen(void);
+static void CB2_GoToStoryJumpMenu(void);
 static void UpdateLegendaryMarkingColor(u8);
 
 static void SpriteCB_VersionBannerLeft(struct Sprite *sprite);
@@ -358,6 +360,7 @@ static const struct CompressedSpriteSheet sPokemonLogoShineSpriteSheet[] =
 #define tPointless  data[2] // Incremented but never used to do anything.
 #define tBg2Y       data[3]
 #define tBg1Y       data[4]
+#define tStoryJumpCounter data[5]
 
 // Sprite data for sVersionBannerLeftSpriteTemplate / sVersionBannerRightSpriteTemplate
 #define sAlphaBlendIdx data[0]
@@ -756,6 +759,7 @@ static void Task_TitleScreenPhase2(u8 taskId)
         CreatePressStartBanner(START_BANNER_X, 108);
         CreateCopyrightBanner(START_BANNER_X, 148);
         gTasks[taskId].tBg1Y = 0;
+        gTasks[taskId].tStoryJumpCounter = 0;
         gTasks[taskId].func = Task_TitleScreenPhase3;
     }
 
@@ -799,8 +803,20 @@ static void Task_TitleScreenPhase3(u8 taskId)
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         SetMainCallback2(CB2_GoToBerryFixScreen);
     }
+    else if (JOY_HELD(STORY_JUMP_BUTTON))
+    {
+        gTasks[taskId].tStoryJumpCounter++;
+
+        if (gTasks[taskId].tStoryJumpCounter > STORY_JUMP_DELAY)
+        {
+            FadeOutBGM(4);
+            BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+            SetMainCallback2(CB2_GoToStoryJumpMenu);
+        }
+    }
     else
     {
+        gTasks[taskId].tStoryJumpCounter = 0;
         SetGpuReg(REG_OFFSET_BG2Y_L, 0);
         SetGpuReg(REG_OFFSET_BG2Y_H, 0);
         if (++gTasks[taskId].tCounter & 1)
@@ -849,6 +865,12 @@ static void CB2_GoToBerryFixScreen(void)
         m4aMPlayAllStop();
         SetMainCallback2(CB2_InitBerryFixProgram);
     }
+}
+
+static void CB2_GoToStoryJumpMenu(void)
+{
+    if (!UpdatePaletteFade())
+        SetMainCallback2(CB2_InitStoryJumpMenu);
 }
 
 static void UpdateLegendaryMarkingColor(u8 frameNum)
