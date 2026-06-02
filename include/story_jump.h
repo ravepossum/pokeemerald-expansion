@@ -1,12 +1,12 @@
-
 #ifndef STORY_JUMP_H
 #define STORY_JUMP_H
 
-#include "gba/types.h"
+#include "global.h"
 
 typedef void (*StoryPointSetupFunc)(void);
 
 #define MAX_EXPLICIT_STORY_POINT_DEPENDENCIES 10
+#define STORY_JUMP_VAR_CURRENT_POINT 0 // tracks the most recent story point
 
 enum StoryAct
 {
@@ -43,8 +43,9 @@ struct StoryPoint
     const s8 y;
 };
 
-void DummySetupFunc(void);
-
 extern const struct StoryPoint gStoryPoints[];
+extern const u16 gDefaultStoryJumpParty[PARTY_SIZE];
+
+void CB2_JumpToStoryPoint(void);
 
 #endif // STORY_JUMP_H

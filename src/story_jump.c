@@ -5,11 +5,32 @@
 #include "field_screen_effect.h"
 #include "overworld.h"
 #include "string_util.h"
+#include "random.h"
+#include "new_game.h"
+#include "script_pokemon_util.h"
+#include "rtc.h"
+#include "clock.h"
+#include "sound.h"
+#include "load_save.h"
+#include "main.h"
+#include "script.h"
+#include "story_jump_menu.h"
+#include "story_jump_setup_funcs.h"
+#include "main_menu.h"
+#include "play_time.h"
 #include "constants/flags.h"
 #include "constants/maps.h"
 #include "constants/vars.h"
 
-void DummySetupFunc(void){}
+
+static void CreateDefaultParty(u16 storyPointID)
+{
+    FlagSet(FLAG_SYS_POKEMON_GET);
+    for (u32 i = 0; i < ARRAY_COUNT(gDefaultStoryJumpParty); i++)
+    {
+        ScriptGiveMon(gDefaultStoryJumpParty[i], gStoryPoints[storyPointID].minLevel, ITEM_NONE);
+    }    
+}
 
 static void SetupIndividualStoryPoint(u16 storyPointID)
 {
@@ -31,27 +52,56 @@ static void CallAllStoryPointDependencies(u16 storyPointID)
     }
 }
 
-void SetStoryPoint(u16 storyPointID)
+static void StoryJumpResetSaveFile(void)
 {
-    CallAllStoryPointDependencies(storyPointID);
-    SetupIndividualStoryPoint(storyPointID);
-    // Create party using default with the min level assigned to the story point
+    gSaveBlock2Ptr->playerGender = Random() % 2;
+    NewGameBirchSpeech_SetDefaultPlayerName(0);
+    StopMapMusic();
+    NewGameInitData();
+    ResetInitialPlayerAvatarState();
+    PlayTimeCounter_Start();
+    ScriptContext_Init();
+    UnlockPlayerFieldControls();
 }
 
-void JumpToStoryPoint(u16 storyPointID)
+static void StoryJumpWarpFromTitlescreen(u16 storyPointID)
 {
-    SetStoryPoint(storyPointID);
-    SetWarpDestination(
+    SetContinueGameWarpStatus();
+    SetContinueGameWarp(
         gStoryPoints[storyPointID].mapGroup, 
         gStoryPoints[storyPointID].mapNum, 
         gStoryPoints[storyPointID].warpId, 
         gStoryPoints[storyPointID].x, 
         gStoryPoints[storyPointID].y
     );
-    DoWarp();
-    ResetInitialPlayerAvatarState();
+    SetMainCallback2(CB2_ContinueSavedGame);
 }
 
-// story jump functionality like jumping to a point and running dependencies will go here
-// also, there will be a section notated for the user to add their own setup funcs
-// or maybe we suggest a blank file to reduces conflicts idk
+void SetStoryPoint(u16 storyPointID)
+{
+    bool32 resetSaveFile = TRUE;
+
+    if (STORY_JUMP_VAR_CURRENT_POINT != 0)
+    {
+        u32 currentPoint = VarGet(STORY_JUMP_VAR_CURRENT_POINT);
+        resetSaveFile = currentPoint != 0 && storyPointID <= currentPoint;
+        VarSet(STORY_JUMP_VAR_CURRENT_POINT, storyPointID);
+    }
+
+    if (resetSaveFile) StoryJumpResetSaveFile();
+
+    CallAllStoryPointDependencies(storyPointID);
+    SetupIndividualStoryPoint(storyPointID);
+    if (gStoryPoints[storyPointID].minLevel != 0) CreateDefaultParty(storyPointID);
+}
+
+void JumpToStoryPoint(u16 storyPointID)
+{
+    SetStoryPoint(storyPointID);
+    StoryJumpWarpFromTitlescreen(storyPointID);
+}
+
+void CB2_JumpToStoryPoint(void)
+{
+    JumpToStoryPoint(gStoryPointToJumpTo);
+}

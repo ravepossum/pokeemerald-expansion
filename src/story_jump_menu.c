@@ -30,9 +30,12 @@
 #include "gpu_regs.h"
 #include "title_screen.h"
 #include "story_jump.h"
+#include "story_jump_setup_funcs.h"
 #include "save.h"
 
 #define STORY_JUMP_MENU_MAX_ITEMS 20
+
+EWRAM_DATA u16 gStoryPointToJumpTo = 0;
 
 struct StoryJumpMenu
 {
@@ -42,13 +45,6 @@ struct StoryJumpMenu
     u8 currentAct;
     u8 menuTaskId;
     u8 loadState;
-    u8 origin;
-};
-
-enum StoryJumpOrigin
-{
-    ORIGIN_TITLESCREEN,
-    ORIGIN_OVERWORLD,
 };
 
 enum StoryJumpListMode
@@ -61,11 +57,13 @@ enum StoryJumpWindowIds
 {
     WIN_TITLE,
     WIN_LIST,
+    WIN_MSG,
+    WIN_YESNO,
     NUM_WINDOWS
 };
 
 static EWRAM_DATA struct StoryJumpMenu *sStoryJumpMenu = NULL;
-static EWRAM_DATA u8 *sBg1TilemapBuffer = NULL;
+static EWRAM_DATA u8 *sBg2TilemapBuffer = NULL;
 
 static const struct BgTemplate sStoryJumpMenuBgTemplates[] =
 {
@@ -73,12 +71,18 @@ static const struct BgTemplate sStoryJumpMenuBgTemplates[] =
         .bg = 0,
         .charBaseIndex = 0,
         .mapBaseIndex = 31,
-        .priority = 1
+        .priority = 0
     },
     {
         .bg = 1,
-        .charBaseIndex = 3,
-        .mapBaseIndex = 30,
+        .charBaseIndex = 0,
+        .mapBaseIndex = 27,
+        .priority = 1
+    },
+    {
+        .bg = 2,
+        .charBaseIndex = 2,
+        .mapBaseIndex = 25,
         .priority = 2
     }
 };
@@ -87,7 +91,7 @@ static const struct WindowTemplate sStoryJumpMenuWindowTemplates[NUM_WINDOWS + 1
 {
     [WIN_TITLE] =
     {
-        .bg = 0,
+        .bg = 1,
         .tilemapLeft = 2,
         .tilemapTop = 1,
         .width = 14,
@@ -97,13 +101,33 @@ static const struct WindowTemplate sStoryJumpMenuWindowTemplates[NUM_WINDOWS + 1
     },
     [WIN_LIST] =
     {
-        .bg = 0,
+        .bg = 1,
         .tilemapLeft = 2,
         .tilemapTop = 5,
         .width = 25,
         .height = 14,
         .paletteNum = 14,
         .baseBlock = 39
+    },
+    [WIN_MSG] =
+    {
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 15,
+        .width = 28,
+        .height = 4,
+        .paletteNum = 14,
+        .baseBlock = 389,
+    },
+    [WIN_YESNO] =
+    {
+        .bg = 0,
+        .tilemapLeft = 24,
+        .tilemapTop = 9,
+        .width = 5,
+        .height = 4,
+        .paletteNum = 14,
+        .baseBlock = 501 
     },
     DUMMY_WIN_TEMPLATE
 };
@@ -130,21 +154,22 @@ static void StoryJumpMenu_SetupCB(void);
 static void StoryJumpMenu_MainCB(void);
 static void StoryJumpMenu_VBlankCB(void);
 
-static void Task_StoryJumpMenuWaitFadeIn(u8 taskId);
-static void Task_StoryJumpMenuMainInput(u8 taskId);
-static void Task_StoryJumpMenuWaitFadeAndBail(u8 taskId);
-static void Task_StoryJumpMenuWaitFadeAndExitGracefully(u8 taskId);
+static void Task_StoryJumpMenu_WaitFadeIn(u8 taskId);
+static void Task_StoryJumpMenu_MainInput(u8 taskId);
+static void Task_StoryJumpMenu_YesNoMenuInput(u8 taskId);
+static void Task_StoryJumpMenu_WaitFadeAndExit(u8 taskId);
+static void Task_StoryJumpMenu_WaitFadeAndJump(u8 taskId);
 
 static void StoryJumpMenu_Init(MainCallback callback);
 static void StoryJumpMenu_ResetGpuRegsAndBgs(void);
 static bool8 StoryJumpMenu_InitBgs(void);
-static void StoryJumpMenu_FadeAndBail(void);
+static void StoryJumpMenu_FadeAndExit(void);
 static bool8 StoryJumpMenu_LoadGraphics(void);
 static void StoryJumpMenu_InitWindows(void);
 static void StoryJumpMenu_PrintTitle(void);
 static void StoryJumpMenu_PrintList(enum StoryJumpListMode listMode);
+static void StoryJumpMenu_ShowSaveWarning(void);
 static void StoryJumpMenu_FreeResources(void);
-
 static void StoryJumpMenu_RefreshListMenu(void);
 
 void CB2_InitStoryJumpMenu(void)
@@ -224,7 +249,7 @@ static void StoryJumpMenu_SetupCB(void)
         }
         else
         {
-            StoryJumpMenu_FadeAndBail();
+            StoryJumpMenu_FadeAndExit();
             return;
         }
         break;
@@ -241,7 +266,7 @@ static void StoryJumpMenu_SetupCB(void)
     case 5:
         StoryJumpMenu_PrintTitle();
         StoryJumpMenu_PrintList(LIST_MODE_ACTS);
-        CreateTask(Task_StoryJumpMenuWaitFadeIn, 0);
+        CreateTask(Task_StoryJumpMenu_WaitFadeIn, 0);
         gMain.state++;
         break;
     case 6:
@@ -269,19 +294,21 @@ static void StoryJumpMenu_VBlankCB(void)
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
-    ChangeBgX(1, 64, BG_COORD_ADD);
-    ChangeBgY(1, 64, BG_COORD_ADD);
+    ChangeBgX(2, 64, BG_COORD_ADD);
+    ChangeBgY(2, 64, BG_COORD_ADD);
 }
 
-static void Task_StoryJumpMenuWaitFadeIn(u8 taskId)
+#define tSelectedStoryPoint data[0]
+
+static void Task_StoryJumpMenu_WaitFadeIn(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
-        gTasks[taskId].func = Task_StoryJumpMenuMainInput;
+        gTasks[taskId].func = Task_StoryJumpMenu_MainInput;
     }
 }
 
-static void Task_StoryJumpMenuMainInput(u8 taskId)
+static void Task_StoryJumpMenu_MainInput(u8 taskId)
 {
     u32 input = ListMenu_ProcessInput(sStoryJumpMenu->menuTaskId);
 
@@ -291,7 +318,7 @@ static void Task_StoryJumpMenuMainInput(u8 taskId)
         {
             PlaySE(SE_PC_OFF);
             BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
-            gTasks[taskId].func = Task_StoryJumpMenuWaitFadeAndExitGracefully;
+            gTasks[taskId].func = Task_StoryJumpMenu_WaitFadeAndExit;
         }
         else
         {
@@ -310,27 +337,24 @@ static void Task_StoryJumpMenuMainInput(u8 taskId)
         }
         else
         {
-            if (sStoryJumpMenu->origin == ORIGIN_TITLESCREEN)
+            gTasks[taskId].tSelectedStoryPoint = input;
+
+            if (STORY_JUMP_SAVE_WARN && gSaveFileStatus == SAVE_STATUS_OK)
             {
-                if (STORY_JUMP_SAVE_WARN && gSaveFileStatus == SAVE_STATUS_OK)
-                {
-                   // Prompt for confirmation 
-                }
-                else
-                {
-                    // CreateSaveGame();
-                    // ExitAndJumpToStoryPointFromTitle(input);
-                }
+                StoryJumpMenu_ShowSaveWarning();
+                gTasks[taskId].func = Task_StoryJumpMenu_YesNoMenuInput;
             }
             else
             {
-                // ExitJumpToStoryPoint(input);
+                PlaySE(SE_PC_ON);
+                BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+                gTasks[taskId].func = Task_StoryJumpMenu_WaitFadeAndJump;
             }
         }
     }
 }
 
-static void Task_StoryJumpMenuWaitFadeAndBail(u8 taskId)
+static void Task_StoryJumpMenu_WaitFadeAndExit(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
@@ -340,11 +364,12 @@ static void Task_StoryJumpMenuWaitFadeAndBail(u8 taskId)
     }
 }
 
-static void Task_StoryJumpMenuWaitFadeAndExitGracefully(u8 taskId)
+static void Task_StoryJumpMenu_WaitFadeAndJump(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
-        SetMainCallback2(sStoryJumpMenu->savedCallback);
+        gStoryPointToJumpTo = gTasks[taskId].tSelectedStoryPoint;
+        SetMainCallback2(CB2_JumpToStoryPoint);
         StoryJumpMenu_FreeResources();
         DestroyTask(taskId);
     }
@@ -356,8 +381,8 @@ static bool8 StoryJumpMenu_InitBgs(void)
 {
     ResetAllBgsCoordinates();
 
-    sBg1TilemapBuffer = AllocZeroed(TILEMAP_BUFFER_SIZE);
-    if (sBg1TilemapBuffer == NULL)
+    sBg2TilemapBuffer = AllocZeroed(TILEMAP_BUFFER_SIZE);
+    if (sBg2TilemapBuffer == NULL)
     {
         return FALSE;
     }
@@ -365,21 +390,22 @@ static bool8 StoryJumpMenu_InitBgs(void)
     ResetBgsAndClearDma3BusyFlags(0);
     InitBgsFromTemplates(0, sStoryJumpMenuBgTemplates, NELEMS(sStoryJumpMenuBgTemplates));
 
-    SetBgTilemapBuffer(1, sBg1TilemapBuffer);
-    ScheduleBgCopyTilemapToVram(1);
+    SetBgTilemapBuffer(2, sBg2TilemapBuffer);
+    ScheduleBgCopyTilemapToVram(2);
 
     ShowBg(0);
     ShowBg(1);
+    ShowBg(2);
 
     return TRUE;
 }
 
 #undef TILEMAP_BUFFER_SIZE
 
-static void StoryJumpMenu_FadeAndBail(void)
+static void StoryJumpMenu_FadeAndExit(void)
 {
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
-    CreateTask(Task_StoryJumpMenuWaitFadeAndBail, 0);
+    CreateTask(Task_StoryJumpMenu_WaitFadeAndExit, 0);
     SetVBlankCallback(StoryJumpMenu_VBlankCB);
     SetMainCallback2(StoryJumpMenu_MainCB);
 }
@@ -389,14 +415,15 @@ static bool8 StoryJumpMenu_LoadGraphics(void)
     switch (sStoryJumpMenu->loadState)
     {
     case 0:
+        FreeAllWindowBuffers();
         ResetTempTileDataBuffers();
-        DecompressAndCopyTileDataToVram(1, sStoryJumpMenuTiles, 0, 0, 0);
+        DecompressAndCopyTileDataToVram(2, sStoryJumpMenuTiles, 0, 0, 0);
         sStoryJumpMenu->loadState++;
         break;
     case 1:
         if (FreeTempTileDataBuffersIfPossible() != TRUE)
         {
-            DecompressDataWithHeaderVram(sStoryJumpMenuTilemap, sBg1TilemapBuffer);
+            DecompressDataWithHeaderVram(sStoryJumpMenuTilemap, sBg2TilemapBuffer);
             sStoryJumpMenu->loadState++;
         }
         break;
@@ -423,18 +450,26 @@ static void StoryJumpMenu_InitWindows(void)
 
     FillWindowPixelBuffer(WIN_TITLE, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
     FillWindowPixelBuffer(WIN_LIST, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    FillWindowPixelBuffer(WIN_MSG, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    FillWindowPixelBuffer(WIN_YESNO, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+
     PutWindowTilemap(WIN_TITLE);
     PutWindowTilemap(WIN_LIST);
+    PutWindowTilemap(WIN_MSG);
+    PutWindowTilemap(WIN_YESNO);
+
     DrawStdFrameWithCustomTileAndPalette(WIN_TITLE, FALSE, 2, 15);
     DrawStdFrameWithCustomTileAndPalette(WIN_LIST, FALSE, 2, 15);
 
     CopyWindowToVram(WIN_TITLE, COPYWIN_FULL);
     CopyWindowToVram(WIN_LIST, COPYWIN_FULL);
+
     ScheduleBgCopyTilemapToVram(0);
     ScheduleBgCopyTilemapToVram(1);
 }
 
 static const u8 sText_StoryJumpMenu[] = _("Story Jump Menu");
+static const u8 sText_NewSaveWarning[] = _("This will start a new save file.\nDo you want to continue?");
 
 static void StoryJumpMenu_PrintList(enum StoryJumpListMode listMode)
 {
@@ -520,15 +555,65 @@ static void StoryJumpMenu_PrintTitle(void)
     CopyWindowToVram(WIN_TITLE, COPYWIN_GFX);
 }
 
+static void StoryJumpMenu_ShowSaveWarning(void)
+{
+    FillWindowPixelBuffer(WIN_MSG, PIXEL_FILL(TEXT_COLOR_WHITE));
+    FillWindowPixelBuffer(WIN_YESNO, PIXEL_FILL(TEXT_COLOR_WHITE));
+
+    DrawStdFrameWithCustomTileAndPalette(WIN_MSG, FALSE, 2, 15);
+
+    AddTextPrinterParameterized4(WIN_MSG, FONT_NORMAL, 4, 0, 0, 0,
+        sStoryJumpMenuWindowFontColors[FONT_GRAY], TEXT_SKIP_DRAW, sText_NewSaveWarning);
+
+    CreateYesNoMenu(&sStoryJumpMenuWindowTemplates[WIN_YESNO], 2, 15, 0);
+
+    CopyWindowToVram(WIN_MSG, COPYWIN_GFX);
+}
+
+
+static void RemoveSaveWarningWindows(void)
+{
+    FillWindowPixelBuffer(WIN_MSG, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    FillWindowPixelBuffer(WIN_YESNO, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+
+    ClearStdWindowAndFrameToTransparent(WIN_MSG, FALSE);
+    ClearStdWindowAndFrameToTransparent(WIN_YESNO, FALSE);
+
+    ClearWindowTilemap(WIN_MSG);
+    ClearWindowTilemap(WIN_YESNO);
+
+    CopyWindowToVram(WIN_MSG, COPYWIN_GFX);
+    CopyWindowToVram(WIN_YESNO, COPYWIN_GFX);
+}
+
+
+static void Task_StoryJumpMenu_YesNoMenuInput(u8 taskId)
+{
+    switch (Menu_ProcessInputNoWrapClearOnChoose())
+    {
+    case 0: // YES
+        PlaySE(SE_PC_ON);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+        gTasks[taskId].func = Task_StoryJumpMenu_WaitFadeAndJump;
+        break;
+    case 1: // NO
+    case MENU_B_PRESSED:
+        PlaySE(SE_SELECT);
+        RemoveSaveWarningWindows();
+        gTasks[taskId].func = Task_StoryJumpMenu_MainInput;
+        break;
+    }
+}
+
 static void StoryJumpMenu_FreeResources(void)
 {
     if (sStoryJumpMenu != NULL)
     {
         Free(sStoryJumpMenu);
     }
-    if (sBg1TilemapBuffer != NULL)
+    if (sBg2TilemapBuffer != NULL)
     {
-        Free(sBg1TilemapBuffer);
+        Free(sBg2TilemapBuffer);
     }
     FreeAllWindowBuffers();
     ResetSpriteData();

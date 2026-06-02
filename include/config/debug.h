@@ -14,4 +14,7 @@
 // Pokémon Debug
 #define DEBUG_POKEMON_SPRITE_VISUALIZER DISABLED_ON_RELEASE // Enables a debug menu for Pokémon sprites and icons, accessed by pressing Select in the summary screen.
 
+// Story Jump Menu
+#define DEBUG_STORY_JUMP                DISABLED_ON_RELEASE // Enables a debug menu for jumping to different story points, defined in src/data/story_jump.h
+
 #endif // GUARD_CONFIG_DEBUG_H

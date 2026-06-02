@@ -803,7 +803,7 @@ static void Task_TitleScreenPhase3(u8 taskId)
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         SetMainCallback2(CB2_GoToBerryFixScreen);
     }
-    else if (JOY_HELD(STORY_JUMP_BUTTON))
+    else if (DEBUG_STORY_JUMP && JOY_HELD(STORY_JUMP_BUTTON))
     {
         gTasks[taskId].tStoryJumpCounter++;
 
