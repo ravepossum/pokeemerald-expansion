@@ -172,9 +172,14 @@ static void StoryJumpMenu_ShowSaveWarning(void);
 static void StoryJumpMenu_FreeResources(void);
 static void StoryJumpMenu_RefreshListMenu(void);
 
-void CB2_InitStoryJumpMenu(void)
+void CB2_InitStoryJumpMenuFromTitleScreen(void)
 {
     if (!gPaletteFade.active) StoryJumpMenu_Init(CB2_InitTitleScreen);
+}
+
+void CB2_InitStoryJumpMenuFromOverworld(void)
+{
+    if (!gPaletteFade.active) StoryJumpMenu_Init(CB2_ReturnToField);
 }
 
 static void StoryJumpMenu_Init(MainCallback callback)

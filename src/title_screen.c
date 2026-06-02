@@ -870,7 +870,7 @@ static void CB2_GoToBerryFixScreen(void)
 static void CB2_GoToStoryJumpMenu(void)
 {
     if (!UpdatePaletteFade())
-        SetMainCallback2(CB2_InitStoryJumpMenu);
+        SetMainCallback2(CB2_InitStoryJumpMenuFromTitleScreen);
 }
 
 static void UpdateLegendaryMarkingColor(u8 frameNum)

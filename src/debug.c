@@ -46,6 +46,7 @@
 #include "script.h"
 #include "script_pokemon_util.h"
 #include "sound.h"
+#include "story_jump_menu.h"
 #include "strings.h"
 #include "string_util.h"
 #include "task.h"
@@ -268,6 +269,8 @@ static void DebugAction_Util_Weather(u8 taskId);
 static void DebugAction_Util_Weather_SelectId(u8 taskId);
 static void DebugAction_Util_WatchCredits(u8 taskId);
 static void DebugAction_Util_CheatStart(u8 taskId);
+static void DebugAction_Util_OpenStoryJumpMenu(u8 taskId);
+static void DebugTask_WaitFadeAndOpenStoryJump(u8 taskId);
 
 static void DebugAction_TimeMenu_ChangeTimeOfDay(u8 taskId);
 static void DebugAction_TimeMenu_ChangeWeekdays(u8 taskId);
@@ -569,6 +572,7 @@ static const struct DebugMenuOption sDebugMenu_Actions_Utilities[] =
     { COMPOUND_STRING("Time Functions…"),   DebugAction_OpenSubMenu, sDebugMenu_Actions_TimeMenu, },
     { COMPOUND_STRING("Watch credits…"),    DebugAction_Util_WatchCredits },
     { COMPOUND_STRING("Cheat start"),       DebugAction_Util_CheatStart },
+    { COMPOUND_STRING("Story Jump"),        DebugAction_Util_OpenStoryJumpMenu },
     { COMPOUND_STRING("Berry Functions…"),  DebugAction_OpenSubMenu, sDebugMenu_Actions_BerryFunctions },
     { COMPOUND_STRING("EWRAM Counters…"),   DebugAction_ExecuteScript, Debug_EventScript_EWRAMCounters },
     { COMPOUND_STRING("Follower NPC…"),     DebugAction_OpenSubMenu, sDebugMenu_Actions_FollowerNPCMenu },
@@ -1780,6 +1784,23 @@ static void DebugAction_Util_CheatStart(u8 taskId)
         Debug_DestroyMenu_Full_Script(taskId, Debug_CheatStartFrlg);
     else
         Debug_DestroyMenu_Full_Script(taskId, Debug_CheatStart);
+}
+
+static void DebugAction_Util_OpenStoryJumpMenu(u8 taskId)
+{
+    FadeScreen(FADE_TO_BLACK, 0);
+    gTasks[taskId].func = DebugTask_WaitFadeAndOpenStoryJump;
+}
+
+static void DebugTask_WaitFadeAndOpenStoryJump(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        PlayRainStoppingSoundEffect();
+        CleanupOverworldWindowsAndTilemaps();
+        SetMainCallback2(CB2_InitStoryJumpMenuFromOverworld);
+        Debug_DestroyMenu_Full(taskId);
+    }
 }
 
 void BufferExpansionVersion(struct ScriptContext *ctx)

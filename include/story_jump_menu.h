@@ -9,6 +9,7 @@
 
 extern u16 gStoryPointToJumpTo;
 
-void CB2_InitStoryJumpMenu(void);
+void CB2_InitStoryJumpMenuFromTitleScreen(void);
+void CB2_InitStoryJumpMenuFromOverworld(void);
 
 #endif // STORY_JUMP_MENU_H
